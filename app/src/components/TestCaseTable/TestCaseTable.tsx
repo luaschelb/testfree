@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import TestCase from "../models/TestCase";
-import TestCaseService from "../services/TestCaseService";
+import TestCase from "../../models/TestCase";
+import TestCaseService from "../../services/TestCaseService";
+import "./TestCaseTable.css"
 
 function TestCaseTable() {
     const [testCases, setTestCases] = useState<TestCase[]>([])
@@ -12,8 +13,8 @@ function TestCaseTable() {
     }, [])
 
     return (
-      <div>
-        <h1>Tabela de Casos de Teste</h1>
+      <div className="tableContainer">
+        <button>Adicionar Caso de Teste</button>
         <table>
             <thead>
                 <tr>
@@ -24,15 +25,13 @@ function TestCaseTable() {
             </thead>
             <tbody>
             {
-                testCases.map((tc : TestCase) => {
-                    return (
-                        <tr key={tc.id}>
-                            <td>{tc.id}</td>
-                            <td>{tc.description}</td>
-                            <td>{tc.steps}</td>
-                        </tr>
-                    )
-                })
+                testCases.map((tc : TestCase) => (
+                    <tr key={tc.id}>
+                        <td>{tc.id}</td>
+                        <td>{tc.description}</td>
+                        <td>{tc.steps}</td>
+                    </tr>
+                ))
             }
             </tbody>
         </table>

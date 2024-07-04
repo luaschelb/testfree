@@ -1,0 +1,13 @@
+.tableContainer {
+    display: flex;
+    flex-direction: column;   
+}
+
+.tableContainer button {
+    margin: 0 0 0 15%;
+    max-width: 250px;
+}
+
+.tableContainer table {
+    margin: 0 15% 0 15%;
+}
