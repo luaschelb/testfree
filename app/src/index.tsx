@@ -5,8 +5,8 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import HomeScreen from './Screens/HomeScreen';
-import TestCaseScreen from './Screens/TestCaseScreen';
+import HomeScreen from './screens/HomeScreen';
+import TestCaseScreen from './screens/TestCaseScreen';
 import Header from './components/Header/Header';
 
 

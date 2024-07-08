@@ -9,6 +9,11 @@
     padding: 5px 10px 5px 10px;
 }
 
+.HeaderContainer LadyBettleSvg{
+    align-self: center;
+}
+
+
 .HeaderContainer button{
     font-size: 1rem;
     font-weight: bold;

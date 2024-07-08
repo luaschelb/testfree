@@ -1,0 +1,13 @@
+.TestCaseScreenContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.AddTestCaseButton {
+    margin: 0 0 0 15%;
+    max-width: 250px;
+}
+
+.TestCaseScreenContainer__title {
+    font-size: 2em;
+}

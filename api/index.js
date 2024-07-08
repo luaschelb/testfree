@@ -7,8 +7,8 @@ const app = express();
 // Create a connection pool to MariaDB
 const pool = mariadb.createPool({
   host: 'localhost', 
-  user: 'schelb', 
-  password: 'Abc@123',
+  user: 'root', 
+  password: '',
   database: 'testfree',
   port: 3306,
   connectionLimit: 5

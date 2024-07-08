@@ -14,7 +14,6 @@ function TestCaseTable() {
 
     return (
       <div className="tableContainer">
-        <button>Adicionar Caso de Teste</button>
         <table>
             <thead>
                 <tr>
