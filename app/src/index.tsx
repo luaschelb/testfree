@@ -5,9 +5,10 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import HomeScreen from './screens/HomeScreen';
-import TestCaseScreen from './screens/TestCaseScreen';
+import HomeScreen from './screens/HomeScreen/HomeScreen';
+import TestCaseScreen from './screens/TestCaseScreen/TestCaseScreen';
 import Header from './components/Header/Header';
+import CreateTestCaseScreen from './screens/CreateTestCaseScreen/CreateTestCaseScreen';
 
 
 const router = createBrowserRouter([
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/testcases",
     element: <TestCaseScreen />
+  },
+  {
+    path: "/create_testcases",
+    element: <CreateTestCaseScreen />
   },
 ]);
 

@@ -1,0 +1,23 @@
+.CreateTestCaseScreenContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 200px 0px 200px;
+}
+
+.CreateTestCaseScreenContainer__title {
+    font-size: 2em;
+}
+
+.CreateTestCaseScreenContainer form{
+    display: flex;
+    flex-direction: column;
+}
+
+.CreateTestCaseScreenContainer > *{
+    max-width: fit-content;
+}
+
+.CreateTestCaseScreenContainer button{
+    margin: 8px 0 0 0;
+    max-width: fit-content;
+}
