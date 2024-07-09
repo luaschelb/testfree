@@ -2,12 +2,12 @@ const express = require('express');
 const pool = require("../db");
 const router = express.Router();
 
-// Get all test projects
+// Get all test scenarios
 router.get('/', async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const rows = await conn.query("SELECT * FROM testprojects");
+        const rows = await conn.query("SELECT * FROM testcenarios");
         console.log(rows);
         res.status(200).json(rows);
     } catch (err) {
@@ -18,15 +18,15 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get test project by ID
+// Get test scenario by ID
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     let conn;
     try {
         conn = await pool.getConnection();
-        const rows = await conn.query("SELECT * FROM testprojects WHERE id = ?", [id]);
+        const rows = await conn.query("SELECT * FROM testcenarios WHERE id = ?", [id]);
         if (rows.length === 0) {
-            return res.status(404).json({ error: 'Projeto de teste não encontrado' });
+            return res.status(404).json({ error: 'Cenário de teste não encontrado' });
         }
         console.log(rows[0]);
         res.status(200).json(rows[0]);
@@ -38,19 +38,19 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Create a new test project
+// Create a new test scenario
 router.post('/', async (req, res) => {
-    const { name, description } = req.body;
-    if (!name || !description) {
-        return res.status(400).json({ error: 'Nome e descrição são obrigatórios.' });
+    const { name, description, testproject_id } = req.body;
+    if (!name || !description || !testproject_id) {
+        return res.status(400).json({ error: 'Nome, descrição e ID do projeto de teste são obrigatórios.' });
     }
 
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query("INSERT INTO testprojects (name, description) VALUES (?, ?)", [name, description]);
+        const result = await conn.query("INSERT INTO testcenarios (name, description, testproject_id) VALUES (?, ?, ?)", [name, description, testproject_id]);
         console.log("Post sucesso", result);
-        res.status(201).json({ id: result.insertId, name, description });
+        res.status(201).json({ id: result.insertId, name, description, testproject_id });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Query no banco falhou.' });
@@ -59,23 +59,23 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Update a test project by ID
+// Update a test scenario by ID
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const { name, description } = req.body;
-    if (!name || !description) {
-        return res.status(400).json({ error: 'Nome e descrição são obrigatórios.' });
+    const { name, description, testproject_id } = req.body;
+    if (!name || !description || !testproject_id) {
+        return res.status(400).json({ error: 'Nome, descrição e ID do projeto de teste são obrigatórios.' });
     }
 
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query("UPDATE testprojects SET name = ?, description = ? WHERE id = ?", [name, description, id]);
+        const result = await conn.query("UPDATE testcenarios SET name = ?, description = ?, testproject_id = ? WHERE id = ?", [name, description, testproject_id, id]);
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Projeto de teste não encontrado' });
+            return res.status(404).json({ error: 'Cenário de teste não encontrado' });
         }
         console.log("Put sucesso", result);
-        res.status(200).json({ id, name, description });
+        res.status(200).json({ id, name, description, testproject_id });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Query no banco falhou.' });
@@ -84,18 +84,18 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// Delete a test project by ID
+// Delete a test scenario by ID
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query("DELETE FROM testprojects WHERE id = ?", [id]);
+        const result = await conn.query("DELETE FROM testcenarios WHERE id = ?", [id]);
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Projeto de teste não encontrado' });
+            return res.status(404).json({ error: 'Cenário de teste não encontrado' });
         }
         console.log("Delete sucesso", result);
-        res.status(200).json({ message: 'Projeto de teste deletado com sucesso' });
+        res.status(200).json({ message: 'Cenário de teste deletado com sucesso' });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Query no banco falhou.' });

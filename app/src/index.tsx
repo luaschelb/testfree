@@ -10,6 +10,7 @@ import TestCaseScreen from './screens/TestCaseScreen/TestCaseScreen';
 import Header from './components/Header/Header';
 import CreateTestCaseScreen from './screens/CreateTestCaseScreen/CreateTestCaseScreen';
 import EditTestCaseScreen from './screens/EditTestCaseScreen/EditTestCaseScreen';
+import TestProjectScreen from './screens/TestProjectScreen/TestProjectScreen';
 
 
 const router = createBrowserRouter([
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/testcases",
     element: <TestCaseScreen />
+  },
+  {
+    path: "/testprojects",
+    element: <TestProjectScreen />
   },
   {
     path: "/create_testcases",

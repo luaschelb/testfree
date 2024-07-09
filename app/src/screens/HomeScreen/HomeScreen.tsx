@@ -12,6 +12,7 @@ function HomeScreen() {
                 <p>Links para as outras páginas:</p>
                 <Link to="/" className="HomeScreenLinks">Home Page</Link>
                 <Link to="/testcases"className="HomeScreenLinks">Test Cases</Link>
+                <Link to="/testprojects"className="HomeScreenLinks">Test Projects</Link>
             </div>
         </>
     )
