@@ -6,8 +6,10 @@ function Header() {
     return (
         <div className="HeaderContainer">
             <Link className="HeaderLink" to="/">
-            <LadyBettleSvg />
+            <div className="HeaderClickableLogo">
+                <LadyBettleSvg />
                 Test Free
+            </div>
             </Link>
             <Link className="HeaderLink" to="/testcases">Test Cases</Link>
             <button>Sair</button>

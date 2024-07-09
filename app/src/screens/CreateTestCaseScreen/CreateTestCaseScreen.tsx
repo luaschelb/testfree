@@ -2,16 +2,18 @@ import Header from "../../components/Header/Header";
 import TestCase from "../../models/TestCase";
 import TestCaseService from "../../services/TestCaseService";
 import "./CreateTestCaseScreen.css";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function CreateTestCaseScreen() {
-    const [description, setDescription] = useState("")
-    const [steps, setSteps] = useState("")
-
     const navigate = useNavigate();
 
-    async function submit() {
+    async function submit(event: FormEvent) {
+        event.preventDefault();
+
+        const description = (document.getElementById("testDescription") as HTMLInputElement).value;
+        const steps = (document.getElementById("testSteps") as HTMLTextAreaElement).value;
+
         if (!description.trim() || !steps.trim()) {
             alert('Todos os campos são obrigatórios.');
             return;
@@ -33,7 +35,7 @@ function CreateTestCaseScreen() {
             <Header />
             <div className="CreateTestCaseScreenContainer">
                 <div className="CreateTestCaseScreenContainer__title">Tela de Criar de Casos de Uso</div>
-                <form onSubmit={(event)=>{event.preventDefault();submit()}}>
+                <form onSubmit={submit}>
                     <div>Descrição do Teste</div>
                     <input type="text" id="testDescription"></input>
                     <div>Passos do Teste</div>

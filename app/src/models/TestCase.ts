@@ -1,7 +1,7 @@
 class TestCase {
-    id?: number
-    description?: string
-    steps?: string
+    id: number
+    description: string
+    steps: string
     
     constructor(id: number, description: string, steps: string) {
         this.id = id

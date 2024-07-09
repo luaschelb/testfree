@@ -1,11 +1,11 @@
 .CreateTestCaseScreenContainer {
     display: flex;
     flex-direction: column;
-    padding: 16px 200px 0px 200px;
+    padding: 16px 15% 0px 15%;
 }
 
 .CreateTestCaseScreenContainer__title {
-    font-size: 2em;
+    font-size: 2rem;
 }
 
 .CreateTestCaseScreenContainer form{
