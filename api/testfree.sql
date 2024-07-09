@@ -57,7 +57,7 @@ INSERT INTO `testcenarios` (`id`, `name`, `description`, `testproject_id`) VALUE
 -- Incluindo valores iniciais na tabela `testcases`
 INSERT INTO `testcases` (`id`, `description`, `steps`, `testcenario_id`) VALUES
 (1, 'Descrição do Teste 1', 'Passo 1: Ação A\nPasso 2: Ação B\nPasso 3: Ação C', 1),
-(2, 'Descrição do Teste 2', 'Passo 1: Ação X\nPasso 2: Ação Y\nPasso 3: Ação Z', 1);
+(2, 'Descrição do Teste 2', 'Passo 1: Ação X\nPasso 2: Ação Y\nPasso 3: Ação Z', 1),
 (3, 'Descrição do Teste 3', 'Passo 1: Ação A\nPasso 2: Ação B\nPasso 3: Ação C', 2),
 (4, 'Descrição do Teste 4', 'Passo 1: Ação X\nPasso 2: Ação Y\nPasso 3: Ação Z', 2);
 
