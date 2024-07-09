@@ -2,7 +2,6 @@ const express = require('express');
 const pool = require("../db");
 const router = express.Router();
 
-// GET all test cases
 router.get('/', async (req, res) => {
     let conn;
     try {
@@ -18,7 +17,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// GET test case by ID
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     let conn;
@@ -38,7 +36,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// POST new test case
 router.post('/', async (req, res) => {
     const { description, steps } = req.body;
     if (!description || !steps) {
@@ -59,7 +56,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// PUT update test case by ID
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { description, steps } = req.body;
@@ -84,7 +80,6 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// DELETE test case by ID
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     let conn;

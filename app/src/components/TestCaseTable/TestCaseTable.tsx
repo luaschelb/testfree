@@ -45,7 +45,7 @@ function TestCaseTable() {
                             <td>{tc.description}</td>
                             <td>{tc.steps}</td>
                             <td>
-                                <span className="ClickableOpacity" onClick={() => { alert(`Falta implementar edição do id ${tc.id}`) }}>
+                                <span className="ClickableOpacity" onClick={() => { navigate(`/edit_testcases/${tc.id}`) }}>
                                     ✏️
                                 </span>
                                 <span className="ClickableOpacity" onClick={() => handleDelete(tc.id)}>
