@@ -20,7 +20,7 @@ function TestProjectScreen() {
         if (window.confirm(`Tem certeza que deseja deletar o projeto de teste com ID ${id}?`)) {
             try {
                 await TestProjectService.deleteTestProject(id);
-                alert("Caso de teste deletado com sucesso");
+                alert("Projeto deletado com sucesso");
                 setTestProjects(testProjects.filter(tc => tc.id !== id));
                 navigate("/testProjects");
             } catch (error) {

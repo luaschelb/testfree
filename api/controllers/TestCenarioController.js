@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
         conn = await pool.getConnection();
         const result = await conn.query("INSERT INTO testcenarios (name, description, testproject_id) VALUES (?, ?, ?)", [name, description, testproject_id]);
         console.log("Post sucesso", result);
-        res.status(201).json({ id: result.insertId, name, description, testproject_id });
+        res.status(201).json({ id: result.id, name, description, testproject_id });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Query no banco falhou.' });
