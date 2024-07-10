@@ -18,6 +18,26 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Get all test scenarios with test cases
+router.get('/eager', async (req, res) => {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const rows = await conn.query(`
+            SELECT testscenarios.name, testcases.* FROM testscenarios 
+            JOIN testcases on testcases.testscenario_id = testscenarios.id
+        `);
+        console.log(rows);
+        res.status(200).json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Query no banco falhou' });
+    } finally {
+        if (conn) conn.release(); // release to pool
+    }
+});
+
+
 // Get test scenario by ID
 router.get('/:id', async (req, res) => {
     const { id } = req.params;

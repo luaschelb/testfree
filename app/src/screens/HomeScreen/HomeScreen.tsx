@@ -11,7 +11,7 @@ function HomeScreen() {
                 <p>Esta tela serve de placeholder para uma futura tela inicial</p>
                 <p>Links para as outras páginas:</p>
                 <Link to="/" className="HomeScreenLinks">Página Inicial</Link>
-                <Link to="/cenarios"className="HomeScreenLinks">Cenários</Link>
+                <Link to="/scenarios"className="HomeScreenLinks">Cenários</Link>
                 <Link to="/projetos"className="HomeScreenLinks">Projetos</Link>
             </div>
         </>

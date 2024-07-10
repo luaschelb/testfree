@@ -14,7 +14,7 @@ function Header() {
                     Test Free
                 </div>
             </Link>
-            <Link className={location.pathname === "/cenarios" ? "HeaderLink HeaderLinkActive" : "HeaderLink"} to="/cenarios">Cenários</Link>
+            <Link className={location.pathname === "/scenarios" ? "HeaderLink HeaderLinkActive" : "HeaderLink"} to="/scenarios">Cenários</Link>
             <Link className={location.pathname === "/projetos" ? "HeaderLink HeaderLinkActive" : "HeaderLink"} to="/projetos">Projetos</Link>
             <button>Sair</button>
         </div>

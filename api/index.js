@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const TestCaseController = require("./controllers/TestCaseController")
-const TestCenarioController = require("./controllers/TestCenarioController")
+const TestScenarioController = require("./controllers/TestScenarioController")
 const TestProjectController = require("./controllers/TestProjectController")
 
 const app = express();
@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/projetos', TestProjectController);
-app.use('/cenarios', TestCenarioController);
+app.use('/scenarios', TestScenarioController);
 app.use('/testcases', TestCaseController);
 
 const PORT = 8080;

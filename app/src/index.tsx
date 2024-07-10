@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     element: <HomeScreen />
   },
   {
-    path: "/cenarios",
+    path: "/scenarios",
     element: <TestScenarioScreen />
   },
   {
