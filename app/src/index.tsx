@@ -7,10 +7,11 @@ import {
 } from "react-router-dom";
 import HomeScreen from './screens/HomeScreen/HomeScreen';
 import TestCaseScreen from './screens/TestCaseScreen/TestCaseScreen';
-import Header from './components/Header/Header';
 import CreateTestCaseScreen from './screens/CreateTestCaseScreen/CreateTestCaseScreen';
 import EditTestCaseScreen from './screens/EditTestCaseScreen/EditTestCaseScreen';
 import TestProjectScreen from './screens/TestProjectScreen/TestProjectScreen';
+import CreateTestProjectScreen from './screens/CreateTestProjectScreen/CreateTestProjectScreen';
+import EditTestProjectScreen from './screens/EditTestProjectScreen/EditTestCaseScreen';
 
 
 const router = createBrowserRouter([
@@ -25,6 +26,14 @@ const router = createBrowserRouter([
   {
     path: "/testprojects",
     element: <TestProjectScreen />
+  },
+  {
+    path: "/create_testprojects",
+    element: <CreateTestProjectScreen />
+  },
+  {
+    path: "/edit_testprojects/:id",
+    element: <EditTestProjectScreen />
   },
   {
     path: "/create_testcases",
