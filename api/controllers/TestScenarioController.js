@@ -29,15 +29,40 @@ router.get('/eager', async (req, res) => {
                     testscenarios.name as testscenarios_name,
                     testscenarios.description as testscenarios_description,
                     testscenarios.testproject_id as testscenarios_testproject_id,
-                    testcases.id,
-                    testcases.description,
-                    testcases.steps,
-                    testcases.testscenario_id
+                    testcases.id as testcases_id,
+                    testcases.description as testcases_description,
+                    testcases.steps as testcases_steps,
+                    testcases.testscenario_id as testcases_testscenario_id
             FROM testscenarios 
-            JOIN testcases ON testcases.testscenario_id = testscenarios.id
+            LEFT JOIN testcases ON testcases.testscenario_id = testscenarios.id
         `);
-        console.log(rows);
-        res.status(200).json(rows);
+
+        // Transform rows into the desired format
+        const scenariosMap = {};
+        rows.forEach(row => {
+            if (!scenariosMap[row.testscenarios_id]) {
+                scenariosMap[row.testscenarios_id] = {
+                    id: row.testscenarios_id,
+                    name: row.testscenarios_name,
+                    description: row.testscenarios_description,
+                    testproject_id: row.testscenarios_testproject_id,
+                    testcases: []
+                };
+            }
+            if (row.testcases_id) {
+                scenariosMap[row.testscenarios_id].testcases.push({
+                    id: row.testcases_id,
+                    description: row.testcases_description,
+                    steps: row.testcases_steps,
+                    testscenario_id: row.testcases_testscenario_id
+                });
+            }
+        });
+
+        const grouped = Object.values(scenariosMap);
+
+        console.log(grouped);
+        res.status(200).json(grouped);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Query no banco falhou' });
@@ -45,7 +70,6 @@ router.get('/eager', async (req, res) => {
         if (conn) conn.release(); // release to pool
     }
 });
-
 
 // Get test scenario by ID
 router.get('/:id', async (req, res) => {
