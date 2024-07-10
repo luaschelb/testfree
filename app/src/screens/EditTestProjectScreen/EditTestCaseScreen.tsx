@@ -48,7 +48,7 @@ function EditTestProjectScreen() {
                 name: name
             });
             alert("Sucesso");
-            navigate("/testprojects");
+            navigate("/projetos");
         } catch (error) {
             alert('Erro ao atualizar projeto: ' + (error as Error).message);
         }

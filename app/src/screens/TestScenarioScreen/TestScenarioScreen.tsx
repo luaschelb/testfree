@@ -1,28 +1,28 @@
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import { useEffect, useState } from "react";
-import TestCase from "../../models/TestCase";
-import TestCaseService from "../../services/TestCaseService";
+import TestScenarioService from "../../services/TestScenarioService";
 import { useNavigate } from "react-router-dom";
-import "./TestCaseScreen.css"
+import "./TestScenarioScreen.css"
+import TestScenario from "../../models/TestScenario";
 
-function TestCaseScreen() {
-    const [testCases, setTestCases] = useState<TestCase[]>([]);
+function TestScenarioScreen() {
+    const [TestScenario, setTestScenario] = useState<TestScenario[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        TestCaseService.getTestCases().then((res) => {
-            setTestCases(res);
+        TestScenarioService.getTestScenarios().then((res) => {
+            setTestScenario(res);
         });
     }, []);
 
     const handleDelete = async (id: number) => {
         if (window.confirm(`Tem certeza que deseja deletar o caso de teste com ID ${id}?`)) {
             try {
-                await TestCaseService.deleteTestCase(id);
+                await TestScenarioService.deleteTestScenario(id);
                 alert("Caso de teste deletado com sucesso");
-                setTestCases(testCases.filter(tc => tc.id !== id));
-                navigate("/testcases");
+                setTestScenario(TestScenario.filter(tc => tc.id !== id));
+                navigate("/TestScenarios");
             } catch (error) {
                 alert('Erro ao deletar caso de teste: ' + (error as Error).message);
             }
@@ -32,27 +32,26 @@ function TestCaseScreen() {
     return (
         <>
             <Header />
-            <div className="TestCaseScreenContainer">
-                <div className="TestCaseScreenContainer__title">Tela de Casos de Uso</div>
-                <Link to="/create_testcases" className="AddTestCaseButton">Adicionar Caso de Teste</Link>
+            <div className="TestScenarioScreenContainer">
+                <div className="TestScenarioScreenContainer__title">Tela de Cenários de Teste</div>
                 <div className="tableContainer">
                     <table className="styledTable">
                         <thead>
                             <tr>
                                 <th>Id</th>
+                                <th>Nome</th>
                                 <th>Descrição</th>
-                                <th>Passos</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {testCases.map((tc: TestCase) => (
+                            {TestScenario.map((tc: TestScenario) => (
                                 <tr key={tc.id}>
                                     <td>{tc.id}</td>
+                                    <td>{tc.name}</td>
                                     <td>{tc.description}</td>
-                                    <td>{tc.steps}</td>
                                     <td>
-                                        <span className="ClickableOpacity" onClick={() => { navigate(`/edit_testcases/${tc.id}`) }}>
+                                        <span className="ClickableOpacity" onClick={() => { navigate(`/edit_TestScenarios/${tc.id}`) }}>
                                             ✏️
                                         </span>
                                         <span className="ClickableOpacity" onClick={() => handleDelete(tc.id)}>
@@ -69,4 +68,4 @@ function TestCaseScreen() {
     )
 }
 
-export default TestCaseScreen;
+export default TestScenarioScreen;

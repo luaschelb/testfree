@@ -37,17 +37,17 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const { description, steps, testcenario_id } = req.body;
-    if (!description || !steps || !testcenario_id) {
+    const { description, steps, testscenario_id } = req.body;
+    if (!description || !steps || !testscenario_id) {
         return res.status(400).json({ error: 'Descrição, passos e ID do cenário são obrigatórios.' });
     }
 
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query("INSERT INTO testcases (description, steps, testcenario_id) VALUES (?, ?, ?)", [description, steps, testcenario_id]);
+        const result = await conn.query("INSERT INTO testcases (description, steps, testscenario_id) VALUES (?, ?, ?)", [description, steps, testscenario_id]);
         console.log("Post sucesso", result);
-        res.status(201).json({ id: result.insertId, description, steps, testcenario_id });
+        res.status(201).json({ id: result.insertId, description, steps, testscenario_id });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Query no banco falhou.' });
@@ -58,20 +58,20 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const { description, steps, testcenario_id } = req.body;
-    if (!description || !steps || !testcenario_id) {
+    const { description, steps, testscenario_id } = req.body;
+    if (!description || !steps || !testscenario_id) {
         return res.status(400).json({ error: 'Descrição, passos e ID do cenário são obrigatórios.' });
     }
 
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query("UPDATE testcases SET description = ?, steps = ?, testcenario_id = ? WHERE id = ?", [description, steps, testcenario_id, id]);
+        const result = await conn.query("UPDATE testcases SET description = ?, steps = ?, testscenario_id = ? WHERE id = ?", [description, steps, testscenario_id, id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Caso de teste não encontrado' });
         }
         console.log("Put sucesso", result);
-        res.status(200).json({ id, description, steps, testcenario_id });
+        res.status(200).json({ id, description, steps, testscenario_id });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Query no banco falhou.' });

@@ -23,7 +23,7 @@ function CreateTestProjectScreen() {
                 name: name
             })
             alert("Sucesso")
-            navigate("/testprojects");
+            navigate("/projetos");
         } catch (error) {
             alert('Erro ao cadastrar projeto: ' + (error as Error).message);
         }

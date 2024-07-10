@@ -6,9 +6,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import HomeScreen from './screens/HomeScreen/HomeScreen';
-import TestCaseScreen from './screens/TestCaseScreen/TestCaseScreen';
-import CreateTestCaseScreen from './screens/CreateTestCaseScreen/CreateTestCaseScreen';
-import EditTestCaseScreen from './screens/EditTestCaseScreen/EditTestCaseScreen';
+import TestScenarioScreen from './screens/TestScenarioScreen/TestScenarioScreen';
 import TestProjectScreen from './screens/TestProjectScreen/TestProjectScreen';
 import CreateTestProjectScreen from './screens/CreateTestProjectScreen/CreateTestProjectScreen';
 import EditTestProjectScreen from './screens/EditTestProjectScreen/EditTestCaseScreen';
@@ -20,29 +18,21 @@ const router = createBrowserRouter([
     element: <HomeScreen />
   },
   {
-    path: "/testcases",
-    element: <TestCaseScreen />
+    path: "/cenarios",
+    element: <TestScenarioScreen />
   },
   {
-    path: "/testprojects",
+    path: "/projetos",
     element: <TestProjectScreen />
   },
   {
-    path: "/create_testprojects",
+    path: "/criar_projeto",
     element: <CreateTestProjectScreen />
   },
   {
-    path: "/edit_testprojects/:id",
+    path: "/editar_projeto/:id",
     element: <EditTestProjectScreen />
-  },
-  {
-    path: "/create_testcases",
-    element: <CreateTestCaseScreen />
-  },
-  {
-    path: "/edit_testcases/:id",
-    element: <EditTestCaseScreen />
-  },
+  }
 ]);
 
 const root = ReactDOM.createRoot(

@@ -2,7 +2,7 @@ import TestProject from "../models/TestProject";
 
 class TestProjectService {
     static async getTestProjects(): Promise<TestProject[]> {
-        const response = await fetch("http://localhost:8080/testprojects/");
+        const response = await fetch("http://localhost:8080/projetos/");
         if (!response.ok) {
             throw new Error('Erro ao buscar projetos de teste.');
         }
@@ -12,7 +12,7 @@ class TestProjectService {
     }
 
     static async createTestProject(data: { name: string, description: string }): Promise<Response> {
-        const response = await fetch('http://localhost:8080/testprojects', {
+        const response = await fetch('http://localhost:8080/projetos', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -27,7 +27,7 @@ class TestProjectService {
     }
 
     static async getTestProjectById(id: number): Promise<TestProject> {
-        const response = await fetch(`http://localhost:8080/testprojects/${id}`);
+        const response = await fetch(`http://localhost:8080/projetos/${id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar o projeto de teste.');
         }
@@ -36,7 +36,7 @@ class TestProjectService {
     }
 
     static async updateTestProject(id: number, data: { name: string, description: string }): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/testprojects/${id}`, {
+        const response = await fetch(`http://localhost:8080/projetos/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ class TestProjectService {
     }
 
     static async deleteTestProject(id: number): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/testprojects/${id}`, {
+        const response = await fetch(`http://localhost:8080/projetos/${id}`, {
             method: 'DELETE'
         });
 

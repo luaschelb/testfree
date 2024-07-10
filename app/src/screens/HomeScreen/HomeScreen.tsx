@@ -10,9 +10,9 @@ function HomeScreen() {
                 <h1>Test Home Page</h1>
                 <p>Esta tela serve de placeholder para uma futura tela inicial</p>
                 <p>Links para as outras páginas:</p>
-                <Link to="/" className="HomeScreenLinks">Home Page</Link>
-                <Link to="/testcases"className="HomeScreenLinks">Test Cases</Link>
-                <Link to="/testprojects"className="HomeScreenLinks">Test Projects</Link>
+                <Link to="/" className="HomeScreenLinks">Página Inicial</Link>
+                <Link to="/cenarios"className="HomeScreenLinks">Cenários</Link>
+                <Link to="/projetos"className="HomeScreenLinks">Projetos</Link>
             </div>
         </>
     )

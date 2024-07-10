@@ -1,10 +1,10 @@
-.TestCaseScreenContainer {
+.TestScenarioScreenContainer {
     display: flex;
     flex-direction: column;
     padding: 16px 15% 0px 15%;
 }
 
-.AddTestCaseButton {
+.AddTestScenarioButton {
     margin: 8px 0 16px 0;
     max-width: 250px;
     text-decoration: inherit;
@@ -15,7 +15,7 @@
     border: 1px solid grey;
 }
 
-.TestCaseScreenContainer__title {
+.TestScenarioScreenContainer__title {
     font-size: 2em;
 }
 

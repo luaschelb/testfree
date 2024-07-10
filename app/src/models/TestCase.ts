@@ -4,14 +4,14 @@ class TestCase {
     id: number
     description: string
     steps: string
-    testcenario_id: string
+    testscenario_id: string
     testscenario ?: TestScenario
     
-    constructor(id: number, description: string, steps: string, testcenario_id: string) {
+    constructor(id: number, description: string, steps: string, testscenario_id: string) {
         this.id = id
         this.description = description
         this.steps = steps
-        this.testcenario_id = testcenario_id
+        this.testscenario_id = testscenario_id
     } 
 
 }

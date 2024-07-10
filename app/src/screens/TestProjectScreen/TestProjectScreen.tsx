@@ -34,7 +34,7 @@ function TestProjectScreen() {
             <Header />
             <div className="TestProjectScreenContainer">
                 <div className="TestProjectScreenContainer__title">Tela de Projeto de Teste</div>
-                <Link to="/create_testProjects" className="AddTestProjectButton">Adicionar Projeto</Link>
+                <Link to="/criar_projeto" className="AddTestProjectButton">Adicionar Projeto</Link>
                 <div className="tableContainer">
                     <table className="styledTable">
                         <thead>
@@ -52,7 +52,7 @@ function TestProjectScreen() {
                                     <td>{tc.name}</td>
                                     <td>{tc.description}</td>
                                     <td>
-                                        <span className="ClickableOpacity" onClick={() => { navigate(`/edit_testProjects/${tc.id}`) }}>
+                                        <span className="ClickableOpacity" onClick={() => { navigate(`/editar_projeto/${tc.id}`) }}>
                                             ✏️
                                         </span>
                                         <span className="ClickableOpacity" onClick={() => handleDelete(tc.id)}>

@@ -7,7 +7,7 @@ class TestCaseService {
             throw new Error('Erro ao buscar casos de teste.');
         }
         const body = await response.json();
-        const testCases = body.map((item: any) => new TestCase(item.id, item.description, item.steps, item.testcenario_id));
+        const testCases = body.map((item: any) => new TestCase(item.id, item.description, item.steps, item.testscenario_id));
         return testCases;
     }
 
@@ -32,7 +32,7 @@ class TestCaseService {
             throw new Error('Erro ao buscar o caso de teste.');
         }
         const item = await response.json();
-        return new TestCase(item.id, item.description, item.steps, item.testcenario_id);
+        return new TestCase(item.id, item.description, item.steps, item.testscenario_id);
     }
 
     static async updateTestCase(id: number, data: { description: string, steps: string }): Promise<Response> {

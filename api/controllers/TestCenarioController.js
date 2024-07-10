@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const rows = await conn.query("SELECT * FROM testcenarios");
+        const rows = await conn.query("SELECT * FROM testscenarios");
         console.log(rows);
         res.status(200).json(rows);
     } catch (err) {
@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const rows = await conn.query("SELECT * FROM testcenarios WHERE id = ?", [id]);
+        const rows = await conn.query("SELECT * FROM testscenarios WHERE id = ?", [id]);
         if (rows.length === 0) {
             return res.status(404).json({ error: 'Cenário de teste não encontrado' });
         }
@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query("INSERT INTO testcenarios (name, description, testproject_id) VALUES (?, ?, ?)", [name, description, testproject_id]);
+        const result = await conn.query("INSERT INTO testscenarios (name, description, testproject_id) VALUES (?, ?, ?)", [name, description, testproject_id]);
         console.log("Post sucesso", result);
         res.status(201).json({ id: result.id, name, description, testproject_id });
     } catch (err) {
@@ -70,7 +70,7 @@ router.put('/:id', async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query("UPDATE testcenarios SET name = ?, description = ?, testproject_id = ? WHERE id = ?", [name, description, testproject_id, id]);
+        const result = await conn.query("UPDATE testscenarios SET name = ?, description = ?, testproject_id = ? WHERE id = ?", [name, description, testproject_id, id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Cenário de teste não encontrado' });
         }
@@ -90,7 +90,7 @@ router.delete('/:id', async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query("DELETE FROM testcenarios WHERE id = ?", [id]);
+        const result = await conn.query("DELETE FROM testscenarios WHERE id = ?", [id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Cenário de teste não encontrado' });
         }
