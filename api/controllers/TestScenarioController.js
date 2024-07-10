@@ -24,8 +24,17 @@ router.get('/eager', async (req, res) => {
     try {
         conn = await pool.getConnection();
         const rows = await conn.query(`
-            SELECT testscenarios.name, testcases.* FROM testscenarios 
-            JOIN testcases on testcases.testscenario_id = testscenarios.id
+            SELECT  
+                    testscenarios.id as testscenarios_id,
+                    testscenarios.name as testscenarios_name,
+                    testscenarios.description as testscenarios_description,
+                    testscenarios.testproject_id as testscenarios_testproject_id,
+                    testcases.id,
+                    testcases.description,
+                    testcases.steps,
+                    testcases.testscenario_id
+            FROM testscenarios 
+            JOIN testcases ON testcases.testscenario_id = testscenarios.id
         `);
         console.log(rows);
         res.status(200).json(rows);
