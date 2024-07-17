@@ -1,3 +1,4 @@
+import TestCase from "../models/TestCase";
 import TestScenario from "../models/TestScenario";
 
 class TestScenarioService {
@@ -7,7 +8,22 @@ class TestScenarioService {
             throw new Error('Erro ao buscar cenários de teste.');
         }
         const body = await response.json();
-        const testScenarios = body.map((item: any) => new TestScenario(item.id, item.name, item.description, item.testproject_id));
+        const testScenarios = body.map((item: any) => new TestScenario(item.id, item.test_id, item.name, item.description, item.testproject_id));
+        return testScenarios;
+    }
+
+    static async getTestScenariosEagerLoading(): Promise<TestScenario[]> {
+        const response = await fetch("http://localhost:8080/scenarios/eager");
+        if (!response.ok) {
+            throw new Error('Erro ao buscar cenários de teste.');
+        }
+        const body = await response.json();
+        const testScenarios = body.map((item: any) => {
+            let testScenario = new TestScenario(item.id, item.test_id, item.name, item.description, item.testproject_id)
+            testScenario.testCases = item.testcases.map((testcase : any) => { return new TestCase(testcase.id, testcase.test_id, testcase.name, testcase.description, testcase.steps, testcase.testscenario_id)})
+            return testScenario
+            
+        });
         return testScenarios;
     }
 
@@ -32,7 +48,7 @@ class TestScenarioService {
             throw new Error('Erro ao buscar o cenário de teste.');
         }
         const item = await response.json();
-        return new TestScenario(item.id, item.name, item.description, item.testproject_id);
+        return new TestScenario(item.id, item.test_id, item.name, item.description, item.testproject_id);
     }
 
     static async updateTestScenario(id: number, data: { name: string, description: string, testproject_id: number }): Promise<Response> {

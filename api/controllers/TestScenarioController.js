@@ -26,10 +26,13 @@ router.get('/eager', async (req, res) => {
         const rows = await conn.query(`
             SELECT  
                     testscenarios.id as testscenarios_id,
+                    testscenarios.test_id as testscenarios_test_id,
                     testscenarios.name as testscenarios_name,
                     testscenarios.description as testscenarios_description,
                     testscenarios.testproject_id as testscenarios_testproject_id,
                     testcases.id as testcases_id,
+                    testcases.test_id as testcases_test_id,
+                    testcases.name as testcases_name,
                     testcases.description as testcases_description,
                     testcases.steps as testcases_steps,
                     testcases.testscenario_id as testcases_testscenario_id
@@ -43,6 +46,7 @@ router.get('/eager', async (req, res) => {
             if (!scenariosMap[row.testscenarios_id]) {
                 scenariosMap[row.testscenarios_id] = {
                     id: row.testscenarios_id,
+                    test_id: row.testscenarios_test_id,
                     name: row.testscenarios_name,
                     description: row.testscenarios_description,
                     testproject_id: row.testscenarios_testproject_id,
@@ -52,6 +56,8 @@ router.get('/eager', async (req, res) => {
             if (row.testcases_id) {
                 scenariosMap[row.testscenarios_id].testcases.push({
                     id: row.testcases_id,
+                    test_id: row.testcases_test_id,
+                    name: row.testcases_name,
                     description: row.testcases_description,
                     steps: row.testcases_steps,
                     testscenario_id: row.testcases_testscenario_id

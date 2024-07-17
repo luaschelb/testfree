@@ -25,6 +25,7 @@ CREATE TABLE `testprojects` (
 -- Estrutura da tabela `testscenarios`
 CREATE TABLE `testscenarios` (
   `id` int(11) NOT NULL,
+  `test_id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `testproject_id` int(11) NOT NULL,
@@ -36,6 +37,8 @@ CREATE TABLE `testscenarios` (
 -- Estrutura da tabela `testcases`
 CREATE TABLE `testcases` (
   `id` int(11) NOT NULL,
+  `test_id` varchar(255) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `steps` text DEFAULT NULL,
   `testscenario_id` int(11) DEFAULT NULL,
@@ -50,16 +53,16 @@ INSERT INTO `testprojects` (`id`, `name`, `description`) VALUES
 (2, 'Projeto de Teste 2', 'Descrição do Projeto de Teste 2');
 
 -- Incluindo valores iniciais na tabela `testscenarios`
-INSERT INTO `testscenarios` (`id`, `name`, `description`, `testproject_id`) VALUES
-(1, 'Cenário de Teste 1', 'Descrição do Cenário de Teste 1', 1),
-(2, 'Cenário de Teste 2', 'Descrição do Cenário de Teste 2', 1);
+INSERT INTO `testscenarios` (`id`, `test_id`, `name`, `description`, `testproject_id`) VALUES
+(1, "CEN-1", 'Cenário de Teste 1', 'Descrição do Cenário de Teste 1', 1),
+(2, "CEN-2", 'Cenário de Teste 2', 'Descrição do Cenário de Teste 2', 1);
 
 -- Incluindo valores iniciais na tabela `testcases`
-INSERT INTO `testcases` (`id`, `description`, `steps`, `testscenario_id`) VALUES
-(1, 'Descrição do Teste 1', 'Passo 1: Ação A\nPasso 2: Ação B\nPasso 3: Ação C', 1),
-(2, 'Descrição do Teste 2', 'Passo 1: Ação X\nPasso 2: Ação Y\nPasso 3: Ação Z', 1),
-(3, 'Descrição do Teste 3', 'Passo 1: Ação A\nPasso 2: Ação B\nPasso 3: Ação C', 2),
-(4, 'Descrição do Teste 4', 'Passo 1: Ação X\nPasso 2: Ação Y\nPasso 3: Ação Z', 2);
+INSERT INTO `testcases` (`id`, `test_id`, `name`, `description`, `steps`, `testscenario_id`) VALUES
+(1, "TC-1" ,"Nome do Caso 1" ,'Descrição do Teste 1', 'Passo 1: Ação A\nPasso 2: Ação B\nPasso 3: Ação C', 1),
+(2, "TC-2" ,"Nome do Caso 2" ,'Descrição do Teste 2', 'Passo 1: Ação X\nPasso 2: Ação Y\nPasso 3: Ação Z', 1),
+(3, "TC-3" ,"Nome do Caso 3" ,'Descrição do Teste 3', 'Passo 1: Ação A\nPasso 2: Ação B\nPasso 3: Ação C', 2),
+(4, "TC-4" ,"Nome do Caso 4" ,'Descrição do Teste 4', 'Passo 1: Ação X\nPasso 2: Ação Y\nPasso 3: Ação Z', 2);
 
 -- AUTO_INCREMENT de tabelas despejadas
 ALTER TABLE `testcases`
