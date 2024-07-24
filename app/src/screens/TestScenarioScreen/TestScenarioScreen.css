@@ -34,8 +34,13 @@
 
 .TreeViewTestCase:hover {
     cursor: pointer;
+    background-color: #eee;
 }
 
 .TestScenarioScreen {
     width: 600px;
+}
+
+.TestScenarioScreen button {
+    margin-top: 16px;
 }

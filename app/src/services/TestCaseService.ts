@@ -35,8 +35,8 @@ class TestCaseService {
         return new TestCase(item.id, item.test_id, item.name, item.description, item.steps, item.testscenario_id);
     }
 
-    static async updateTestCase(id: number, data: { description: string, steps: string }): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/testcases/${id}`, {
+    static async updateTestCase(data : TestCase): Promise<Response> {
+        const response = await fetch(`http://localhost:8080/testcases/${data.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
