@@ -58,7 +58,13 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const { description, steps, testscenario_id } = req.body;
+    const { 
+        test_id,
+        name,
+        description, 
+        steps, 
+        testscenario_id } = req.body;
+    console.log(req.body)
     if (!description || !steps || !testscenario_id) {
         return res.status(400).json({ error: 'Descrição, passos e ID do cenário são obrigatórios.' });
     }
@@ -66,7 +72,13 @@ router.put('/:id', async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query("UPDATE testcases SET description = ?, steps = ?, testscenario_id = ? WHERE id = ?", [description, steps, testscenario_id, id]);
+        const result = await conn.query(`UPDATE testcases SET 
+            test_id = ?,
+            name = ?,
+            description = ?, 
+            steps = ?, 
+            testscenario_id = ? 
+            WHERE id = ?`, [test_id, name, description, steps, testscenario_id, id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Caso de teste não encontrado' });
         }

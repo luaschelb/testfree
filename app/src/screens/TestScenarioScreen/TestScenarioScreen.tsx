@@ -13,13 +13,15 @@ import TestCaseEditScreen from "./TestCaseEditScreen/TestCaseEditScreen";
 function TestScenarioScreen() {
     const [testScenarios, SetTestScenarios] = useState<TestScenario[]>([]);
     const [lastClicked, SetLastClicked] = useState<TestScenario | TestCase | null>(null);
+    const [shouldUpdate, SetShouldUpdate] = useState(false);
     
 
     useEffect(() => {
         TestScenarioService.getTestScenariosEagerLoading().then((res) => {
             SetTestScenarios(res);
         });
-    }, []);
+        SetShouldUpdate(false)
+    }, [shouldUpdate]);
 
     return (
         <>
@@ -29,8 +31,16 @@ function TestScenarioScreen() {
                 <div className="TestScenarioScreen">
                     {
                         (lastClicked === null && <>Clique em algo para visualizar/editar</> ) ||
-                        (lastClicked instanceof TestScenario && <TestScenarioEditScreen lastClicked={lastClicked}/>) ||
-                        (lastClicked instanceof TestCase && <TestCaseEditScreen lastClicked={lastClicked} />)
+                        (lastClicked instanceof TestScenario && 
+                            <TestScenarioEditScreen 
+                                lastClicked={lastClicked}
+                                SetShouldUpdate={SetShouldUpdate}
+                                />) ||
+                        (lastClicked instanceof TestCase && 
+                            <TestCaseEditScreen 
+                                lastClicked={lastClicked} 
+                                SetShouldUpdate={SetShouldUpdate}
+                                />)
                     }
                 </div>
             </div>
