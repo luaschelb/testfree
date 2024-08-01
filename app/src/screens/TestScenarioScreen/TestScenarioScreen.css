@@ -25,6 +25,9 @@
     cursor: pointer;
 }
 
+.TestScenarioScreenFormButtons {
+    width: 160px;
+}
 
 .TestScenarioScreenTreeViewAndPanel {
     display: flex;

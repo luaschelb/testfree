@@ -36,9 +36,9 @@ const TestScenarioCreateScreen = (props: {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     type="text"/>
-            <button 
+            <button className="TestScenarioScreenFormButtons"
                 onClick={() => handleCreateScenarioClick()}>
-                Atualizar
+                Cadastrar
             </button>
         </div>
     )

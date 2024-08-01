@@ -11,7 +11,7 @@ const TestScenarioEditScreen = (props: {
     const [test_id, setTest_id] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    
+     
     useEffect(() => {
         setTest_id(props.lastClicked.test_id)
         setName(props.lastClicked.name)
@@ -43,9 +43,9 @@ const TestScenarioEditScreen = (props: {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     type="text"/>
-            <button 
+            <button className="TestScenarioScreenFormButtons"
                 onClick={() => handleUpdateScenarioClick(props.lastClicked.id, props.lastClicked.testProjectId)}>
-                Cadastrar
+                Editar
             </button>
         </div>
     )

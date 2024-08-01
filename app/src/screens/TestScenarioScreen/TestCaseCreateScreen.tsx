@@ -61,7 +61,11 @@ const TestCaseCreateScreen = (props: {
                         value={steps}
                         onChange={(e)=> setSteps(e.target.value)}
                         rows={8}/>
-                <button type="submit" onClick={handleCreateTestCaseClick}>
+                <button 
+                    className="TestScenarioScreenFormButtons"
+                    type="submit" 
+                    onClick={handleCreateTestCaseClick}
+                >
                     Cadastrar
                 </button>
         </div> 

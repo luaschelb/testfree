@@ -67,8 +67,10 @@ const TestCaseEditScreen = (props: {
                         value={steps}
                         onChange={(e)=> setSteps(e.target.value)}
                         rows={8}/>
-                <button type="submit" onClick={handleUpdateTestCaseClick}>
-                    Atualizar
+                <button type="submit" 
+                className="TestScenarioScreenFormButtons"
+                onClick={handleUpdateTestCaseClick}>
+                    Editar
                 </button>
         </div> 
     )
