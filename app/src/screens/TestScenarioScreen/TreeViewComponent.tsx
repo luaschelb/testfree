@@ -20,7 +20,7 @@ const TreeViewComponent = (props : {
     }
 
     return (
-        <div className="TreeViewComponent">
+        <div className="TreeViewComponent" style={{userSelect: 'none'}}>
             <span className="ClickableOpacityTreeView" style={{width: "fit-content"}}onClick={handleCollapseAll}>Collapse All</span>
             <span className="ClickableOpacityTreeView" style={{width: "fit-content"}}onClick={handleExpandAll}>Expand All</span>
             {
@@ -34,8 +34,6 @@ const TreeViewComponent = (props : {
                                     c.isOpen = !c.isOpen
                                 return c;
                             })
-                            props.SetMenuToShow(TestScenarioMenuControlEnum.EDIT_TEST_SCENARIO)
-                            props.SetLastClicked(scenario)
                             props.SetTestScenarios(newData)
                         }}
                         >
