@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
-import TestCase from "../../../models/TestCase";
-import TestScenario from "../../../models/TestScenario";
-import TestCaseService from "../../../services/TestCaseService";
+import TestCase from "../../models/TestCase";
+import TestScenario from "../../models/TestScenario";
+import TestCaseService from "../../services/TestCaseService";
 
 const TestCaseEditScreen = (props: {
         lastClicked : TestCase,
@@ -45,7 +45,7 @@ const TestCaseEditScreen = (props: {
 
     return (
         <div style={{display: "flex", "flexDirection": "column"}}>
-            <div>Caso de Teste</div>
+            <button>Deletar Caso de Teste</button>
             <h3>{props.lastClicked.test_id} - {props.lastClicked.name}</h3>
                 id: <input 
                         id="TestCaseTest_id"

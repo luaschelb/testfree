@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import TestScenario from "../../../models/TestScenario";
+import TestScenario from "../../models/TestScenario";
+import TestScenarioMenuControlEnum from "../../enums/TestScenarioMenuControlEnum";
 
 
 const TestScenarioEditScreen = (props: {
         lastClicked : TestScenario,
-        SetShouldUpdate: (arg: boolean) => void
+        SetShouldUpdate: (arg: boolean) => void,
+        SetMenuToShow: (arg: TestScenarioMenuControlEnum) => void
     }) => {
     const [test_id, setTest_id] = useState("");
     const [name, setName] = useState("");
@@ -23,7 +25,7 @@ const TestScenarioEditScreen = (props: {
     
     return (
         <div style={{display: "flex", "flexDirection": "column"}}>
-            <div>Cenário de Teste</div>
+            <button onClick={()=> {props.SetMenuToShow(TestScenarioMenuControlEnum.CREATE_TEST_CASE)}}>Criar caso de Teste</button>
             <h3>{props.lastClicked.test_id} - {props.lastClicked.name}</h3>
             id: <input 
                     id="TestScenarioId" 
@@ -43,7 +45,7 @@ const TestScenarioEditScreen = (props: {
                     type="text"/>
             <button 
                 onClick={() => handleUpdateScenarioClick(props.lastClicked.id, props.lastClicked.testProjectId)}>
-                Atualizar
+                Cadastrar
             </button>
         </div>
     )

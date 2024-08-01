@@ -1,24 +1,34 @@
 import Header from "../../components/Header/Header";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TestScenarioService from "../../services/TestScenarioService";
 import "./TestScenarioScreen.css"
 import TestScenario from "../../models/TestScenario";
 import TestCase from "../../models/TestCase";
-import TestCaseService from "../../services/TestCaseService";
-import TreeViewComponent from "./TreeViewComponent/TreeViewComponent";
-import TestScenarioEditScreen from "./TestScenarioEditScreen/TestScenarioEditScreen";
-import TestCaseEditScreen from "./TestCaseEditScreen/TestCaseEditScreen";
+import TreeViewComponent from "./TreeViewComponent";
+import TestScenarioEditScreen from "./TestScenarioEditScreen";
+import TestCaseEditScreen from "./TestCaseEditScreen";
+import TestScenarioMenuControl from "../../enums/TestScenarioMenuControlEnum";
+import TestScenarioCreateScreen from "./TestScenarioCreateScreen";
+import TestCaseCreateScreen from "./TestCaseCreateScreen";
 
 
 function TestScenarioScreen() {
     const [testScenarios, SetTestScenarios] = useState<TestScenario[]>([]);
     const [lastClicked, SetLastClicked] = useState<TestScenario | TestCase | null>(null);
     const [shouldUpdate, SetShouldUpdate] = useState(false);
-    
+    const [menuToShow, SetMenuToShow] = useState<TestScenarioMenuControl>(TestScenarioMenuControl.DEFAULT)
 
     useEffect(() => {
-        TestScenarioService.getTestScenariosEagerLoading().then((res) => {
-            SetTestScenarios(res);
+        TestScenarioService.getTestScenariosEagerLoading().then((newData) => {
+            newData = newData.map((testScenario) => {
+                let obj = testScenarios.find((aux) => aux.id === testScenario.id)
+                if(obj?.isOpen)
+                {
+                    testScenario.isOpen = true
+                }
+                return testScenario
+            }) 
+            SetTestScenarios(newData);
         });
         SetShouldUpdate(false)
     }, [shouldUpdate]);
@@ -27,21 +37,50 @@ function TestScenarioScreen() {
         <>
             <Header />
             <div className="TestScenarioScreenContainer">
-                <TreeViewComponent testScenarios={testScenarios} SetTestScenarios={SetTestScenarios} SetLastClicked={SetLastClicked}/>
-                <div className="TestScenarioScreen">
-                    {
-                        (lastClicked === null && <>Clique em algo para visualizar/editar</> ) ||
-                        (lastClicked instanceof TestScenario && 
-                            <TestScenarioEditScreen 
-                                lastClicked={lastClicked}
-                                SetShouldUpdate={SetShouldUpdate}
-                                />) ||
-                        (lastClicked instanceof TestCase && 
-                            <TestCaseEditScreen 
-                                lastClicked={lastClicked} 
-                                SetShouldUpdate={SetShouldUpdate}
-                                />)
-                    }
+                <div className="TestScenarioScreenToolBar">
+                    <button onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_SCENARIO)}}>Criar Cenário de Teste</button>
+                </div>
+                <div className="TestScenarioScreenTreeViewAndPanel">
+                    <TreeViewComponent 
+                        testScenarios={testScenarios}
+                        SetTestScenarios={SetTestScenarios}
+                        SetLastClicked={SetLastClicked}
+                        SetMenuToShow={SetMenuToShow}
+                    />
+                    <div className="TestScenarioScreen">
+                        {
+                            (menuToShow === TestScenarioMenuControl.DEFAULT && 
+                                <>
+                                    <p>Clique no botão "Criar Cenário de Teste" na barra superior para criar um novo cenário</p>
+                                    <p>Clique em algo na arvore lateral para visualizar/editar cenários e casos de teste existentes</p>
+                                </> 
+                            ) ||
+                            (menuToShow === TestScenarioMenuControl.CREATE_TEST_SCENARIO && 
+                                <TestScenarioCreateScreen 
+                                    SetShouldUpdate={SetShouldUpdate}
+                                    SetMenuToShow={SetMenuToShow}
+                                />
+                            ) ||
+                            (menuToShow === TestScenarioMenuControl.EDIT_TEST_SCENARIO && 
+                                <TestScenarioEditScreen 
+                                    lastClicked={lastClicked as TestScenario}
+                                    SetShouldUpdate={SetShouldUpdate}
+                                    SetMenuToShow={SetMenuToShow}
+                                    />) ||
+                                    
+                            (menuToShow === TestScenarioMenuControl.CREATE_TEST_CASE && 
+                                <TestCaseCreateScreen 
+                                    lastClicked={lastClicked as TestCase}
+                                    SetShouldUpdate={SetShouldUpdate}
+                                    SetMenuToShow={SetMenuToShow}
+                                    />) ||
+                            (menuToShow === TestScenarioMenuControl.EDIT_TEST_CASE && 
+                                <TestCaseEditScreen 
+                                    lastClicked={lastClicked as TestCase}
+                                    SetShouldUpdate={SetShouldUpdate}
+                                    />)
+                        }
+                    </div>
                 </div>
             </div>
         </>

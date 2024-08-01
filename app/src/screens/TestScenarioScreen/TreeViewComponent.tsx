@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import TestCase from "../../../models/TestCase";
-import TestScenario from "../../../models/TestScenario";
+import TestCase from "../../models/TestCase";
+import TestScenario from "../../models/TestScenario";
+import TestScenarioMenuControlEnum from "../../enums/TestScenarioMenuControlEnum";
 
 const TreeViewComponent = (props : {
     testScenarios: TestScenario[], 
     SetTestScenarios: (arg: TestScenario[]) => void
     SetLastClicked: (arg : TestScenario | TestCase | null) => void
+    SetMenuToShow: (arg: TestScenarioMenuControlEnum) => void
 }) => {
     const handleCollapseAll = () => {
         let newData = props.testScenarios.map((c, i) => { c.isOpen = false; return c;})
@@ -19,12 +21,12 @@ const TreeViewComponent = (props : {
 
     return (
         <div className="TreeViewComponent">
-            <span onClick={handleCollapseAll}>Collapse All</span>
-            <span onClick={handleExpandAll}>Expand All</span>
+            <span className="ClickableOpacityTreeView" style={{width: "fit-content"}}onClick={handleCollapseAll}>Collapse All</span>
+            <span className="ClickableOpacityTreeView" style={{width: "fit-content"}}onClick={handleExpandAll}>Expand All</span>
             {
             props.testScenarios.map((scenario, index) => (
                 <div key={scenario.id}>
-                    <span 
+                    <span
                         className="ClickableOpacityTreeView"
                         onClick={() => {
                             let newData = props.testScenarios.map((c, i) => {
@@ -32,6 +34,7 @@ const TreeViewComponent = (props : {
                                     c.isOpen = !c.isOpen
                                 return c;
                             })
+                            props.SetMenuToShow(TestScenarioMenuControlEnum.EDIT_TEST_SCENARIO)
                             props.SetLastClicked(scenario)
                             props.SetTestScenarios(newData)
                         }}
@@ -42,7 +45,15 @@ const TreeViewComponent = (props : {
                         <span>
                             {scenario.isOpen ? "📂" : "📁"}
                         </span>
-                        {`${scenario.test_id}: ${scenario.name}`}
+                    </span>
+                    <span 
+                        className="ClickableOpacityTreeView"
+                        onClick={() => {
+                            props.SetLastClicked(scenario)
+                            props.SetMenuToShow(TestScenarioMenuControlEnum.EDIT_TEST_SCENARIO)
+                        }}
+                        >
+                            {`${scenario.test_id}: ${scenario.name}`}
                     </span>
                     {
                         scenario.isOpen 
@@ -53,6 +64,7 @@ const TreeViewComponent = (props : {
                                     key={testcase.id}
                                     className="TreeViewTestCase"
                                     onClick={() => {
+                                        props.SetMenuToShow(TestScenarioMenuControlEnum.EDIT_TEST_CASE)
                                         props.SetLastClicked(testcase)
                                     }}
                                     >
