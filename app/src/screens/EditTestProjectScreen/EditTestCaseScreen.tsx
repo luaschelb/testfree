@@ -55,30 +55,27 @@ function EditTestProjectScreen() {
     }
 
     return (
-        <>
-            <Header />
-            <div className="EditTestProjectScreenContainer">
-                <div className="EditTestProjectScreenContainer__title">Tela de Editar Projeto</div>
-                <form onSubmit={submit}>
-                    <div>Descrição do Projeto</div>
-                    <input 
-                        type="text" 
-                        id="testDescription" 
-                        value={description} 
-                        onChange={(e) => setDescription(e.target.value)} 
-                    />
-                    <div>Nome do Projeto</div>
-                    <textarea 
-                        id="testName" 
-                        rows={10} 
-                        cols={50} 
-                        value={name} 
-                        onChange={(e) => setName(e.target.value)} 
-                    />
-                    <button type='submit'>Atualizar</button>
-                </form>
-            </div>
-        </>
+        <div className="EditTestProjectScreenContainer">
+            <div className="EditTestProjectScreenContainer__title">Tela de Editar Projeto</div>
+            <form onSubmit={submit}>
+                <div>Descrição do Projeto</div>
+                <input 
+                    type="text" 
+                    id="testDescription" 
+                    value={description} 
+                    onChange={(e) => setDescription(e.target.value)} 
+                />
+                <div>Nome do Projeto</div>
+                <textarea 
+                    id="testName" 
+                    rows={10} 
+                    cols={50} 
+                    value={name} 
+                    onChange={(e) => setName(e.target.value)} 
+                />
+                <button type='submit'>Atualizar</button>
+            </form>
+        </div>
     );
 }
 

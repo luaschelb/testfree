@@ -30,19 +30,16 @@ function CreateTestProjectScreen() {
     }
 
     return (
-        <>
-            <Header />
-            <div className="CreateTestProjectScreenContainer">
-                <div className="CreateTestProjectScreenContainer__title">Tela de Criar de Projetos</div>
-                <form onSubmit={submit}>
-                    <div>Descrição do Projeto</div>
-                    <input type="text" id="projectDescription"></input>
-                    <div>Nome do Projeto</div>
-                    <textarea id="projectName" rows={10} cols={50}></textarea>
-                    <button type='submit'>Cadastrar</button>
-                </form>
-            </div>
-        </>
+        <div className="CreateTestProjectScreenContainer">
+            <div className="CreateTestProjectScreenContainer__title">Tela de Criar de Projetos</div>
+            <form onSubmit={submit}>
+                <div>Descrição do Projeto</div>
+                <input type="text" id="projectDescription"></input>
+                <div>Nome do Projeto</div>
+                <textarea id="projectName" rows={10} cols={50}></textarea>
+                <button type='submit'>Cadastrar</button>
+            </form>
+        </div>
     );
 }
 

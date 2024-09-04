@@ -30,42 +30,39 @@ function ListBuildScreen() {
     };
 
     return (
-        <>
-            <Header />
-            <div className="TestProjectScreenContainer">
-                <div className="TestProjectScreenContainer__title">Tela de Projeto de Teste</div>
-                <Link to="/criar_projeto" className="AddTestProjectButton">Adicionar Projeto</Link>
-                <div className="tableContainer">
-                    <table className="styledTable">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Nome</th>
-                                <th>Descrição</th>
-                                <th>Ações</th>
+        <div className="TestProjectScreenContainer">
+            <div className="TestProjectScreenContainer__title">Tela de Projeto de Teste</div>
+            <Link to="/criar_projeto" className="AddTestProjectButton">Adicionar Projeto</Link>
+            <div className="tableContainer">
+                <table className="styledTable">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {testProjects.map((tc: TestProject) => (
+                            <tr key={tc.id}>
+                                <td>{tc.id}</td>
+                                <td>{tc.name}</td>
+                                <td>{tc.description}</td>
+                                <td>
+                                    <span className="ClickableOpacity" onClick={() => { navigate(`/editar_projeto/${tc.id}`) }}>
+                                        ✏️
+                                    </span>
+                                    <span className="ClickableOpacity" onClick={() => handleDelete(tc.id)}>
+                                        🗑️
+                                    </span>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {testProjects.map((tc: TestProject) => (
-                                <tr key={tc.id}>
-                                    <td>{tc.id}</td>
-                                    <td>{tc.name}</td>
-                                    <td>{tc.description}</td>
-                                    <td>
-                                        <span className="ClickableOpacity" onClick={() => { navigate(`/editar_projeto/${tc.id}`) }}>
-                                            ✏️
-                                        </span>
-                                        <span className="ClickableOpacity" onClick={() => handleDelete(tc.id)}>
-                                            🗑️
-                                        </span>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                        ))}
+                    </tbody>
+                </table>
             </div>
-        </>
+        </div>
     )
 }
 
