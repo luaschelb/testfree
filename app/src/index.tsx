@@ -8,8 +8,8 @@ import {
 } from "react-router-dom";
 import HomeScreen from './screens/HomeScreen/HomeScreen';
 import TestScenarioScreen from './screens/TestScenarioScreen/TestScenarioScreen';
-import TestProjectScreen from './screens/TestProjectScreen/TestProjectScreen';
-import CreateTestProjectScreen from './screens/CreateTestProjectScreen/CreateTestProjectScreen';
+import TestProjectScreen from './screens/Projects/TestProjectScreen';
+import CreateTestProjectScreen from './screens/Projects/CreateTestProjectScreen/CreateTestProjectScreen';
 import EditTestProjectScreen from './screens/EditTestProjectScreen/EditTestCaseScreen';
 import Header from './components/Header/Header';
 
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <HomeScreen /> },
       { path: "/scenarios", element: <TestScenarioScreen /> },
-      { path: "/projetos", element: <TestProjectScreen /> },
+      { path: "/projects", element: <TestProjectScreen /> },
       { path: "/criar_projeto", element: <CreateTestProjectScreen /> },
       { path: "/editar_projeto/:id", element: <EditTestProjectScreen /> }
     ]

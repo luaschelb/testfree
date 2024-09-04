@@ -14,7 +14,7 @@ export default function HomeScreen() {
         {/* Links aqui são redundantes, pois já estão no Drawer */}
         <Link to="/" className="HomeScreenLinks">Página Inicial</Link>
         <Link to="/scenarios" className="HomeScreenLinks">Cenários</Link>
-        <Link to="/projetos" className="HomeScreenLinks">Projetos</Link>
+        <Link to="/projects" className="HomeScreenLinks">Projetos</Link>
       </div>
     </div>
   );

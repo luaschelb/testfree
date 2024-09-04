@@ -91,8 +91,8 @@ export default function Header() {
 	{ text: "Builds", to: "/builds", icon: <Build />},
 	{ text: "Execuções", to: "/executions", icon: <PlayArrow />},
 	{ text: "Planos de Teste", to: "/testplans", icon: <Grid4x4 />},
-	{ text: "Projetos`", to: "/projects", icon: <Folder />},
-	{ text: "Configurações`", to: "/settings", icon: <Settings />},
+	{ text: "Projetos", to: "/projects", icon: <Folder />},
+	{ text: "Configurações", to: "/settings", icon: <Settings />},
   ];
 
   return (
