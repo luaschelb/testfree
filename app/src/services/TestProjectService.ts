@@ -1,9 +1,4 @@
-import TestProject from "../models/TestProject";
-
-interface IProject {
-    name: string,
-    description: string
-}
+import {TestProject, IProject} from "../models/TestProject";
 
 class TestProjectService {
     static async getTestProjects(): Promise<TestProject[]> {
@@ -12,7 +7,7 @@ class TestProjectService {
             throw new Error('Erro ao buscar projetos de teste.');
         }
         const body = await response.json();
-        const testProjects = body.map((item: any) => new TestProject(item.id, item.name, item.description));
+        const testProjects = body.map((item: any) => new TestProject({ ...item }));
         return testProjects;
     }
 
@@ -37,7 +32,8 @@ class TestProjectService {
             throw new Error('Erro ao buscar o projeto de teste.');
         }
         const item = await response.json();
-        return new TestProject(item.id, item.name, item.description);
+        return new TestProject({ ...item });
+
     }
 
     static async updateTestProject(id: number, data: IProject): Promise<Response> {
