@@ -8,7 +8,7 @@ class TestScenarioService {
             throw new Error('Erro ao buscar cenários de teste.');
         }
         const body = await response.json();
-        const testScenarios = body.map((item: any) => new TestScenario(item.id, item.test_id, item.name, item.description, item.testproject_id));
+        const testScenarios = body.map((item: any) => new TestScenario(item.id, item.count, item.name, item.description, item.test_project_id));
         return testScenarios;
     }
 
@@ -19,15 +19,15 @@ class TestScenarioService {
         }
         const body = await response.json();
         const testScenarios = body.map((item: any) => {
-            let testScenario = new TestScenario(item.id, item.test_id, item.name, item.description, item.testproject_id)
-            testScenario.testCases = item.testcases.map((testcase : any) => { return new TestCase(testcase.id, testcase.test_id, testcase.name, testcase.description, testcase.steps, testcase.testscenario_id)})
+            let testScenario = new TestScenario(item.id, item.count, item.name, item.description, item.test_project_id)
+            testScenario.testCases = item.test_cases.map((testcase : any) => { return new TestCase(testcase.id, testcase.count, testcase.name, testcase.description, testcase.steps, testcase.test_scenario_id)})
             return testScenario
             
         });
         return testScenarios;
     }
 
-    static async createTestScenario(data: { name: string, description: string, testproject_id: number }): Promise<Response> {
+    static async createTestScenario(data: { name: string, description: string, test_project_id: number }): Promise<Response> {
         const response = await fetch('http://localhost:8080/scenarios', {
             method: 'POST',
             headers: {
@@ -48,10 +48,10 @@ class TestScenarioService {
             throw new Error('Erro ao buscar o cenário de teste.');
         }
         const item = await response.json();
-        return new TestScenario(item.id, item.test_id, item.name, item.description, item.testproject_id);
+        return new TestScenario(item.id, item.count, item.name, item.description, item.test_project_id);
     }
 
-    static async updateTestScenario(id: number, data: { name: string, description: string, testproject_id: number }): Promise<Response> {
+    static async updateTestScenario(id: number, data: { name: string, description: string, test_project_id: number }): Promise<Response> {
         const response = await fetch(`http://localhost:8080/scenarios/${id}`, {
             method: 'PUT',
             headers: {

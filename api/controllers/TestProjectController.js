@@ -4,7 +4,7 @@ const router = express.Router();
 
 // Get all test projects
 router.get('/', (req, res) => {
-    db.all("SELECT * FROM testprojects", [], (err, rows) => {
+    db.all("SELECT * FROM projects", [], (err, rows) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ error: 'Query no banco falhou' });
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 // Get test project by ID
 router.get('/:id', (req, res) => {
     const { id } = req.params;
-    db.get("SELECT * FROM testprojects WHERE id = ?", [id], (err, row) => {
+    db.get("SELECT * FROM projects WHERE id = ?", [id], (err, row) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ error: 'Query no banco falhou' });
@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
     }
 
     db.run(
-        "INSERT INTO testprojects (name, description) VALUES (?, ?)",
+        "INSERT INTO projects (name, description) VALUES (?, ?)",
         [name, description],
         function (err) {
             if (err) {
@@ -58,7 +58,7 @@ router.put('/:id', (req, res) => {
     }
 
     db.run(
-        "UPDATE testprojects SET name = ?, description = ? WHERE id = ?",
+        "UPDATE projects SET name = ?, description = ? WHERE id = ?",
         [name, description, id],
         function (err) {
             if (err) {
@@ -76,7 +76,7 @@ router.put('/:id', (req, res) => {
 // Delete a test project by ID
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
-    db.run("DELETE FROM testprojects WHERE id = ?", [id], function (err) {
+    db.run("DELETE FROM projects WHERE id = ?", [id], function (err) {
         if (err) {
             console.error(err);
             return res.status(500).json({ error: 'Query no banco falhou.' });

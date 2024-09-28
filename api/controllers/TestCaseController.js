@@ -4,7 +4,7 @@ const router = express.Router();
 
 // Get all test cases
 router.get('/', (req, res) => {
-    db.all("SELECT * FROM testcases", [], (err, rows) => {
+    db.all("SELECT * FROM test_cases", [], (err, rows) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ error: 'Query no banco falhou' });
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 // Get test case by ID
 router.get('/:id', (req, res) => {
     const { id } = req.params;
-    db.get("SELECT * FROM testcases WHERE id = ?", [id], (err, row) => {
+    db.get("SELECT * FROM test_cases WHERE id = ?", [id], (err, row) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ error: 'Query no banco falhou' });
@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
     }
 
     db.run(
-        "INSERT INTO testcases (description, steps, testscenario_id) VALUES (?, ?, ?)",
+        "INSERT INTO test_cases (description, steps, testscenario_id) VALUES (?, ?, ?)",
         [description, steps, testscenario_id],
         function (err) {
             if (err) {
@@ -58,7 +58,7 @@ router.put('/:id', (req, res) => {
     }
 
     db.run(
-        `UPDATE testcases SET 
+        `UPDATE test_cases SET 
             test_id = ?,
             name = ?,
             description = ?, 
@@ -82,7 +82,7 @@ router.put('/:id', (req, res) => {
 // Delete a test case by ID
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
-    db.run("DELETE FROM testcases WHERE id = ?", [id], function (err) {
+    db.run("DELETE FROM test_cases WHERE id = ?", [id], function (err) {
         if (err) {
             console.error(err);
             return res.status(500).json({ error: 'Query no banco falhou.' });
