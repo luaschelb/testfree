@@ -10,7 +10,7 @@ import HomeScreen from './screens/HomeScreen/HomeScreen';
 import TestScenarioScreen from './screens/TestScenarioScreen/TestScenarioScreen';
 import TestProjectScreen from './screens/Projects/TestProjectScreen';
 import CreateTestProjectScreen from './screens/Projects/CreateTestProjectScreen';
-import EditTestProjectScreen from './screens/Projects/EditTestCaseScreen';
+import EditTestProjectScreen from './screens/Projects/EditTestProjectScreen';
 import Header from './components/Header/Header';
 
 const Layout = () => (

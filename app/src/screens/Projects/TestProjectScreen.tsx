@@ -5,6 +5,9 @@ import TestProject from "../../models/TestProject";
 import TestProjectService from "../../services/TestProjectService";
 import { useNavigate } from "react-router-dom";
 import "./TestProjectScreen.css"
+import "../../shared_styles/StyledTable.css"
+import "../../shared_styles/ClickableOpacity.css"
+
 
 function TestProjectScreen() {
     const [testProjects, setTestProjects] = useState<TestProject[]>([]);

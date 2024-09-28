@@ -1,0 +1,22 @@
+.styledTable {
+    font-family: Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.styledTable td, .styledTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.styledTable tr:nth-child(even){background-color: #f2f2f2;}
+
+.styledTable tr:hover {background-color: #ddd;}
+
+.styledTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #b7b7b7;
+    color: black;
+}

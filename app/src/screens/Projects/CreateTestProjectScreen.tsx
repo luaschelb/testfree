@@ -33,9 +33,9 @@ function CreateTestProjectScreen() {
             <h2 style={{margin: 0}}>Criar Projeto</h2>
             <form onSubmit={submit} style={{flex: 1, flexDirection: 'column', columnGap: "16px"}}>
                 <div>Nome do Projeto</div>
-                <input type="text" id="projectDescription"></input>
+                <input type="text" id="projectName"></input>
                 <div>Descrição do Projeto</div>
-                <textarea id="projectName" rows={10} cols={50}></textarea>
+                <textarea id="projectDescription" rows={10} cols={50}></textarea>
                 <div>
                     <button type='submit'>Cadastrar</button>
                 </div>

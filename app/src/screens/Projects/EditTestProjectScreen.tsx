@@ -62,16 +62,16 @@ function EditTestProjectScreen() {
                 <input 
                     type="text" 
                     id="testDescription" 
-                    value={description} 
-                    onChange={(e) => setDescription(e.target.value)} 
+                    value={name} 
+                    onChange={(e) => setName(e.target.value)} 
                 />
                 <div>Descrição do Projeto</div>
                 <textarea 
                     id="testName" 
                     rows={10} 
                     cols={50} 
-                    value={name} 
-                    onChange={(e) => setName(e.target.value)} 
+                    value={description} 
+                    onChange={(e) => setDescription(e.target.value)} 
                 />
                 <div>
                     <button type='submit'>Atualizar</button>
