@@ -29,14 +29,16 @@ function CreateTestProjectScreen() {
 
     return (
         <div className="TestProjectScreenContainer">
-            <Link to="/projects">Voltar</Link>
+            <Link to="/projetos">&lt; Voltar</Link>
             <h2 style={{margin: 0}}>Criar Projeto</h2>
             <form onSubmit={submit} style={{flex: 1, flexDirection: 'column', columnGap: "16px"}}>
-                <div>Descrição do Projeto</div>
-                <input type="text" id="projectDescription"></input>
                 <div>Nome do Projeto</div>
+                <input type="text" id="projectDescription"></input>
+                <div>Descrição do Projeto</div>
                 <textarea id="projectName" rows={10} cols={50}></textarea>
-                <button type='submit'>Cadastrar</button>
+                <div>
+                    <button type='submit'>Cadastrar</button>
+                </div>
             </form>
         </div>
     );

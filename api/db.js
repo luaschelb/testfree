@@ -8,9 +8,9 @@ function createTablesAndInsertData() {
     // Criação das tabelas
     db.run(`CREATE TABLE IF NOT EXISTS projects (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      testcase_counter INTEGER,
-      testscenario_counter INTEGER,
-      testexecutions_counter INTEGER,
+      testcase_counter INTEGER DEFAULT 1,
+      testscenario_counter INTEGER DEFAULT 1,
+      testexecutions_counter INTEGER DEFAULT 1,
       name VARCHAR(255),
       description TEXT,
       active BOOLEAN

@@ -30,10 +30,10 @@ const router = createBrowserRouter([
       { path: "/builds", element: <>Builds</> },
       { path: "/executions", element: <>Execuções</> },
       { path: "/testplans", element: <>Planos de Teste</> },
-      { path: "/projects", element: <TestProjectScreen /> },
+      { path: "/projetos", element: <TestProjectScreen /> },
       { path: "/criar_projeto", element: <CreateTestProjectScreen /> },
       { path: "/editar_projeto/:id", element: <EditTestProjectScreen /> },
-      { path: "/settings", element: <>Configurações</> },
+      { path: "/configuracoes", element: <>Configurações</> },
     ]
   }
 ]);

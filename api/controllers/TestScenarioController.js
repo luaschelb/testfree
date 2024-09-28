@@ -63,7 +63,6 @@ router.get('/eager', (req, res) => {
         });
 
         const grouped = Object.values(scenariosMap);
-        console.log(grouped)
         res.status(200).json(grouped);
     });
 });
