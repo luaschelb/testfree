@@ -28,7 +28,7 @@ function CreateTestProjectScreen() {
     }
 
     return (
-        <div className="TestProjectScreenContainer">
+        <div className="BasicScreenContainer">
             <Link to="/projetos">&lt; Voltar</Link>
             <h2 style={{margin: 0}}>Criar Projeto</h2>
             <form onSubmit={submit} style={{flex: 1, flexDirection: 'column', columnGap: "16px"}}>

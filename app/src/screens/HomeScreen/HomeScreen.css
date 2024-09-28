@@ -1,9 +1,0 @@
-.HomeScreenContainer {
-    display: flex;
-    flex-direction: column;
-    padding: 16px 15% 0px 15%;
-}
-
-.HomeScreenLinks {
-    max-width: fit-content;
-}

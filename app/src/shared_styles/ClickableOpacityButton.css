@@ -1,0 +1,14 @@
+.ClickableOpacityButton{
+    margin: 8px 0 16px 0;
+    max-width: 250px;
+    text-decoration: inherit;
+    color: black;
+    font-weight: "550";
+    text-align: center;
+    background-color: #eef;
+    border: 1px solid grey;
+}
+
+.ClickableOpacityButton:hover {
+    cursor: pointer;
+}

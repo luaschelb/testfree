@@ -54,7 +54,7 @@ function EditTestProjectScreen() {
     }
 
     return (
-        <div className="TestProjectScreenContainer">
+        <div className="BasicScreenContainer">
             <Link to="/projetos">&lt; Voltar</Link>
             <h2 style={{margin: 0}}>Editar Projeto</h2>
             <form onSubmit={submit}>

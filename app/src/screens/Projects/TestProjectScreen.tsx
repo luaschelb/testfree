@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import TestProject from "../../models/TestProject";
 import TestProjectService from "../../services/TestProjectService";
 import { useNavigate } from "react-router-dom";
-import "./TestProjectScreen.css"
+import "../../shared_styles/BasicScreenContainer.css"
 import "../../shared_styles/StyledTable.css"
-import "../../shared_styles/ClickableOpacity.css"
+import "../../shared_styles/ClickableOpacityIcon.css"
+import "../../shared_styles/ClickableOpacityButton.css"
+import { Button } from "@mui/material";
 
 
 function TestProjectScreen() {
@@ -33,10 +35,14 @@ function TestProjectScreen() {
     };
 
     return (
-        <div className="TestProjectScreenContainer">
-            <div className="TestProjectScreenContainer__title">Tela de Projeto de Teste</div>
-            <Link to="/criar_projeto" className="AddTestProjectButton">Adicionar Projeto</Link>
-            <div className="tableContainer">
+        <div className="BasicScreenContainer">
+            <div style={{fontSize: '2em'}}>Tela de Projeto de Teste</div>
+            <div 
+                onClick={() => { navigate(`/criar_projeto`) }}
+                className="ClickableOpacityButton"
+                >Adicionar Projeto
+            </div>
+            <div >
                 <table className="styledTable">
                     <thead>
                         <tr>
@@ -53,10 +59,10 @@ function TestProjectScreen() {
                                 <td>{tc.name}</td>
                                 <td>{tc.description}</td>
                                 <td>
-                                    <span className="ClickableOpacity" onClick={() => { navigate(`/editar_projeto/${tc.id}`) }}>
+                                    <span className="ClickableOpacityIcon" onClick={() => { navigate(`/editar_projeto/${tc.id}`) }}>
                                         ✏️
                                     </span>
-                                    <span className="ClickableOpacity" onClick={() => handleDelete(tc.id)}>
+                                    <span className="ClickableOpacityIcon" onClick={() => handleDelete(tc.id)}>
                                         🗑️
                                     </span>
                                 </td>
