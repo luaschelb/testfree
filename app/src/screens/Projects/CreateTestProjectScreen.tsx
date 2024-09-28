@@ -1,8 +1,6 @@
-import Header from "../../components/Header/Header";
 import TestProjectService from "../../services/TestProjectService";
-import "./CreateTestProjectScreen.css";
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function CreateTestProjectScreen() {
     const navigate = useNavigate();
@@ -30,9 +28,10 @@ function CreateTestProjectScreen() {
     }
 
     return (
-        <div className="CreateTestProjectScreenContainer">
-            <div className="CreateTestProjectScreenContainer__title">Tela de Criar de Projetos</div>
-            <form onSubmit={submit}>
+        <div className="TestProjectScreenContainer">
+            <Link to="/projects">Voltar</Link>
+            <h2 style={{margin: 0}}>Criar Projeto</h2>
+            <form onSubmit={submit} style={{flex: 1, flexDirection: 'column', columnGap: "16px"}}>
                 <div>Descrição do Projeto</div>
                 <input type="text" id="projectDescription"></input>
                 <div>Nome do Projeto</div>

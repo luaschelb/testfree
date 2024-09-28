@@ -98,7 +98,7 @@ export default function Header() {
   return (
 	<Box sx={{ display: 'flex' }}>
 	  <CssBaseline />
-	  <AppBar position="fixed" open={open} >
+	  <AppBar position="fixed" open={open} sx={{ backgroundColor: '#BFE0EB', color: "black", fontWeight: "bold", fontSize: '24px'}}>
 		<Toolbar
 			sx={{display: 'flex', justifyContent: "space-between"}}
 		>
@@ -119,13 +119,11 @@ export default function Header() {
 				>
 			<MenuIcon />
 		  </IconButton>
-			<LadyBettleSvg />
-			<Typography variant="h6" noWrap component="div">
-				Test Free
-			</Typography>
+			<LadyBettleSvg/>
+			Test Free
 		  </div>
-		  <div style={{display: 'flex', columnGap: '8px', fontSize: '24'}}>
-			<AccountCircle 
+		  <div style={{display: 'flex', columnGap: '8px', fontSize: '20px', alignItems: 'center', color: "#222"}}>
+			<AccountCircle sx={{fontSize: "36px"}}
 			/>
 			Luana Schelb
 		  </div>

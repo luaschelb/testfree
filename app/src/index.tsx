@@ -9,8 +9,8 @@ import {
 import HomeScreen from './screens/HomeScreen/HomeScreen';
 import TestScenarioScreen from './screens/TestScenarioScreen/TestScenarioScreen';
 import TestProjectScreen from './screens/Projects/TestProjectScreen';
-import CreateTestProjectScreen from './screens/Projects/CreateTestProjectScreen/CreateTestProjectScreen';
-import EditTestProjectScreen from './screens/EditTestProjectScreen/EditTestCaseScreen';
+import CreateTestProjectScreen from './screens/Projects/CreateTestProjectScreen';
+import EditTestProjectScreen from './screens/Projects/EditTestCaseScreen';
 import Header from './components/Header/Header';
 
 const Layout = () => (
