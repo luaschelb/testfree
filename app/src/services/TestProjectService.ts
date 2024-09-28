@@ -1,5 +1,10 @@
 import TestProject from "../models/TestProject";
 
+interface IProject {
+    name: string,
+    description: string
+}
+
 class TestProjectService {
     static async getTestProjects(): Promise<TestProject[]> {
         const response = await fetch("http://localhost:8080/projetos/");
@@ -11,7 +16,7 @@ class TestProjectService {
         return testProjects;
     }
 
-    static async createTestProject(data: { name: string, description: string }): Promise<Response> {
+    static async createTestProject(data: IProject): Promise<Response> {
         const response = await fetch('http://localhost:8080/projetos', {
             method: 'POST',
             headers: {
@@ -35,7 +40,7 @@ class TestProjectService {
         return new TestProject(item.id, item.name, item.description);
     }
 
-    static async updateTestProject(id: number, data: { name: string, description: string }): Promise<Response> {
+    static async updateTestProject(id: number, data: IProject): Promise<Response> {
         const response = await fetch(`http://localhost:8080/projetos/${id}`, {
             method: 'PUT',
             headers: {

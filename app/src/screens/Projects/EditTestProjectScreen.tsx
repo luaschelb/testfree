@@ -1,4 +1,3 @@
-import Header from "../../components/Header/Header";
 import TestProjectService from "../../services/TestProjectService";
 import { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -6,19 +5,33 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 function EditTestProjectScreen() {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
-    const [description, setDescription] = useState<string>("");
-    const [name, setName] = useState<string>("");
-    const [initialDescription, setInitialDescription] = useState<string>("");
-    const [initialName, setInitialName] = useState<string>("");
+
+    const [formState, setFormState] = useState({
+        name: "",
+        description: "",
+        initialName: "",
+        initialDescription: ""
+    });
+
+    // Função para atualizar o estado de forma dinâmica
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { id, value } = e.target;
+        setFormState(prevState => ({
+            ...prevState,
+            [id]: value
+        }));
+    };
 
     useEffect(() => {
         async function fetchTestProject() {
             try {
                 const testProject = await TestProjectService.getTestProjectById(Number(id));
-                setDescription(testProject.description);
-                setName(testProject.name);
-                setInitialDescription(testProject.description);
-                setInitialName(testProject.name);
+                setFormState({
+                    name: testProject.name,
+                    description: testProject.description,
+                    initialName: testProject.name,
+                    initialDescription: testProject.description
+                });
             } catch (error) {
                 alert('Erro ao carregar projeto: ' + (error as Error).message);
                 navigate("/testcases");
@@ -31,20 +44,22 @@ function EditTestProjectScreen() {
     async function submit(event: FormEvent) {
         event.preventDefault();
 
-        if (!description.trim() || !name.trim()) {
+        const { name, description, initialName, initialDescription } = formState;
+
+        if (!name.trim() || !description.trim()) {
             alert('Todos os campos são obrigatórios.');
             return;
         }
 
-        if (description === initialDescription && name === initialName) {
+        if (name === initialName && description === initialDescription) {
             alert('Nenhuma alteração foi feita.');
             return;
         }
 
         try {
             await TestProjectService.updateTestProject(Number(id), {
-                description: description,
-                name: name
+                name,
+                description
             });
             alert("Sucesso");
             navigate("/projetos");
@@ -61,17 +76,17 @@ function EditTestProjectScreen() {
                 <div>Nome do Projeto</div>
                 <input 
                     type="text" 
-                    id="testDescription" 
-                    value={name} 
-                    onChange={(e) => setName(e.target.value)} 
+                    id="name" 
+                    value={formState.name} 
+                    onChange={handleChange} 
                 />
                 <div>Descrição do Projeto</div>
                 <textarea 
-                    id="testName" 
+                    id="description" 
                     rows={10} 
                     cols={50} 
-                    value={description} 
-                    onChange={(e) => setDescription(e.target.value)} 
+                    value={formState.description} 
+                    onChange={handleChange} 
                 />
                 <div>
                     <button type='submit'>Atualizar</button>
