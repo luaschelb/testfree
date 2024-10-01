@@ -12,6 +12,7 @@ import TestProjectScreen from './screens/Projects/TestProjectScreen';
 import CreateTestProjectScreen from './screens/Projects/CreateTestProjectScreen';
 import EditTestProjectScreen from './screens/Projects/EditTestProjectScreen';
 import Header from './components/Header/Header';
+import BuildScreen from './screens/Builds/BuildScreen';
 
 const Layout = () => (
   <div>
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <HomeScreen /> },
       { path: "/scenarios", element: <TestScenarioScreen /> },
-      { path: "/builds", element: <>Builds</> },
+      { path: "/builds", element: <BuildScreen /> },
       { path: "/executions", element: <>Execuções</> },
       { path: "/testplans", element: <>Planos de Teste</> },
       { path: "/projetos", element: <TestProjectScreen /> },
