@@ -6,16 +6,18 @@ import "../../shared_styles/BasicScreenContainer.css";
 import "../../shared_styles/StyledTable.css";
 import "../../shared_styles/ClickableOpacityIcon.css";
 import "../../shared_styles/ClickableOpacityButton.css";
+import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 
 function BuildScreen() {
     const [builds, setBuilds] = useState<Build[]>([]);
+    const { selectedProject } = useGlobalSelectedProject();
     const navigate = useNavigate();
 
     useEffect(() => {
-        BuildService.getBuilds().then((res) => {
+        BuildService.getBuilds(selectedProject).then((res) => {
             setBuilds(res);
         });
-    }, []);
+    }, [selectedProject]);
 
     const handleDelete = async (id: number) => {
         if (window.confirm(`Tem certeza que deseja deletar o build com ID ${id}?`)) {

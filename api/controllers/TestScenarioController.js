@@ -31,9 +31,9 @@ router.get('/eager/:projectId', (req, res) => {
             test_cases.test_scenario_id as test_cases_test_scenario_id
         FROM test_scenarios 
         LEFT JOIN test_cases ON test_cases.test_scenario_id = test_scenarios.id
-        WHERE test_scenarios.test_project_id == ${projectId}`;
+        WHERE test_scenarios.test_project_id == ?`;
 
-    db.all(query, [], (err, rows) => {
+    db.all(query, [projectId], (err, rows) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ error: 'Query no banco falhou' });

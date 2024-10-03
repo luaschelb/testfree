@@ -1,8 +1,8 @@
 import Build from "../models/Build";
 
 class BuildService {
-    static async getBuilds(): Promise<Build[]> {
-        const response = await fetch("http://localhost:8080/builds/");
+    static async getBuilds(project_id : number): Promise<Build[]> {
+        const response = await fetch(`http://localhost:8080/builds/${project_id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar builds.');
         }

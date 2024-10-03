@@ -3,8 +3,9 @@ const db = require("../db"); // Importa o banco de dados sqlite
 const router = express.Router();
 
 // Get all builds
-router.get('/', (req, res) => {
-    db.all("SELECT * FROM builds", [], (err, rows) => {
+router.get('/:project_id', (req, res) => {
+    const { project_id } = req.params;
+    db.all("SELECT * FROM builds where builds.project_id == ?", [project_id], (err, rows) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ error: 'Query no banco falhou' });
