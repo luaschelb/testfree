@@ -25,7 +25,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Link, useLocation } from 'react-router-dom';
 import LadyBettleSvg from "../../resources/LadyBeetleSvg";
-import { useGlobalStatus } from '../../context/GlobalStatusContext'; // Importa o hook
+import { useGlobalSelectedProject } from '../../context/GlobalSelectedProjectContext'; // Importa o hook
 
 const drawerWidth = 240;
 
@@ -86,7 +86,7 @@ export default function Header() {
     setOpen(!open);
   };
 
-  const { status, setStatus } = useGlobalStatus(); // Usa o setStatus do contexto
+  const { selectedProject, setSelectedProject } = useGlobalSelectedProject(); // Usa o setStatus do contexto
 
   const menuItems = [
 	{ text: "Página Inicial", to: "/", icon: <Home />},
@@ -125,14 +125,22 @@ export default function Header() {
 			<LadyBettleSvg/>
 			Test Free
 		  </div>
+		  <div>
+			<span style={{fontSize: "14px", paddingRight: "6px"}}>Selecione um projeto para trabalhar: </span>
 		  <select
-			onChange={(event) => {setStatus(parseInt(event.target.value))}}
+		  	id="selectProject"
+		  	value={selectedProject}
+			onChange={(event) => {
+				window.localStorage.setItem('selectedProject', event.target.value)
+				setSelectedProject(parseInt(event.target.value))
+			}}
 		  >
 			<option value={0}>Selecione um projeto</option>
 			<option value={1}>Projeto 1</option>
 			<option value={2}>Projeto 2</option>
 			<option value={3}>Projeto 3</option>
 		  </select>
+		  </div>
 		  <div style={{display: 'flex', columnGap: '8px', fontSize: '20px', alignItems: 'center', color: "#222"}}>
 			<AccountCircle sx={{fontSize: "36px"}}
 			/>

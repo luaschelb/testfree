@@ -13,7 +13,7 @@ import CreateTestProjectScreen from './screens/Projects/CreateTestProjectScreen'
 import EditTestProjectScreen from './screens/Projects/EditTestProjectScreen';
 import Header from './components/Header/Header';
 import BuildScreen from './screens/Builds/BuildScreen';
-import { GlobalStatusProvider } from './context/GlobalStatusContext';
+import { GlobalSelectedProjectProvider } from './context/GlobalSelectedProjectContext';
 
 const Layout = () => (
   <div>
@@ -46,8 +46,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <GlobalStatusProvider> {/* Envolva a aplicação */}
+    <GlobalSelectedProjectProvider> {/* Envolva a aplicação */}
       <RouterProvider router={router} />
-    </GlobalStatusProvider>
+    </GlobalSelectedProjectProvider>
   </React.StrictMode>
 );
