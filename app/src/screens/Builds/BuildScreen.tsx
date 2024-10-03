@@ -14,7 +14,7 @@ function BuildScreen() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        BuildService.getBuilds(selectedProject).then((res) => {
+        BuildService.getBuildsByProjectId(selectedProject).then((res) => {
             setBuilds(res);
         });
     }, [selectedProject]);

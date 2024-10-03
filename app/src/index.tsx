@@ -15,6 +15,7 @@ import Header from './components/Header/Header';
 import BuildScreen from './screens/Builds/BuildScreen';
 import { GlobalSelectedProjectProvider } from './context/GlobalSelectedProjectContext';
 import CreateBuildScreen from './screens/Builds/CreateBuildScreen';
+import EditBuildScreen from './screens/Builds/EditBuildScreen';
 
 const Layout = () => (
   <div>
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
       { path: "/scenarios", element: <TestScenarioScreen /> },
       { path: "/builds", element: <BuildScreen /> },
       { path: "/criar_build", element: <CreateBuildScreen /> },
+      { path: "/editar_build/:id", element: <EditBuildScreen /> },
       { path: "/executions", element: <>Execuções</> },
       { path: "/testplans", element: <>Planos de Teste</> },
       { path: "/projetos", element: <TestProjectScreen /> },

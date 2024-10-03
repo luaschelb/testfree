@@ -6,7 +6,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -23,12 +22,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LadyBettleSvg from "../../resources/LadyBeetleSvg";
 import { useGlobalSelectedProject } from '../../context/GlobalSelectedProjectContext'; // Importa o hook
-import { useEffect, useState } from 'react';
-import TestProjectService from '../../services/TestProjectService';
-import TestProject from '../../models/TestProject';
 
 const drawerWidth = 240;
 
@@ -83,13 +79,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function Header() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const location = useLocation();
 
   const handleDrawerToggle = () => {
     setOpen(!open);
   };
 
-  const { selectedProject, setSelectedProject, testProjects, setTestProjects} = useGlobalSelectedProject(); // Usa o setStatus do contexto
+  const { selectedProject, setSelectedProject, testProjects} = useGlobalSelectedProject(); // Usa o setStatus do contexto
 
   const menuItems = [
 	{ text: "Página Inicial", to: "/", icon: <Home />},

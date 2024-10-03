@@ -1,5 +1,5 @@
 import BuildService from "../../services/BuildService";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 import Checkbox from '@mui/material/Checkbox';
@@ -9,20 +9,14 @@ function CreateBuildScreen() {
     const navigate = useNavigate();
     const { setShouldUpdateProjectList } = useGlobalSelectedProject();
     const [active, setActive] = useState(true)
+    const [title, setTitle] = useState("")
+    const [version, setVersion] = useState("")
+    const [description, setDescription] = useState("")
     
     async function submit(event: FormEvent) {
         event.preventDefault();
 
-        const title = (document.getElementById("title") as HTMLInputElement).value;
-        const version = (document.getElementById("version") as HTMLInputElement).value;
-        const description = (document.getElementById("description") as HTMLInputElement).value;
-
-        if (
-            !title ||
-            !version ||
-            !description ||
-            !active
-        ) {
+        if ( !title || !version || !description || !active ) {
             alert('Todos os campos são obrigatórios.');
             return;
         }
@@ -48,11 +42,23 @@ function CreateBuildScreen() {
             <h2 style={{margin: 0}}>Criar Build</h2>
             <form onSubmit={submit} style={{flex: 1, flexDirection: 'column', columnGap: "16px"}}>
                 <div>Título</div>
-                <input type="text" id="title"></input>
+                <input 
+                    type="text" 
+                    value={title}
+                    onChange={(event) => {setTitle(event.target.value)}}
+                />
                 <div>Versão</div>
-                <input type="text" id="version"></input>
+                <input 
+                    type="text" 
+                    value={version}
+                    onChange={(event) => {setVersion(event.target.value)}}
+                />
                 <div>Descrição</div>
-                <input type="text" id="description"></input>
+                <input 
+                    type="text" 
+                    value={description}
+                    onChange={(event) => {setDescription(event.target.value)}}
+                />
                 <div>Ativo</div>
                 <Checkbox 
                     id="active"
