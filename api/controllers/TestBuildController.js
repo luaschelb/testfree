@@ -17,7 +17,6 @@ router.get('/project/:project_id', (req, res) => {
 // Get build by ID
 router.get('/:id', (req, res) => {
     const { id } = req.params;
-    console.log(id)
     db.get("SELECT * FROM builds WHERE builds.id == ?", [id], (err, row) => {
         if (err) {
             console.error(err);
