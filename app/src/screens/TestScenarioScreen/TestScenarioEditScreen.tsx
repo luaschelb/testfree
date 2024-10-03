@@ -27,12 +27,6 @@ const TestScenarioEditScreen = (props: {
         <div style={{display: "flex", "flexDirection": "column"}}>
             <button onClick={()=> {props.SetMenuToShow(TestScenarioMenuControlEnum.CREATE_TEST_CASE)}}>Criar caso de Teste</button>
             <h3>{props.lastClicked.test_id} - {props.lastClicked.name}</h3>
-            id: <input 
-                    id="TestScenarioId" 
-                    value={test_id}
-                    onChange={(e) => setTest_id(e.target.value)}
-                    type="text"
-                />
             name: <input 
                     id="TestScenarioName" 
                     value={name}
