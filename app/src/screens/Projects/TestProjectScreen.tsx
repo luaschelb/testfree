@@ -6,17 +6,12 @@ import "../../shared_styles/BasicScreenContainer.css"
 import "../../shared_styles/StyledTable.css"
 import "../../shared_styles/ClickableOpacityIcon.css"
 import "../../shared_styles/ClickableOpacityButton.css"
+import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 
 
 function TestProjectScreen() {
-    const [testProjects, setTestProjects] = useState<TestProject[]>([]);
+    const { testProjects, setTestProjects } = useGlobalSelectedProject();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        TestProjectService.getTestProjects().then((res) => {
-            setTestProjects(res);
-        });
-    }, []);
 
     const handleDelete = async (id: number) => {
         if (window.confirm(`Tem certeza que deseja deletar o projeto de teste com ID ${id}?`)) {
@@ -24,7 +19,7 @@ function TestProjectScreen() {
                 await TestProjectService.deleteTestProject(id);
                 alert("Projeto deletado com sucesso");
                 setTestProjects(testProjects.filter(tc => tc.id !== id));
-                navigate("/testProjects");
+                navigate("/projetos");
             } catch (error) {
                 alert('Erro ao deletar projeto de teste: ' + (error as Error).message);
             }

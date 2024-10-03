@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import TestScenario from "../../models/TestScenario";
 import TestScenarioMenuControlEnum from "../../enums/TestScenarioMenuControlEnum";
 
 

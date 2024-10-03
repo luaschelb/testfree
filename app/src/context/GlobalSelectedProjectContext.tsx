@@ -4,10 +4,12 @@ import TestProjectService from '../services/TestProjectService';
 
 // Define o tipo do contexto
 interface GlobalSelectedProjectContext {
-  selectedProject: number;
   testProjects: TestProject[];
-  setSelectedProject: (newStatus: number) => void;
   setTestProjects: (newTestProjects: TestProject[]) => void;
+  selectedProject: number;
+  setSelectedProject: (newStatus: number) => void;
+  shouldUpdateProjectList: boolean;
+  setShouldUpdateProjectList: (shouldUpdateProjectList: boolean) => void;
 }
 
 // Cria o contexto com um valor padrão
@@ -24,18 +26,27 @@ export const useGlobalSelectedProject = () => {
 
 // Provedor do contexto que envolve a aplicação
 export const GlobalSelectedProjectProvider = ({ children }: { children: ReactNode }) => {
-  useEffect(() => {
-	  TestProjectService.getTestProjects().then((res) => {
-		  setTestProjects(res);
-	  });
-  }, []);
-  
-
   const [selectedProject, setSelectedProject] = useState<number>(window.localStorage.getItem('selectedProject') === null ? 0 : parseInt(window.localStorage.getItem('selectedProject') as string));
   const [testProjects, setTestProjects] = useState<TestProject[]>([]);
+  const [shouldUpdateProjectList, setShouldUpdateProjectList] = useState<boolean>(false);
+
+
+  useEffect(() => {
+      TestProjectService.getTestProjects().then((res) => {
+          setTestProjects(res);
+      });
+      setShouldUpdateProjectList(false)
+  }, [shouldUpdateProjectList]);
 
   return (
-    <GlobalStatusContext.Provider value={{ selectedProject, setSelectedProject, testProjects, setTestProjects }}>
+    <GlobalStatusContext.Provider value={{ 
+        selectedProject,
+        setSelectedProject,
+        testProjects,
+        setTestProjects,
+        shouldUpdateProjectList,
+        setShouldUpdateProjectList
+      }}>
       {children}
     </GlobalStatusContext.Provider>
   );

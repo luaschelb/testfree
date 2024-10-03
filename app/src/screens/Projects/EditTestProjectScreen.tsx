@@ -1,10 +1,12 @@
 import TestProjectService from "../../services/TestProjectService";
 import { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 
 function EditTestProjectScreen() {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
+    const { setShouldUpdateProjectList } = useGlobalSelectedProject();
 
     const [formState, setFormState] = useState({
         name: "",
@@ -61,6 +63,7 @@ function EditTestProjectScreen() {
                 name,
                 description
             });
+            setShouldUpdateProjectList(true)
             alert("Sucesso");
             navigate("/projetos");
         } catch (error) {

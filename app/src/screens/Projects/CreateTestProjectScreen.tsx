@@ -1,9 +1,11 @@
 import TestProjectService from "../../services/TestProjectService";
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 
 function CreateTestProjectScreen() {
     const navigate = useNavigate();
+    const { setShouldUpdateProjectList } = useGlobalSelectedProject();
 
     async function submit(event: FormEvent) {
         event.preventDefault();
@@ -20,6 +22,7 @@ function CreateTestProjectScreen() {
                 description: description,
                 name: name
             })
+            setShouldUpdateProjectList(true)
             alert("Sucesso")
             navigate("/projetos");
         } catch (error) {

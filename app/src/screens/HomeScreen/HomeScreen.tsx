@@ -6,7 +6,7 @@ import { useGlobalSelectedProject } from '../../context/GlobalSelectedProjectCon
 
 
 export default function HomeScreen() {
-  const { selectedProject } = useGlobalSelectedProject(); // Usa o setStatus do contexto
+  const { selectedProject } = useGlobalSelectedProject();
   return (
     <div>
       <div className="BasicScreenContainer">
