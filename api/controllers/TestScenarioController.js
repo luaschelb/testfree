@@ -14,7 +14,8 @@ router.get('/', (req, res) => {
 });
 
 // Get all test scenarios with test cases
-router.get('/eager', (req, res) => {
+router.get('/eager/:projectId', (req, res) => {
+    const { projectId } = req.params;
     const query = `
         SELECT  
             test_scenarios.id as test_scenarios_id,
@@ -29,7 +30,8 @@ router.get('/eager', (req, res) => {
             test_cases.steps as test_cases_steps,
             test_cases.test_scenario_id as test_cases_test_scenario_id
         FROM test_scenarios 
-        LEFT JOIN test_cases ON test_cases.test_scenario_id = test_scenarios.id`;
+        LEFT JOIN test_cases ON test_cases.test_scenario_id = test_scenarios.id
+        WHERE test_scenarios.test_project_id == ${projectId}`;
 
     db.all(query, [], (err, rows) => {
         if (err) {

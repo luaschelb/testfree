@@ -10,6 +10,7 @@ import TestCaseEditScreen from "./TestCaseEditScreen";
 import TestScenarioMenuControl from "../../enums/TestScenarioMenuControlEnum";
 import TestScenarioCreateScreen from "./TestScenarioCreateScreen";
 import TestCaseCreateScreen from "./TestCaseCreateScreen";
+import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 
 
 function TestScenarioScreen() {
@@ -17,9 +18,10 @@ function TestScenarioScreen() {
     const [lastClicked, SetLastClicked] = useState<TestScenario | TestCase | null>(null);
     const [shouldUpdate, SetShouldUpdate] = useState(false);
     const [menuToShow, SetMenuToShow] = useState<TestScenarioMenuControl>(TestScenarioMenuControl.DEFAULT)
+    const { selectedProject } = useGlobalSelectedProject(); // Usa o setStatus do contexto
 
     useEffect(() => {
-        TestScenarioService.getTestScenariosEagerLoading().then((newData) => {
+        TestScenarioService.getTestScenariosEagerLoading(selectedProject).then((newData) => {
             newData = newData.map((testScenario) => {
                 let obj = testScenarios.find((aux) => aux.id === testScenario.id)
                 if(obj?.isOpen)
@@ -31,7 +33,7 @@ function TestScenarioScreen() {
             SetTestScenarios(newData);
         });
         SetShouldUpdate(false)
-    }, [shouldUpdate]);
+    }, [shouldUpdate, selectedProject]);
 
     return (
         <div className="TestScenarioScreenContainer">

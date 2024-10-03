@@ -1,9 +1,12 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import TestProject from '../models/TestProject';
 
 // Define o tipo do contexto
 interface GlobalSelectedProjectContext {
   selectedProject: number;
+  testProjects: TestProject[];
   setSelectedProject: (newStatus: number) => void;
+  setTestProjects: (newTestProjects: TestProject[]) => void;
 }
 
 // Cria o contexto com um valor padrão
@@ -21,9 +24,10 @@ export const useGlobalSelectedProject = () => {
 // Provedor do contexto que envolve a aplicação
 export const GlobalSelectedProjectProvider = ({ children }: { children: ReactNode }) => {
   const [selectedProject, setSelectedProject] = useState<number>(window.localStorage.getItem('selectedProject') === null ? 0 : parseInt(window.localStorage.getItem('selectedProject') as string));
+  const [testProjects, setTestProjects] = useState<TestProject[]>([]);
 
   return (
-    <GlobalStatusContext.Provider value={{ selectedProject, setSelectedProject }}>
+    <GlobalStatusContext.Provider value={{ selectedProject, setSelectedProject, testProjects, setTestProjects }}>
       {children}
     </GlobalStatusContext.Provider>
   );
