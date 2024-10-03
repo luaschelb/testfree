@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import TestProject from '../models/TestProject';
+import TestProjectService from '../services/TestProjectService';
 
 // Define o tipo do contexto
 interface GlobalSelectedProjectContext {
@@ -23,6 +24,13 @@ export const useGlobalSelectedProject = () => {
 
 // Provedor do contexto que envolve a aplicação
 export const GlobalSelectedProjectProvider = ({ children }: { children: ReactNode }) => {
+  useEffect(() => {
+	  TestProjectService.getTestProjects().then((res) => {
+		  setTestProjects(res);
+	  });
+  }, []);
+  
+
   const [selectedProject, setSelectedProject] = useState<number>(window.localStorage.getItem('selectedProject') === null ? 0 : parseInt(window.localStorage.getItem('selectedProject') as string));
   const [testProjects, setTestProjects] = useState<TestProject[]>([]);
 

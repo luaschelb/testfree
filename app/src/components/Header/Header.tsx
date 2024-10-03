@@ -84,20 +84,12 @@ export default function Header() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const location = useLocation();
-  const [testProjects, setTestProjects] = useState<TestProject[]>([]);
 
   const handleDrawerToggle = () => {
     setOpen(!open);
   };
 
-  useEffect(() => {
-	  TestProjectService.getTestProjects().then((res) => {
-		  setTestProjects(res);
-	  });
-  }, []);
-  
-
-  const { selectedProject, setSelectedProject} = useGlobalSelectedProject(); // Usa o setStatus do contexto
+  const { selectedProject, setSelectedProject, testProjects, setTestProjects} = useGlobalSelectedProject(); // Usa o setStatus do contexto
 
   const menuItems = [
 	{ text: "Página Inicial", to: "/", icon: <Home />},
