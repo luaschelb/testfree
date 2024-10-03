@@ -51,7 +51,7 @@ const TreeViewComponent = (props : {
                             props.SetMenuToShow(TestScenarioMenuControlEnum.EDIT_TEST_SCENARIO)
                         }}
                         >
-                            {`${scenario.test_id}: ${scenario.name}`}
+                            {`${scenario.id}: ${scenario.name}`}
                     </span>
                     {
                         scenario.isOpen 
@@ -66,7 +66,7 @@ const TreeViewComponent = (props : {
                                         props.SetLastClicked(testcase)
                                     }}
                                     >
-                                    {`📄 ${testcase.test_id}: ${testcase.name}`}
+                                    {`📄 ${testcase.id}: ${testcase.name}`}
                                 </span>
                             ))}
                         </div>  

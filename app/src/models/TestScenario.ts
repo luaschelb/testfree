@@ -6,7 +6,7 @@ class TestScenario {
     name: string;
     description: string;
     testProjectId: number;
-    isOpen: boolean;
+    isOpen?: boolean;
     testCases: TestCase[] = [];
 
     constructor(id: number, test_id: string, name: string, description: string, testProjectId: number) {

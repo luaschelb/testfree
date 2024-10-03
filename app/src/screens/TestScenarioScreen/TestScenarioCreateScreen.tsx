@@ -1,42 +1,53 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import TestScenarioMenuControlEnum from "../../enums/TestScenarioMenuControlEnum";
-
+import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
+import TestScenarioService from "../../services/TestScenarioService";
+import { useNavigate } from "react-router-dom";
 
 const TestScenarioCreateScreen = (props: {
         SetShouldUpdate: (arg: boolean) => void,
         SetMenuToShow: (arg: TestScenarioMenuControlEnum) => void
     }) => {
-    const [test_id, setTest_id] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-
-    const handleCreateScenarioClick = () => {
-        alert("não implementado")
-        props.SetShouldUpdate(true)
-        props.SetMenuToShow(TestScenarioMenuControlEnum.DEFAULT)
-    }
+    const { selectedProject } = useGlobalSelectedProject();
+    const navigate = useNavigate();
     
+    async function submit(event: FormEvent) {
+        event.preventDefault();
+
+        if ( !name || !description) {
+            alert('Todos os campos são obrigatórios.');
+            return;
+        }
+        try {
+            await TestScenarioService.createTestScenario({
+                name: name,
+                description: description,
+                test_project_id: selectedProject,
+            })
+            alert("Sucesso")
+            props.SetShouldUpdate(true)
+        } catch (error) {
+            alert('Erro ao cadastrar cenário: ' + (error as Error).message);
+        }
+    }
+
     return (
         <div style={{display: "flex", "flexDirection": "column"}}>
             <div>Novo cenário de teste</div>
-            id: <input 
-                    id="TestScenarioId" 
-                    value={test_id}
-                    onChange={(e) => setTest_id(e.target.value)}
-                    type="text"
-                />
-            name: <input 
+            Nome: <input 
                     id="TestScenarioName" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     type="text"/>
-            description: <input 
+            Descrição: <input 
                     id="TestScenarioDescription" 
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     type="text"/>
             <button className="TestScenarioScreenFormButtons"
-                onClick={() => handleCreateScenarioClick()}>
+                onClick={(event) => submit(event)}>
                 Cadastrar
             </button>
         </div>
