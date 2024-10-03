@@ -93,7 +93,7 @@ export default function Header() {
 	{ text: "Execuções", to: "/executions", icon: <PlayArrow />},
 	{ text: "Planos de Teste", to: "/testplans", icon: <Grid4x4 />},
 	{ text: "Projetos", to: "/projetos", icon: <Folder />},
-	{ text: "Configurações", to: "/configuracoes", icon: <Settings />},
+	//{ text: "Configurações", to: "/configuracoes", icon: <Settings />},
   ];
 
   return (
@@ -123,7 +123,7 @@ export default function Header() {
 			<LadyBettleSvg/>
 			Test Free
 		  </div>
-		  <div>
+		  <div style={{marginRight: '10%'}}>
 			<span style={{fontSize: "14px", paddingRight: "6px"}}>Selecione um projeto para trabalhar: </span>
 		  <select
 		  	id="selectProject"
@@ -141,11 +141,11 @@ export default function Header() {
 			}
 		  </select>
 		  </div>
-		  <div style={{display: 'flex', columnGap: '8px', fontSize: '20px', alignItems: 'center', color: "#222"}}>
+		  {/* <div style={{display: 'flex', columnGap: '8px', fontSize: '20px', alignItems: 'center', color: "#222"}}>
 			<AccountCircle sx={{fontSize: "36px"}}
 			/>
 			Luana Schelb
-		  </div>
+		  </div> */}
 		</Toolbar>
 	  </AppBar>
 	  <Drawer

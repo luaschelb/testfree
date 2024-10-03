@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       { path: "/projetos", element: <TestProjectScreen /> },
       { path: "/criar_projeto", element: <CreateTestProjectScreen /> },
       { path: "/editar_projeto/:id", element: <EditTestProjectScreen /> },
-      { path: "/configuracoes", element: <>Configurações</> },
+      //{ path: "/configuracoes", element: <>Configurações</> },
     ]
   }
 ]);
