@@ -25,6 +25,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Link, useLocation } from 'react-router-dom';
 import LadyBettleSvg from "../../resources/LadyBeetleSvg";
+import { useGlobalStatus } from '../../context/GlobalStatusContext'; // Importa o hook
 
 const drawerWidth = 240;
 
@@ -85,6 +86,8 @@ export default function Header() {
     setOpen(!open);
   };
 
+  const { status, setStatus } = useGlobalStatus(); // Usa o setStatus do contexto
+
   const menuItems = [
 	{ text: "Página Inicial", to: "/", icon: <Home />},
 	{ text: "Cenários", to: "/scenarios", icon: <Description />},
@@ -122,6 +125,14 @@ export default function Header() {
 			<LadyBettleSvg/>
 			Test Free
 		  </div>
+		  <select
+			onChange={(event) => {setStatus(parseInt(event.target.value))}}
+		  >
+			<option value={0}>Selecione um projeto</option>
+			<option value={1}>Projeto 1</option>
+			<option value={2}>Projeto 2</option>
+			<option value={3}>Projeto 3</option>
+		  </select>
 		  <div style={{display: 'flex', columnGap: '8px', fontSize: '20px', alignItems: 'center', color: "#222"}}>
 			<AccountCircle sx={{fontSize: "36px"}}
 			/>

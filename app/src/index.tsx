@@ -13,6 +13,7 @@ import CreateTestProjectScreen from './screens/Projects/CreateTestProjectScreen'
 import EditTestProjectScreen from './screens/Projects/EditTestProjectScreen';
 import Header from './components/Header/Header';
 import BuildScreen from './screens/Builds/BuildScreen';
+import { GlobalStatusProvider } from './context/GlobalStatusContext';
 
 const Layout = () => (
   <div>
@@ -42,8 +43,11 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <GlobalStatusProvider> {/* Envolva a aplicação */}
+      <RouterProvider router={router} />
+    </GlobalStatusProvider>
   </React.StrictMode>
 );
