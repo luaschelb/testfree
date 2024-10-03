@@ -120,15 +120,19 @@ function createTablesAndInsertData() {
     // Seeds para a tabela 'projects'
     insertIfTableEmpty('projects', `
       INSERT INTO projects (testcase_counter, testscenario_counter, testexecutions_counter, name, description, active)
-      VALUES (5, 2, 3, 'Sistema de Gestão de Produtos', 'Plataforma para gerenciar produtos e vendas em uma loja virtual', 1);
+      VALUES 
+        (5, 2, 3, 'Sistema de Gestão de Produtos', 'Plataforma para gerenciar produtos e vendas em uma loja virtual', 1),
+        (5, 2, 3, 'Sistema de Empréstimos', 'Plataforma para emrpréstimos disponibilizados pela nossa empresa', 1);
     `);
 
     // Seeds para a tabela 'builds'
     insertIfTableEmpty('builds', `
       INSERT INTO builds (title, version, description, active, project_id)
       VALUES 
-        ('Versão 1.0', '1.0', 'Primeira versão estável do sistema', 1, 1),
-        ('Versão 1.1', '1.1', 'Atualização com correções de bugs', 1, 1);
+        ('Versão 1.0-DEV', '1.0', 'Primeira versão estável do sistema', 1, 1),
+        ('Versão 1.1-DEV', '1.1', 'Atualização com correções de bugs', 1, 1),
+        ('Versão 12.1-DEV', '12.1', 'Nova versão empréstimo em dev', 1, 2),
+        ('Versão 10.4-HOM', '10.4', 'Atualizado Vue para versão 16', 1, 2);
     `);
 
     // Seeds para a tabela 'test_scenarios'
@@ -136,7 +140,9 @@ function createTablesAndInsertData() {
       INSERT INTO test_scenarios (name, count, description, "order", test_project_id)
       VALUES 
         ('Cenário de Login', 3, 'Verificação de login com credenciais válidas e inválidas', 1, 1),
-        ('Cenário de Cadastro de Produto', 5, 'Testes de inserção, edição e exclusão de produtos', 2, 1);
+        ('Cenário de Cadastro de Produto', 5, 'Testes de inserção, edição e exclusão de produtos', 2, 1),
+        ('Cenário de Login Empréstimo', 3, 'Verificação de login com credenciais válidas e inválidas', 1, 2),
+        ('Cenário de Cadastro de Produto Empréstimo', 5, 'Testes de inserção, edição e exclusão de produtos', 2, 2);
     `);
 
     // Seeds para a tabela 'test_cases'
