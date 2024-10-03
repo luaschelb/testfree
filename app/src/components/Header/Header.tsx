@@ -141,7 +141,7 @@ export default function Header() {
 			<option value={0}>Selecione um projeto</option>
 			{
 				testProjects.map((project) => (
-					<option value={project.id}>{project.name}</option>
+					<option key={project.id} value={project.id}>{project.name}</option>
 				))
 			}
 		  </select>
