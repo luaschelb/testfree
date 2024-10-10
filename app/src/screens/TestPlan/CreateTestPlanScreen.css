@@ -1,0 +1,20 @@
+.styledTableAux {
+    font-family: Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.styledTableAux td, .styledTableAux th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.styledTableAux tr:hover {background-color: #ddd;}
+
+.styledTableAux th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #b7b7b7;
+    color: black;
+}

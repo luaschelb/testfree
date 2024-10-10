@@ -17,6 +17,7 @@ import { GlobalSelectedProjectProvider } from './context/GlobalSelectedProjectCo
 import CreateBuildScreen from './screens/Builds/CreateBuildScreen';
 import EditBuildScreen from './screens/Builds/EditBuildScreen';
 import TestPlanScreen from './screens/TestPlan/TestPlanScreen';
+import CreateTestPlanScreen from './screens/TestPlan/CreateTestPlanScreen';
 
 const Layout = () => (
   <div>
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
       { path: "/editar_build/:id", element: <EditBuildScreen /> },
       { path: "/executions", element: <>Execuções</> },
       { path: "/testplans", element: <TestPlanScreen /> },
+      { path: "/criar_testplan", element: <CreateTestPlanScreen /> },
       { path: "/projetos", element: <TestProjectScreen /> },
       { path: "/criar_projeto", element: <CreateTestProjectScreen /> },
       { path: "/editar_projeto/:id", element: <EditTestProjectScreen /> },
