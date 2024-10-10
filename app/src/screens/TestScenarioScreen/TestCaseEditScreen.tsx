@@ -2,11 +2,13 @@ import { FormEvent, useEffect, useState } from "react";
 import TestCase from "../../models/TestCase";
 import TestScenario from "../../models/TestScenario";
 import TestCaseService from "../../services/TestCaseService";
+import TestScenarioMenuControlEnum from "../../enums/TestScenarioMenuControlEnum";
 
 const TestCaseEditScreen = (props: {
         lastClicked : TestCase,
         SetShouldUpdate: (arg: boolean) => void,
         testScenarios: TestScenario[]
+        SetMenuToShow: (arg: TestScenarioMenuControlEnum) => void
     }) => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -54,6 +56,7 @@ const TestCaseEditScreen = (props: {
         try {
             await TestCaseService.deleteTestCase(props.lastClicked.id)
             alert("Sucesso")
+            props.SetMenuToShow(TestScenarioMenuControlEnum.DEFAULT)
             props.SetShouldUpdate(true)
         } catch (error) {
             alert('Erro ao deletar caso de teste: ' + (error as Error).message);

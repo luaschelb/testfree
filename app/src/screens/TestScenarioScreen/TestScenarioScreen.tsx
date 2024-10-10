@@ -81,6 +81,7 @@ function TestScenarioScreen() {
                                 testScenarios = {testScenarios}
                                 lastClicked={lastClicked as TestCase}
                                 SetShouldUpdate={SetShouldUpdate}
+                                SetMenuToShow={SetMenuToShow}
                                 />)
                     }
                 </div>

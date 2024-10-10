@@ -44,6 +44,7 @@ const TestScenarioEditScreen = (props: {
         try {
             await TestScenarioService.deleteTestScenario(props.lastClicked.id)
             alert("Sucesso")
+            props.SetMenuToShow(TestScenarioMenuControlEnum.DEFAULT)
             props.SetShouldUpdate(true)
         } catch (error) {
             alert('Erro ao deletar cenário de teste: ' + (error as Error).message);
