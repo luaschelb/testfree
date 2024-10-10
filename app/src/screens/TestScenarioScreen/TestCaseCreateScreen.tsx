@@ -1,35 +1,38 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import TestCase from "../../models/TestCase";
 import TestCaseService from "../../services/TestCaseService";
 import TestScenarioMenuControlEnum from "../../enums/TestScenarioMenuControlEnum";
+import TestScenario from "../../models/TestScenario";
 
 const TestCaseCreateScreen = (props: {
-        lastClicked : TestCase,
+        lastClicked: TestCase,
+        testScenarios: TestScenario[],
         SetShouldUpdate: (arg: boolean) => void,
         SetMenuToShow: (arg: TestScenarioMenuControlEnum) => void
     }) => {
-    const [test_id, setTest_id] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [steps, setSteps] = useState("");
+    const [testscenario_id, setTestscenario_id] = useState(0);
 
     async function handleCreateTestCaseClick(event: FormEvent, ) {
         event.preventDefault();
-        const oldData = props.lastClicked as TestCase;
 
-        if (!test_id.trim() || !name.trim() || !description.trim() || !steps.trim()) {
+        if (!name.trim() || !description.trim()  || !steps.trim() ) {
             alert('Todos os campos são obrigatórios.');
             return;
         }
-        try {/*
-            await TestCaseService.createTestCase(new TestCase(
-                oldData.id,
-                test_id,
-                name,
-                description,
-                steps,
-                oldData.testscenario_id
-            ))*/
+        if (testscenario_id === 0) {
+            alert('Obrigatório escolher um cenário de teste');
+            return;
+        }
+        try {
+            await TestCaseService.createTestCase({
+                name: name,
+                description: description,
+                steps: steps,
+                test_scenario_id: String(testscenario_id)
+            })
             alert("Sucesso")
             props.SetShouldUpdate(true)
             props.SetMenuToShow(TestScenarioMenuControlEnum.DEFAULT)
@@ -39,35 +42,42 @@ const TestCaseCreateScreen = (props: {
     }
 
     return (
-        <div style={{display: "flex", "flexDirection": "column"}}>
-            <div>Novo caso de Teste</div>
-                id: <input 
-                        id="TestCaseTest_id"
-                        value={test_id}
-                        onChange={(e)=> setTest_id(e.target.value)}
-                        type="text"/>
-                name: <input 
-                        id="TestCaseName"
-                        value={name}
-                        onChange={(e)=> setName(e.target.value)}
-                        type="text"/>
-                description: <input 
-                        id="TestCaseDescription"
-                        value={description}
-                        onChange={(e)=> setDescription(e.target.value)}
-                        type="text"/>
-                steps: <textarea 
-                        id="TestCaseSteps"
-                        value={steps}
-                        onChange={(e)=> setSteps(e.target.value)}
-                        rows={8}/>
-                <button 
-                    className="TestScenarioScreenFormButtons"
-                    type="submit" 
-                    onClick={handleCreateTestCaseClick}
-                >
-                    Cadastrar
-                </button>
+        <div style={{display: "flex", "flexDirection": "column", gap: "8px"}}>
+        <h3>Novo caso de teste</h3>
+            <select
+                    value={testscenario_id}
+                    onChange={(event) => {
+                        setTestscenario_id(parseInt(event.target.value))
+                    }}>
+                <option>Selecione um cenário de teste:</option>
+                {
+                    props.testScenarios.map((x) => (
+                        <option key={x.id} value={x.id}>{x.name}</option>
+                    ))
+                }
+            </select>
+            Nome: <input 
+                    id="TestCaseName"
+                    value={name}
+                    onChange={(e)=> setName(e.target.value)}
+                    type="text"/>
+            Descrição: <input 
+                    id="TestCaseDescription"
+                    value={description}
+                    onChange={(e)=> setDescription(e.target.value)}
+                    type="text"/>
+            Passos: <textarea 
+                    id="TestCaseSteps"
+                    value={steps}
+                    onChange={(e)=> setSteps(e.target.value)}
+                    rows={8}/>
+            <button 
+                className="TestScenarioScreenFormButtons"
+                type="submit" 
+                onClick={handleCreateTestCaseClick}
+            >
+                Cadastrar
+            </button>
         </div> 
     )
 }

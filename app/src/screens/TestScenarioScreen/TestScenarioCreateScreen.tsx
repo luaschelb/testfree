@@ -1,8 +1,7 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import TestScenarioMenuControlEnum from "../../enums/TestScenarioMenuControlEnum";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 import TestScenarioService from "../../services/TestScenarioService";
-import { useNavigate } from "react-router-dom";
 
 const TestScenarioCreateScreen = (props: {
         SetShouldUpdate: (arg: boolean) => void,
@@ -11,7 +10,6 @@ const TestScenarioCreateScreen = (props: {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const { selectedProject } = useGlobalSelectedProject();
-    const navigate = useNavigate();
     
     async function submit(event: FormEvent) {
         event.preventDefault();
@@ -34,14 +32,14 @@ const TestScenarioCreateScreen = (props: {
     }
 
     return (
-        <div style={{display: "flex", "flexDirection": "column"}}>
-            <div>Novo cenário de teste</div>
-            Nome: <input 
+        <div style={{display: "flex", "flexDirection": "column", gap: "8px"}}>
+            <div style={{fontWeight: "bold", fontSize: "16px", margin: 0, padding: 0, border: 0}}>Novo cenário de teste</div>
+            <b>Nome:</b> <input 
                     id="TestScenarioName" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     type="text"/>
-            Descrição: <input 
+            <b>Descrição:</b> <input 
                     id="TestScenarioDescription" 
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}

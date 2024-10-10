@@ -15,7 +15,7 @@ class TestScenario {
         this.name = name;
         this.description = description;
         this.testProjectId = testProjectId;
-        this.isOpen = false;
+        this.isOpen = true;
     }
 }
 

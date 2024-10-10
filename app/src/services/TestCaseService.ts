@@ -7,11 +7,11 @@ class TestCaseService {
             throw new Error('Erro ao buscar casos de teste.');
         }
         const body = await response.json();
-        const testCases = body.map((item: any) => new TestCase(item.id, item.test_id, item.name, item.description, item.steps, item.testscenario_id));
+        const testCases = body.map((item: any) => new TestCase(item.id, item.name, item.description, item.steps, item.testscenario_id));
         return testCases;
     }
 
-    static async createTestCase(data: { description: string, steps: string }): Promise<Response> {
+    static async createTestCase(data: {name: string, description: string, steps: string, test_scenario_id: string}): Promise<Response> {
         const response = await fetch('http://localhost:8080/testcases', {
             method: 'POST',
             headers: {
@@ -32,7 +32,7 @@ class TestCaseService {
             throw new Error('Erro ao buscar o caso de teste.');
         }
         const item = await response.json();
-        return new TestCase(item.id, item.test_id, item.name, item.description, item.steps, item.testscenario_id);
+        return new TestCase(item.id, item.name, item.description, item.steps, item.testscenario_id);
     }
 
     static async updateTestCase(data : TestCase): Promise<Response> {

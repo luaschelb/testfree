@@ -1,4 +1,3 @@
-import Header from "../../components/Header/Header";
 import { useEffect, useState } from "react";
 import TestScenarioService from "../../services/TestScenarioService";
 import "./TestScenarioScreen.css"
@@ -18,7 +17,7 @@ function TestScenarioScreen() {
     const [lastClicked, SetLastClicked] = useState<TestScenario | TestCase | null>(null);
     const [shouldUpdate, SetShouldUpdate] = useState(false);
     const [menuToShow, SetMenuToShow] = useState<TestScenarioMenuControl>(TestScenarioMenuControl.DEFAULT)
-    const { selectedProject } = useGlobalSelectedProject(); // Usa o setStatus do contexto
+    const { testProjects, selectedProject } = useGlobalSelectedProject(); // Usa o setStatus do contexto
 
     useEffect(() => {
         TestScenarioService.getTestScenariosEagerLoading(selectedProject).then((newData) => {
@@ -37,8 +36,10 @@ function TestScenarioScreen() {
 
     return (
         <div className="TestScenarioScreenContainer">
+            <h4>Cenários de teste para o projeto: {testProjects.find((x) => x.id === selectedProject)?.name}</h4>
             <div className="TestScenarioScreenToolBar">
                 <button onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_SCENARIO)}}>Criar Cenário de Teste</button>
+                <button onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_CASE)}}>Criar Caso de Teste</button>
             </div>
             <div className="TestScenarioScreenTreeViewAndPanel">
                 <TreeViewComponent 
@@ -71,11 +72,13 @@ function TestScenarioScreen() {
                         (menuToShow === TestScenarioMenuControl.CREATE_TEST_CASE && 
                             <TestCaseCreateScreen 
                                 lastClicked={lastClicked as TestCase}
+                                testScenarios = {testScenarios}
                                 SetShouldUpdate={SetShouldUpdate}
                                 SetMenuToShow={SetMenuToShow}
                                 />) ||
                         (menuToShow === TestScenarioMenuControl.EDIT_TEST_CASE && 
                             <TestCaseEditScreen 
+                                testScenarios = {testScenarios}
                                 lastClicked={lastClicked as TestCase}
                                 SetShouldUpdate={SetShouldUpdate}
                                 />)

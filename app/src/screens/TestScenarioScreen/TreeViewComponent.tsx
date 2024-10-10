@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import TestCase from "../../models/TestCase";
 import TestScenario from "../../models/TestScenario";
 import TestScenarioMenuControlEnum from "../../enums/TestScenarioMenuControlEnum";
@@ -51,7 +50,7 @@ const TreeViewComponent = (props : {
                             props.SetMenuToShow(TestScenarioMenuControlEnum.EDIT_TEST_SCENARIO)
                         }}
                         >
-                            {`${scenario.id}: ${scenario.name}`}
+                            {`${scenario.name}`}
                     </span>
                     {
                         scenario.isOpen 
@@ -66,7 +65,7 @@ const TreeViewComponent = (props : {
                                         props.SetLastClicked(testcase)
                                     }}
                                     >
-                                    {`📄 ${testcase.id}: ${testcase.name}`}
+                                    {`📄 ${testcase.name}`}
                                 </span>
                             ))}
                         </div>  

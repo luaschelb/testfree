@@ -30,20 +30,20 @@ router.get('/:id', (req, res) => {
 
 // Create a new test case
 router.post('/', (req, res) => {
-    const { description, steps, testscenario_id } = req.body;
-    if (!description || !steps || !testscenario_id) {
+    const {name, description, steps, test_scenario_id } = req.body;
+    if (!name || !description || !steps || !test_scenario_id) {
         return res.status(400).json({ error: 'Descrição, passos e ID do cenário são obrigatórios.' });
     }
 
     db.run(
-        "INSERT INTO test_cases (description, steps, testscenario_id) VALUES (?, ?, ?)",
-        [description, steps, testscenario_id],
+        "INSERT INTO test_cases (name, description, steps, test_scenario_id) VALUES (?, ?, ?, ?)",
+        [name, description, steps, test_scenario_id],
         function (err) {
             if (err) {
                 console.error(err);
                 return res.status(500).json({ error: 'Query no banco falhou.' });
             }
-            res.status(201).json({ id: this.lastID, description, steps, testscenario_id });
+            res.status(201).json({ id: this.lastID, description, steps, test_scenario_id });
         }
     );
 });
@@ -51,21 +51,20 @@ router.post('/', (req, res) => {
 // Update a test case by ID
 router.put('/:id', (req, res) => {
     const { id } = req.params;
-    const { test_id, name, description, steps, testscenario_id } = req.body;
+    const { name, description, steps, test_scenario_id } = req.body;
 
-    if (!description || !steps || !testscenario_id) {
+    if (!name || !description || !steps || !test_scenario_id) {
         return res.status(400).json({ error: 'Descrição, passos e ID do cenário são obrigatórios.' });
     }
 
     db.run(
         `UPDATE test_cases SET 
-            test_id = ?,
             name = ?,
             description = ?, 
             steps = ?, 
-            testscenario_id = ? 
+            test_scenario_id = ? 
         WHERE id = ?`,
-        [test_id, name, description, steps, testscenario_id, id],
+        [name, description, steps, test_scenario_id, id],
         function (err) {
             if (err) {
                 console.error(err);
@@ -74,7 +73,7 @@ router.put('/:id', (req, res) => {
             if (this.changes === 0) {
                 return res.status(404).json({ error: 'Caso de teste não encontrado' });
             }
-            res.status(200).json({ id, description, steps, testscenario_id });
+            res.status(200).json({ id, description, steps, test_scenario_id });
         }
     );
 });
