@@ -81,10 +81,8 @@ function createTablesAndInsertData() {
       end_date DATETIME,
       test_plan_id INTEGER,
       build_id INTEGER,
-      user_id INTEGER,
       FOREIGN KEY (test_plan_id) REFERENCES test_plans(id) ON DELETE CASCADE,
-      FOREIGN KEY (build_id) REFERENCES builds(id) ON DELETE CASCADE,
-      FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
+      FOREIGN KEY (build_id) REFERENCES builds(id) ON DELETE CASCADE
     );`);
 
     db.run(`CREATE TABLE IF NOT EXISTS test_executions_test_cases (
@@ -184,10 +182,10 @@ function createTablesAndInsertData() {
 
     // Seeds para a tabela 'test_executions'
     insertIfTableEmpty('test_executions', `
-      INSERT INTO test_executions (start_date, end_date, test_plan_id, build_id, user_id)
+      INSERT INTO test_executions (start_date, end_date, test_plan_id, build_id)
       VALUES 
-        ('2024-09-28', '2024-09-28', 1, 1, 1),
-        ('2024-09-28', '2024-09-29', 2, 2, 1);
+        ('2024-09-28', '2024-09-28', 1, 1),
+        ('2024-09-28', '2024-09-29', 2, 2);
     `);
 
     // Seeds para a tabela 'test_executions_test_cases'

@@ -4,6 +4,7 @@ const TestCaseController = require("./controllers/TestCaseController")
 const TestScenarioController = require("./controllers/TestScenarioController")
 const TestProjectController = require("./controllers/TestProjectController")
 const TestBuildController = require("./controllers/TestBuildController")
+const TestPlanController = require("./controllers/TestPlanController")
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use('/projetos', TestProjectController);
 app.use('/scenarios', TestScenarioController);
 app.use('/testcases', TestCaseController);
 app.use('/builds', TestBuildController);
+app.use('/test-plans', TestPlanController);
 
 const PORT = 8080;
 app.listen(PORT, () => {
