@@ -25,7 +25,7 @@ function TestPlanScreen() {
                 await TestPlanService.deleteTestPlan(id);
                 alert("Plano de teste deletado com sucesso");
                 setTestPlans(testPlans.filter(plan => plan.id !== id));
-                navigate("/test-plans");
+                navigate("/testplans");
             } catch (error) {
                 alert('Erro ao deletar plano de teste: ' + (error as Error).message);
             }
