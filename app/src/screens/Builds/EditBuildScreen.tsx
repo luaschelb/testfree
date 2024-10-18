@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import BuildService from "../../services/BuildService";
 import Checkbox from '@mui/material/Checkbox';
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
+import "../../shared_styles/BasicForm.css"
 
 function EditBuildScreen() {
     const { id } = useParams<{ id: string }>();
@@ -97,7 +98,7 @@ function EditBuildScreen() {
         <div className="BasicScreenContainer">
             <Link to="/builds">&lt; Voltar</Link>
             <h2 style={{ margin: 0 }}>Editar Build</h2>
-            <form onSubmit={submit} style={{ flex: 1, flexDirection: 'column', columnGap: "16px" }}>
+            <form onSubmit={submit} className="BasicForm">
                 <div>Título</div>
                 <input
                     type="text"
@@ -116,6 +117,7 @@ function EditBuildScreen() {
                 <input
                     type="text"
                     id="description"
+                    style={{width: "400px"}}
                     value={formState.description}
                     onChange={handleChange}
                 />

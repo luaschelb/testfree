@@ -1,0 +1,10 @@
+.BasicForm {
+    display: "flex";
+    flex-direction: 'column';
+    column-gap: "16px" ;
+    background-color: #eee;
+    border-radius: 2.5%;
+    border: solid 1px #222;
+    padding: 16px;
+    width: fit-content;
+}
