@@ -10,7 +10,7 @@ export default function HomeScreen() {
   return (
     <div>
       <div className="BasicScreenContainer">
-        <h1>Test Home Page {selectedProject}</h1>
+        <div style={{fontSize: '2em'}}>Página Inicial</div>
         <p>Esta tela serve de placeholder para uma futura tela inicial</p>
         <p>Links para as outras páginas:</p>
         {/* Links aqui são redundantes, pois já estão no Drawer */}

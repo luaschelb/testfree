@@ -7,6 +7,7 @@ import "../../shared_styles/StyledTable.css"
 import "../../shared_styles/ClickableOpacityIcon.css"
 import "../../shared_styles/ClickableOpacityButton.css"
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
+import { Button } from "@mui/material";
 
 
 function TestProjectScreen() {
@@ -28,11 +29,13 @@ function TestProjectScreen() {
 
     return (
         <div className="BasicScreenContainer">
-            <div style={{fontSize: '2em'}}>Tela de Projeto de Teste</div>
-            <div 
-                onClick={() => { navigate(`/criar_projeto`) }}
-                className="ClickableOpacityButton"
-                >Adicionar Projeto
+            <div style={{fontSize: '2em'}}>Tela de Projetos</div>
+            <div>
+                <Button 
+                    variant="contained"
+                    color="info"
+                    onClick={() => { navigate(`/criar_projeto`) }}
+                >Adicionar Projeto</Button> 
             </div>
             <div >
                 <table className="styledTable">

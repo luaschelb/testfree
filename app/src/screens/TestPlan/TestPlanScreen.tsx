@@ -7,6 +7,7 @@ import "../../shared_styles/StyledTable.css";
 import "../../shared_styles/ClickableOpacityIcon.css";
 import "../../shared_styles/ClickableOpacityButton.css";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
+import { Button } from "@mui/material";
 
 function TestPlanScreen() {
     const [testPlans, setTestPlans] = useState<TestPlan[]>([]);
@@ -35,11 +36,13 @@ function TestPlanScreen() {
     return (
         <div className="BasicScreenContainer">
             <div style={{ fontSize: '2em' }}>Tela de Planos de Teste</div>
-            <div
-                onClick={() => { navigate(`/criar_testplan`) }}
-                className="ClickableOpacityButton"
-            >
-                Adicionar Plano de Teste
+            <div>
+                <Button 
+                    variant="contained"
+                    color="info"
+                    onClick={() => { navigate(`/criar_testplan`) }}
+                >
+                Adicionar Plano de Teste</Button> 
             </div>
             <div>
                 <table className="styledTable">

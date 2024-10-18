@@ -10,6 +10,7 @@ import TestScenarioMenuControl from "../../enums/TestScenarioMenuControlEnum";
 import TestScenarioCreateScreen from "./TestScenarioCreateScreen";
 import TestCaseCreateScreen from "./TestCaseCreateScreen";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
+import { Button } from "@mui/material";
 
 
 function TestScenarioScreen() {
@@ -35,11 +36,11 @@ function TestScenarioScreen() {
     }, [shouldUpdate, selectedProject]);
 
     return (
-        <div className="TestScenarioScreenContainer">
-            <h4>Cenários de teste para o projeto: {testProjects.find((x) => x.id === selectedProject)?.name}</h4>
+        <div className="BasicScreenContainer">
+            <div style={{fontSize: '1em'}}>Cenários de teste para o projeto: {testProjects.find((x) => x.id === selectedProject)?.name}</div>
             <div className="TestScenarioScreenToolBar">
-                <button onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_SCENARIO)}}>Criar Cenário de Teste</button>
-                <button onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_CASE)}}>Criar Caso de Teste</button>
+                <Button variant="contained" onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_SCENARIO)}}>Criar Cenário de Teste</Button>
+                <Button variant="contained" onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_CASE)}}>Criar Caso de Teste</Button>
             </div>
             <div className="TestScenarioScreenTreeViewAndPanel">
                 <TreeViewComponent 

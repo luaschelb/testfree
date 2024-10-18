@@ -4,6 +4,7 @@ import BuildService from "../../services/BuildService";
 import Checkbox from '@mui/material/Checkbox';
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 import "../../shared_styles/BasicForm.css"
+import { Button } from "@mui/material";
 
 function EditBuildScreen() {
     const { id } = useParams<{ id: string }>();
@@ -99,36 +100,39 @@ function EditBuildScreen() {
             <Link to="/builds">&lt; Voltar</Link>
             <h2 style={{ margin: 0 }}>Editar Build</h2>
             <form onSubmit={submit} className="BasicForm">
-                <div>Título</div>
+                <div className="InputLabel">Título</div>
                 <input
                     type="text"
                     id="title"
+                    className="BasicFormInput"
                     value={formState.title}
                     onChange={handleChange}
                 />
-                <div>Versão</div>
+                <div className="InputLabel">Versão</div>
                 <input
                     type="text"
                     id="version"
+                    className="BasicFormInput"
                     value={formState.version}
                     onChange={handleChange}
                 />
-                <div>Descrição</div>
-                <input
-                    type="text"
+                <div className="InputLabel">Descrição</div>
+                <textarea
+                    className="BasicFormDescription"
                     id="description"
-                    style={{width: "400px"}}
                     value={formState.description}
                     onChange={handleChange}
                 />
-                <div>Ativo</div>
-                <Checkbox
-                    id="active"
-                    checked={formState.active}  // Garante que é booleano
-                    onChange={handleCheckboxChange}
-                />
+                <div style={{display: "flex", alignItems: "center"}}>
+                    <div className="InputLabel">Ativo</div>
+                    <Checkbox
+                        id="active"
+                        checked={formState.active}  // Garante que é booleano
+                        onChange={handleCheckboxChange}
+                    />
+                </div>
                 <div>
-                    <button type="submit">Atualizar</button>
+                <Button variant="contained" onClick={submit}>Atualizar</Button>
                 </div>
             </form>
         </div>

@@ -1,5 +1,6 @@
 .BasicScreenContainer {
-    flex: 'initial';
-    flex-direction: row;
+    display: flex;
+    flex-direction: column;
     margin: 16px 20% 0px 20%;
+    gap: 16px;
 }

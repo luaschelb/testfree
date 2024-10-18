@@ -1,7 +1,9 @@
 import TestProjectService from "../../services/TestProjectService";
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
+import "../../shared_styles/BasicForm.css"
+import { Button } from "@mui/material";
 
 function CreateTestProjectScreen() {
     const navigate = useNavigate();
@@ -34,13 +36,20 @@ function CreateTestProjectScreen() {
         <div className="BasicScreenContainer">
             <Link to="/projetos">&lt; Voltar</Link>
             <h2 style={{margin: 0}}>Criar Projeto</h2>
-            <form onSubmit={submit} style={{flex: 1, flexDirection: 'column', columnGap: "16px"}}>
-                <div>Nome do Projeto</div>
-                <input type="text" id="projectName"></input>
-                <div>Descrição do Projeto</div>
-                <textarea id="projectDescription" rows={10} cols={50}></textarea>
+            <form onSubmit={submit} className="BasicForm">
+                <div 
+                    className="InputLabel">Nome do Projeto</div>
+                <input 
+                    type="text"
+                    className="BasicFormInput"
+                    id="projectName"></input>
+                <div  
+                    className="InputLabel">Descrição do Projeto</div>
+                <textarea  
+                    className="BasicFormDescription"
+                    id="projectDescription" rows={10} cols={50}></textarea>
                 <div>
-                    <button type='submit'>Cadastrar</button>
+                    <Button variant="contained" onClick={submit}>Cadastrar</Button>
                 </div>
             </form>
         </div>

@@ -3,6 +3,8 @@ import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 import Checkbox from '@mui/material/Checkbox';
+import { Button } from "@mui/material";
+import "../../shared_styles/BasicForm.css"
 
 function CreateBuildScreen() {
     const { selectedProject } = useGlobalSelectedProject();
@@ -40,33 +42,37 @@ function CreateBuildScreen() {
         <div className="BasicScreenContainer">
             <Link to="/Builds">&lt; Voltar</Link>
             <h2 style={{margin: 0}}>Criar Build</h2>
-            <form onSubmit={submit} style={{flex: 1, flexDirection: 'column', columnGap: "16px"}}>
-                <div>Título</div>
+            <form onSubmit={submit} className="BasicForm">
+                <div className="InputLabel">Título</div>
                 <input 
                     type="text" 
+                    className="BasicFormInput"
                     value={title}
                     onChange={(event) => {setTitle(event.target.value)}}
                 />
-                <div>Versão</div>
+                <div className="InputLabel">Versão</div>
                 <input 
                     type="text" 
+                    className="BasicFormInput"
                     value={version}
                     onChange={(event) => {setVersion(event.target.value)}}
                 />
-                <div>Descrição</div>
-                <input 
-                    type="text" 
+                <div className="InputLabel">Descrição</div>
+                <textarea 
                     value={description}
+                    className="BasicFormDescription"
                     onChange={(event) => {setDescription(event.target.value)}}
                 />
-                <div>Ativo</div>
-                <Checkbox 
-                    id="active"
-                    checked={active}
-                    onChange={(event) => setActive(event.target.checked)}
-                    />
+                <div style={{display: "flex", alignItems: "center"}}>
+                    <div className="InputLabel">Ativo</div>
+                    <Checkbox 
+                        id="active"
+                        checked={active}
+                        onChange={(event) => setActive(event.target.checked)}
+                        />
+                </div>
                 <div>
-                    <button type='submit'>Cadastrar</button>
+                    <Button variant="contained" onClick={submit}>Cadastrar</Button>
                 </div>
             </form>
         </div>

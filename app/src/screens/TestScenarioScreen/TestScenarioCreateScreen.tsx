@@ -2,6 +2,8 @@ import { FormEvent, useState } from "react";
 import TestScenarioMenuControlEnum from "../../enums/TestScenarioMenuControlEnum";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 import TestScenarioService from "../../services/TestScenarioService";
+import "../../shared_styles/BasicForm.css"
+import { Button } from "@mui/material";
 
 const TestScenarioCreateScreen = (props: {
         SetShouldUpdate: (arg: boolean) => void,
@@ -32,23 +34,29 @@ const TestScenarioCreateScreen = (props: {
     }
 
     return (
-        <div style={{display: "flex", "flexDirection": "column", gap: "8px"}}>
+        <form className="BasicForm">
             <div style={{fontWeight: "bold", fontSize: "16px", margin: 0, padding: 0, border: 0}}>Novo cenário de teste</div>
-            <b>Nome:</b> <input 
-                    id="TestScenarioName" 
+            <div className="InputLabel">Nome:</div>
+            <input
+                    id="TestScenarioName"
                     value={name}
+                    className="BasicFormInput"
                     onChange={(e) => setName(e.target.value)}
                     type="text"/>
-            <b>Descrição:</b> <input 
-                    id="TestScenarioDescription" 
+            <div className="InputLabel">Descrição:</div>
+            <input
+                    id="TestScenarioDescription"
                     value={description}
+                    className="BasicFormDescription"
                     onChange={(e) => setDescription(e.target.value)}
                     type="text"/>
-            <button className="TestScenarioScreenFormButtons"
-                onClick={(event) => submit(event)}>
-                Cadastrar
-            </button>
-        </div>
+            <div>
+                <Button variant="contained"
+                    onClick={(event) => submit(event)}>
+                    Cadastrar
+                </Button>
+            </div>
+        </form>
     )
 }
 

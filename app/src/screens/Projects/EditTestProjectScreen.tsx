@@ -2,6 +2,7 @@ import TestProjectService from "../../services/TestProjectService";
 import { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
+import { Button } from "@mui/material";
 
 function EditTestProjectScreen() {
     const navigate = useNavigate();
@@ -75,24 +76,24 @@ function EditTestProjectScreen() {
         <div className="BasicScreenContainer">
             <Link to="/projetos">&lt; Voltar</Link>
             <h2 style={{margin: 0}}>Editar Projeto</h2>
-            <form onSubmit={submit}>
-                <div>Nome do Projeto</div>
+            <form onSubmit={submit} className="BasicForm">
+            <div className="InputLabel">Nome do Projeto</div>
                 <input 
-                    type="text" 
-                    id="name" 
-                    value={formState.name} 
-                    onChange={handleChange} 
+                    type="text"
+                    id="name"
+                    className="BasicFormInput"
+                    value={formState.name}
+                    onChange={handleChange}
                 />
-                <div>Descrição do Projeto</div>
+                <div className="InputLabel">Descrição do Projeto</div>
                 <textarea 
-                    id="description" 
-                    rows={10} 
-                    cols={50} 
-                    value={formState.description} 
-                    onChange={handleChange} 
+                    id="description"
+                    className="BasicFormDescription"
+                    value={formState.description}
+                    onChange={handleChange}
                 />
                 <div>
-                    <button type='submit'>Atualizar</button>
+                    <Button variant="contained" onClick={submit}>Atualizar</Button>
                 </div>
             </form>
         </div>
