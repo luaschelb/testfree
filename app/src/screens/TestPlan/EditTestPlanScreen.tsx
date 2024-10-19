@@ -13,18 +13,17 @@ import { Button } from "@mui/material";
 import { TestPlan } from "../../models/TestPlan";
 
 const EditTestPlanScreen = () => {
-    const { selectedProject } = useGlobalSelectedProject(); // Obtendo o projeto selecionado
+    const { selectedProject } = useGlobalSelectedProject();
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [selectedTestCases, setSelectedTestCases] = useState<number[]>([]);
-    const [testScenarios, setTestScenarios] = useState<TestScenario[]>([]); // Estado para cenários de teste
+    const [testScenarios, setTestScenarios] = useState<TestScenario[]>([]);
     const [expandedScenarios, setExpandedScenarios] = useState<number[]>([]);
     const [testPlan, setTestPlan] = useState<TestPlan>();
 
     useEffect(() => {
-        // Pega os cenários de teste de um projeto (substitua pelo seu serviço de API)
         TestScenarioService.getTestScenariosEagerLoading(selectedProject).then((data) => {
             setTestScenarios(data);
             const allScenarioIds = data.map(scenario => scenario.id);

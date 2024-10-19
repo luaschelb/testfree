@@ -86,7 +86,10 @@ router.get('/:id', (req, res) => {
 
         // Buscar test cases relacionados
         db.all(`
-            SELECT tct.*, tc.name AS test_case_name, tc.description AS test_case_description
+            SELECT 
+                tct.*, 
+                tc.name AS test_case_name, 
+                tc.description AS test_case_description
             FROM test_executions_test_cases tct
             JOIN test_cases tc ON tct.test_case_id = tc.id
             WHERE tct.test_execution_id = ?

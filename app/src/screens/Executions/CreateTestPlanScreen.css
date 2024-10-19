@@ -1,0 +1,37 @@
+.styledTableAux {
+    font-family: Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.styledTableAux td, .styledTableAux th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+.styledTableAux tr {
+    background-color: #ddd;
+}
+
+/* .styledTableAux tr:hover {
+    background-color: #ccc;
+} */
+
+.styledTableAux th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #bfe0eb;
+    color: black;
+}
+
+.styledTableAuxCollapsedTR td{
+    background-color: #fefefe;
+}
+
+.styledTableAuxCollapsedTR:hover {
+    background-color: #f0f0f09c;
+}
+
+.styledTableAuxCollapsedHeader td{
+    background-color: #fefefe;
+}

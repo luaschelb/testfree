@@ -7,12 +7,13 @@ import "../../shared_styles/StyledTable.css";
 import "../../shared_styles/ClickableOpacityIcon.css";
 import "../../shared_styles/ClickableOpacityButton.css";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
-import { Button } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import ExecutionService from "../../services/ExecutionService";
 import Build from "../../models/Build";
 import { TestPlan } from "../../models/TestPlan";
+import { Delete, PlayArrow } from "@mui/icons-material";
 
-function ExecutionScreen() {
+function ListExecutionScreen() {
     const [ executions, setExecutions ] = useState<Execution[]>([]);
     const { selectedProject } = useGlobalSelectedProject();
     const [ build, setBuild ] = useState<Build>();
@@ -33,7 +34,7 @@ function ExecutionScreen() {
                 await ExecutionService.deleteExecution(id);
                 alert("Execução deletado com sucesso");
                 setExecutions(executions.filter(execution => execution.id !== id));
-                navigate("/testplans");
+                navigate("/execucoes");
             } catch (error) {
                 alert('Erro ao deletar execução: ' + (error as Error).message);
             }
@@ -47,7 +48,7 @@ function ExecutionScreen() {
                 <Button 
                     variant="contained"
                     color="info"
-                    onClick={() => { navigate(`/criar_testplan`) }}
+                    onClick={() => { navigate(`/criar_execucao`) }}
                 >
                 Adicionar Execução</Button> 
             </div>
@@ -70,12 +71,18 @@ function ExecutionScreen() {
                                 <td>{execution.build_version}</td>
                                 <td>{execution.status}</td>
                                 <td>
-                                    <span className="ClickableOpacityIcon" onClick={() => { navigate(`/editar_execucao/${execution.execution_id}`) }}>
-                                        ✏️
-                                    </span>
-                                    <span className="ClickableOpacityIcon" onClick={() => handleDelete(execution.execution_id)}>
-                                        🗑️
-                                    </span>
+                                    <div style={{flex: 1, alignContent: "center"}}>
+                                        <Tooltip title="Executar">
+                                            <IconButton aria-label="PlayArrow" color="success" onClick={() => { navigate(`/executar_execucao/${execution.execution_id}`) }}>
+                                                <PlayArrow />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Deletar">
+                                            <IconButton aria-label="Delete" onClick={() => handleDelete(execution.execution_id)}>
+                                                <Delete />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
@@ -86,4 +93,4 @@ function ExecutionScreen() {
     );
 }
 
-export default ExecutionScreen;
+export default ListExecutionScreen;

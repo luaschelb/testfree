@@ -34,6 +34,13 @@ class ExecutionService {
         let execution = new Execution(item.execution.id, item.execution.start_date, item.execution.end_date, item.execution.test_plan_id, item.execution.build_id, item.execution.status, item.execution.comments);
         execution.testCases = item.test_cases.map((testCase: any) => {
             let tc = new TestCase(testCase.id, testCase.name, testCase.description, testCase.steps, testCase.test_scenario_id);
+            if(testCase.passed)
+                tc.status = 1
+            else if(testCase.skipped)
+                tc.status = 2
+            else if(testCase.failed)
+                tc.status = 3
+            tc.comment = testCase.comment
             tc.files = testCase.files;
             return tc;
         });

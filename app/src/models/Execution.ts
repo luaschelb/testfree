@@ -1,4 +1,6 @@
+import Build from "./Build";
 import TestCase from "./TestCase";
+import { TestPlan } from "./TestPlan";
 
 class Execution {
     id: number;
@@ -9,6 +11,8 @@ class Execution {
     test_plan_id: number;
     build_id: number;
     testCases?: TestCase[];
+    testPlan?: TestPlan;
+    build?: Build;
 
     constructor(id: number, start_date: string, end_date: string, test_plan_id: number, build_id: number, status: number, comments: string) {
         this.id = id;

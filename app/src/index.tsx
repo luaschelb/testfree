@@ -19,7 +19,8 @@ import EditBuildScreen from './screens/Builds/EditBuildScreen';
 import TestPlanScreen from './screens/TestPlan/TestPlanScreen';
 import CreateTestPlanScreen from './screens/TestPlan/CreateTestPlanScreen';
 import EditTestPlanScreen from './screens/TestPlan/EditTestPlanScreen';
-import ExecutionScreen from './screens/Executions/ExecutionScreen';
+import ListExecutionScreen from './screens/Executions/ListExecutionScreen';
+import RunExecutionScreen from './screens/Executions/RunExecutionScreen';
 
 const Layout = () => (
   <div>
@@ -38,14 +39,14 @@ const router = createBrowserRouter([
       { path: "/builds", element: <BuildScreen /> },
       { path: "/criar_build", element: <CreateBuildScreen /> },
       { path: "/editar_build/:id", element: <EditBuildScreen /> },
-      { path: "/execucoes", element: <ExecutionScreen /> },
+      { path: "/execucoes", element: <ListExecutionScreen /> },
+      { path: "/executar_execucao/:id", element: <RunExecutionScreen /> },
       { path: "/testplans", element: <TestPlanScreen /> },
       { path: "/criar_testplan", element: <CreateTestPlanScreen /> },
       { path: "/editar_testplan/:id", element: <EditTestPlanScreen /> },
       { path: "/projetos", element: <TestProjectScreen /> },
       { path: "/criar_projeto", element: <CreateTestProjectScreen /> },
       { path: "/editar_projeto/:id", element: <EditTestProjectScreen /> },
-      //{ path: "/configuracoes", element: <>Configurações</> },
     ]
   }
 ]);
