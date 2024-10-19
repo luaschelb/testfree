@@ -7,6 +7,7 @@ class TestCase {
     steps: string
     test_scenario_id: string
     testscenario ?: TestScenario
+    files ?: File[]
     
     constructor(id: number, name: string, description: string, steps: string, test_scenario_id: string) {
         this.id = id

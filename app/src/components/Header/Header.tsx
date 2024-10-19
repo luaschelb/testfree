@@ -90,7 +90,7 @@ export default function Header() {
 	{ text: "Página Inicial", to: "/", icon: <Home />},
 	{ text: "Cenários", to: "/scenarios", icon: <Description />},
 	{ text: "Builds", to: "/builds", icon: <Build />},
-	{ text: "Execuções", to: "/executions", icon: <PlayArrow />},
+	{ text: "Execuções", to: "/execucoes", icon: <PlayArrow />},
 	{ text: "Planos de Teste", to: "/testplans", icon: <Grid4x4 />},
 	{ text: "Projetos", to: "/projetos", icon: <Folder />},
 	//{ text: "Configurações", to: "/configuracoes", icon: <Settings />},

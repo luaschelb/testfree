@@ -19,6 +19,7 @@ import EditBuildScreen from './screens/Builds/EditBuildScreen';
 import TestPlanScreen from './screens/TestPlan/TestPlanScreen';
 import CreateTestPlanScreen from './screens/TestPlan/CreateTestPlanScreen';
 import EditTestPlanScreen from './screens/TestPlan/EditTestPlanScreen';
+import ExecutionScreen from './screens/Executions/ExecutionScreen';
 
 const Layout = () => (
   <div>
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
       { path: "/builds", element: <BuildScreen /> },
       { path: "/criar_build", element: <CreateBuildScreen /> },
       { path: "/editar_build/:id", element: <EditBuildScreen /> },
-      { path: "/executions", element: <>Execuções</> },
+      { path: "/execucoes", element: <ExecutionScreen /> },
       { path: "/testplans", element: <TestPlanScreen /> },
       { path: "/criar_testplan", element: <CreateTestPlanScreen /> },
       { path: "/editar_testplan/:id", element: <EditTestPlanScreen /> },
