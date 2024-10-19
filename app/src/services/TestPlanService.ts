@@ -1,3 +1,4 @@
+import TestCase from "../models/TestCase";
 import { TestPlan } from "../models/TestPlan";
 
 class TestPlanService {
@@ -17,18 +18,25 @@ class TestPlanService {
             throw new Error('Erro ao buscar test-plans.');
         }
         const body = await response.json();
-        const testplans = body.map((item: any) => new TestPlan(item.id, item.name, item.description, item.active, item.project_id));
+        const testplans = body.map((item: any) => {
+            let testplan = new TestPlan(item.id, item.name, item.description, item.active, item.project_id);
+            testplan.testCases = item.test_cases
+            return testplan
+        });
         return testplans;
     }
 
     // Buscar um plano de teste por ID
-    static async getTestPlanById(id: number): Promise<TestPlan> {
+    static async getTestPlanByIdEager(id: number): Promise<TestPlan> {
         const response = await fetch(`http://localhost:8080/test-plans/${id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar o plano de teste.');
         }
         const item = await response.json();
-        return new TestPlan(item.id, item.name, item.description, item.active, item.project_id);
+        console.log(item)
+        let testplan = new TestPlan(item.id, item.name, item.description, item.active, item.project_id);
+        testplan.testCases = item.test_cases;
+        return testplan;
     }
 
     // Criar um novo plano de teste

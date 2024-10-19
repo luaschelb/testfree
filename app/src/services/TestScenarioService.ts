@@ -22,7 +22,6 @@ class TestScenarioService {
             let testScenario = new TestScenario(item.id, item.count, item.name, item.description, item.test_project_id)
             testScenario.testCases = item.test_cases.map((testcase : any) => { return new TestCase(testcase.id, testcase.name, testcase.description, testcase.steps, testcase.test_scenario_id)})
             return testScenario
-            
         });
         return testScenarios;
     }

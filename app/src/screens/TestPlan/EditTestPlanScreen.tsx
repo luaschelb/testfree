@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import TestPlanService from "../../services/TestPlanService"; // Supondo que você tenha esse serviço
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 import Checkbox from '@mui/material/Checkbox';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -10,15 +10,18 @@ import TestScenarioService from "../../services/TestScenarioService";
 import TestScenario from "../../models/TestScenario";
 import "./CreateTestPlanScreen.css"
 import { Button } from "@mui/material";
+import { TestPlan } from "../../models/TestPlan";
 
-const CreateTestPlanScreen = () => {
+const EditTestPlanScreen = () => {
     const { selectedProject } = useGlobalSelectedProject(); // Obtendo o projeto selecionado
+    const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [selectedTestCases, setSelectedTestCases] = useState<number[]>([]);
     const [testScenarios, setTestScenarios] = useState<TestScenario[]>([]); // Estado para cenários de teste
     const [expandedScenarios, setExpandedScenarios] = useState<number[]>([]);
+    const [testPlan, setTestPlan] = useState<TestPlan>();
 
     useEffect(() => {
         // Pega os cenários de teste de um projeto (substitua pelo seu serviço de API)
@@ -26,6 +29,12 @@ const CreateTestPlanScreen = () => {
             setTestScenarios(data);
             const allScenarioIds = data.map(scenario => scenario.id);
             setExpandedScenarios(allScenarioIds);
+        });
+        TestPlanService.getTestPlanByIdEager(Number(id)).then((res) => {
+            setTestPlan(res);
+            setSelectedTestCases(res.testCases)
+            setName(res.name)
+            setDescription(res.description)
         });
     }, [selectedProject]);
 
@@ -49,6 +58,7 @@ const CreateTestPlanScreen = () => {
         event.preventDefault();
 
         const payload = {
+            id: Number(id),
             name,
             description,
             testCases: selectedTestCases,
@@ -57,8 +67,8 @@ const CreateTestPlanScreen = () => {
         };
 
         try {
-            await TestPlanService.createTestPlan(payload);
-            alert("Plano de teste criado com sucesso!");
+            await TestPlanService.updateTestPlan(payload);
+            alert("Plano de teste editado com sucesso!");
             navigate("/TestPlans"); // Redireciona para a página de planos de teste
         } catch (error) {
             alert(`Erro: ${(error as Error).message}`);
@@ -76,7 +86,7 @@ const CreateTestPlanScreen = () => {
             }}
             >
             <Link to="/TestPlans">&lt; Voltar</Link>
-            <h2 style={{ margin: 0 }}>Criação de Plano de Teste</h2>
+            <h2 style={{ margin: 0 }}>Edição de Plano de Teste</h2>
             <div style = {{ flexDirection: 'column', columnGap: "16px" }}>
                 <div>
                     <label>Nome:</label>
@@ -145,4 +155,4 @@ const CreateTestPlanScreen = () => {
     );
 };
 
-export default CreateTestPlanScreen;
+export default EditTestPlanScreen;
