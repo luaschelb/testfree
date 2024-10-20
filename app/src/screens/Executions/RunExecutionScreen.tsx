@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import TestPlanService from "../../services/TestPlanService";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
-import Checkbox from '@mui/material/Checkbox';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import React from "react";
@@ -10,11 +9,12 @@ import TestScenarioService from "../../services/TestScenarioService";
 import TestScenario from "../../models/TestScenario";
 import "./CreateTestPlanScreen.css"
 import { Button, IconButton, Tooltip } from "@mui/material";
-import { TestPlan } from "../../models/TestPlan";
 import { PlayArrow } from "@mui/icons-material";
 import ExecutionService from "../../services/ExecutionService";
 import Execution from "../../models/Execution";
 import BuildService from "../../services/BuildService";
+import TestCase from "../../models/TestCase";
+import RunTestModal from "./RunTestModal";
 
 const RunExecutionScreen = () => {
     const { selectedProject } = useGlobalSelectedProject();
@@ -26,8 +26,15 @@ const RunExecutionScreen = () => {
     const [testScenarios, setTestScenarios] = useState<TestScenario[]>([]);
     const [execution, setExecution] = useState<Execution>();
     const [expandedScenarios, setExpandedScenarios] = useState<number[]>([]);
-    const [openModal, setOpenModal] = useState<boolean>(false);
+    const [openModal, setOpenModal] = useState<{
+        open: boolean,
+        testCase?: TestCase
+    }>({open: false, testCase: undefined});
 
+    const handleCloseModal = () => {
+        setOpenModal({ open: false, testCase: undefined });
+    };
+    
     useEffect(() => {
         TestScenarioService.getTestScenariosEagerLoading(selectedProject).then((testscenariosData) => {
             const allScenarioIds = testscenariosData.map(scenario => scenario.id);
@@ -37,11 +44,11 @@ const RunExecutionScreen = () => {
                     TestPlanService.getTestPlanByIdEager(Number(res1.test_plan_id)).then((res3) => {
                         res1.build = res2;
                         res1.testPlan = res3;
-                        for(let i = 0; i < testscenariosData.length; i++)
+                        for(let i = 0; i < testscenariosData.length; i++) // foreach scenario
                         {   
-                            for(let j = 0; j < testscenariosData[i].testCases.length; j++)
+                            for(let j = 0; j < testscenariosData[i].testCases.length; j++) // foreach testcase in scenario
                             {
-                                let found = res1.testCases?.find((tc) => tc.id == testscenariosData[i].testCases[j].id)
+                                let found = res1.testCases?.find((tc) => tc.id === testscenariosData[i].testCases[j].id)
                                 if(found)
                                 {
                                     testscenariosData[i].testCases[j].status = found.status
@@ -100,6 +107,11 @@ const RunExecutionScreen = () => {
             >
             <Link to="/TestPlans">&lt; Voltar</Link>
             <h2 style={{ margin: 0 }}>Execução de Teste</h2>
+            <RunTestModal 
+                open={openModal?.open} 
+                handleClose={handleCloseModal}
+                testCase={openModal?.testCase} 
+            />
             <div style = {{ flexDirection: 'column', columnGap: "16px" }}>
                 <div>
                     <label><b>Plano de Teste:</b> {execution?.testPlan?.name}</label>
@@ -163,7 +175,11 @@ const RunExecutionScreen = () => {
                                             <td>{testCase.mapStatusToString()}</td>
                                             <td>
                                                 <Tooltip title="Executar">
-                                                    <IconButton aria-label="PlayArrow" color="success" onClick={() => { setOpenModal(true) }}>
+                                                    <IconButton aria-label="PlayArrow" color="success" onClick={() => { setOpenModal({
+                                                        open: true, 
+                                                        testCase: testCase
+                                                        }) 
+                                                    }}>
                                                         <PlayArrow />
                                                     </IconButton>
                                                 </Tooltip>
@@ -177,7 +193,7 @@ const RunExecutionScreen = () => {
                 </tbody>
             </table>
             <div>
-                <Button variant="contained" onClick={submit}>Finalizar Cadastro</Button>
+                <Button variant="contained" onClick={submit}>Finalizar Execução</Button>
             </div>
         </div>
     );
