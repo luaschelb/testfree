@@ -23,6 +23,18 @@ class Execution {
         this.status = status;
         this.comments = comments;
     }
+    
+    mapStatusToString = () => {
+        if(this.status === 0)
+            return "Não executado"
+        if(this.status === 1)
+            return "Sucesso"
+        if(this.status === 2)
+            return "Com erros"
+        if(this.status === 3)
+            return "Finalizada"
+        return ""
+    }
 }
 
 export default Execution;

@@ -3,6 +3,7 @@ import TestScenario from "../../models/TestScenario";
 import TestScenarioMenuControlEnum from "../../enums/TestScenarioMenuControlEnum";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 import TestScenarioService from "../../services/TestScenarioService";
+import { Button } from "@mui/material";
 
 
 const TestScenarioEditScreen = (props: {
@@ -39,7 +40,7 @@ const TestScenarioEditScreen = (props: {
             alert('Erro ao editar cenário: ' + (error as Error).message);
         }
     }   
-    
+
     async function handleDelete() {
         try {
             await TestScenarioService.deleteTestScenario(props.lastClicked.id)
@@ -52,28 +53,34 @@ const TestScenarioEditScreen = (props: {
     }
     
     return (
-        <div style={{display: "flex", "flexDirection": "column", gap: "8px"}}>
-            <div style={{fontWeight: "bold", fontSize: "16px", margin: 0, padding: 0, border: 0}}>Cenário de teste: {initialName}</div>
-            <button onClick={()=> {props.SetMenuToShow(TestScenarioMenuControlEnum.CREATE_TEST_CASE)}}>Criar novo caso de teste para o cenário</button>
+        <form className="BasicForm">
+            <div style={{fontSize: "16px", margin: 0, padding: 0, border: 0}}><b>Cenário de teste:</b> {initialName}</div>
             <b>Nome:</b> <input 
                     id="TestScenarioName" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     type="text"/>
-            <b>Descrição:</b> <input 
+            <b>Descrição:</b> <textarea 
                     id="TestScenarioDescription" 
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    type="text"/>
-                    
-            <div style={{display: 'flex', justifyContent: "space-between"}}>
-                <button className="TestScenarioScreenFormButtons"
+                    rows={8}
+                    />
+                    {/* <Button size="small" variant="contained"
+                        onClick={()=> {props.SetMenuToShow(TestScenarioMenuControlEnum.CREATE_TEST_CASE)}}>
+                            Criar novo caso
+                    </Button> */}
+            <div style={{display: 'flex', justifyContent: "space-between", marginTop: "16px"}}>
+                <Button size="small" variant="contained"
                     onClick={() => handleUpdateScenarioClick(props.lastClicked.id, props.lastClicked.testProjectId)}>
                     Editar
-                </button>
-                <button onClick={handleDelete}>Deletar Cenário de Teste</button>
+                </Button>
+                <Button size="small" color="error" variant="contained"
+                    onClick={handleDelete}>
+                    Deletar
+                </Button>
             </div>
-        </div>
+        </form>
     )
 }
 

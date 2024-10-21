@@ -1,12 +1,14 @@
 .BasicForm {
     display: flex;
     flex-direction: column;
-    background-color: #eee;
+    background-color: #fff;
     border-radius: 2.5%;
     border: solid 1px #222;
     padding: 16px;
     width: fit-content;
     gap: 4px;
+    min-height: 320px;
+    min-width: 320px;
 }
 
 .BasicForm > :last-child{

@@ -78,7 +78,7 @@ const EditTestPlanScreen = () => {
         <div 
             className="BasicScreenContainer"
             style={{
-                backgroundColor: "#eee",
+                backgroundColor: "#fff",
                 padding: "16px",
                 borderRadius: "2.5%",
                 border: "solid 1px #222"
@@ -88,7 +88,7 @@ const EditTestPlanScreen = () => {
             <h2 style={{ margin: 0 }}>Edição de Plano de Teste</h2>
             <div style = {{ flexDirection: 'column', columnGap: "16px" }}>
                 <div>
-                    <label>Nome:</label>
+                    <label><b>Nome:</b></label>
                     <input
                         type="text"
                         value={name}
@@ -97,7 +97,7 @@ const EditTestPlanScreen = () => {
                     />
                 </div>
                 <div>
-                    <label>Descrição:</label>
+                    <label><b>Descrição:</b></label>
                     <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}

@@ -3,6 +3,7 @@ import TestCase from "../../models/TestCase";
 import TestScenario from "../../models/TestScenario";
 import TestCaseService from "../../services/TestCaseService";
 import TestScenarioMenuControlEnum from "../../enums/TestScenarioMenuControlEnum";
+import { Button } from "@mui/material";
 
 const TestCaseEditScreen = (props: {
         lastClicked : TestCase,
@@ -51,6 +52,33 @@ const TestCaseEditScreen = (props: {
             alert('Erro ao atualizar caso de teste: ' + (error as Error).message);
         }
     }
+    async function handleCloneTestCaseClick(event: FormEvent, ) {
+        event.preventDefault();
+        const oldData = props.lastClicked as TestCase;
+
+        if (!name.trim()  || !description.trim()  || !steps.trim() ) {
+            alert('Todos os campos são obrigatórios.');
+            return;
+        }
+        if (test_scenario_id === 0) {
+            alert('Obrigatório escolher um cenário de teste');
+            return;
+        }
+        try {
+            await TestCaseService.createTestCase({
+                name: name,
+                description: description,
+                steps: steps,
+                test_scenario_id: String(test_scenario_id)
+            })
+            setInitialName(name)
+            alert("Sucesso")
+            props.SetShouldUpdate(true)
+            props.SetMenuToShow(TestScenarioMenuControlEnum.DEFAULT)
+        } catch (error) {
+            alert('Erro ao clonar caso de teste: ' + (error as Error).message);
+        }
+    }
 
     async function handleDelete() {
         try {
@@ -63,44 +91,53 @@ const TestCaseEditScreen = (props: {
         }
     }
     return (
-        <div style={{display: "flex", "flexDirection": "column", gap: "8px"}}>
-            <div style={{fontWeight: "bold", fontSize: "16px", margin: 0, padding: 0, border: 0}}>Caso de teste: {initialName}</div>
-            <select
-                value={test_scenario_id}
-                onChange={(event) => {
-                    setTest_scenario_id(parseInt(event.target.value))
-                }}>
-            <option>Selecione um cenário de teste:</option>
-            {
-                props.testScenarios.map((x) => (
-                    <option key={x.id} value={x.id}>{x.name}</option>
-                ))
-            }
-            </select>
-                Nome: <input 
-                        id="TestCaseName"
-                        value={name}
-                        onChange={(e)=> setName(e.target.value)}
-                        type="text"/>
-                Descrição: <input 
-                        id="TestCaseDescription"
-                        value={description}
-                        onChange={(e)=> setDescription(e.target.value)}
-                        type="text"/>
-                Passos: <textarea 
-                        id="TestCaseSteps"
-                        value={steps}
-                        onChange={(e)=> setSteps(e.target.value)}
-                        rows={8}/>
-                <div style={{display: 'flex', justifyContent: "space-between"}}>
-                    <button type="submit" 
-                    className="TestScenarioScreenFormButtons"
-                    onClick={handleUpdateTestCaseClick}>
-                        Editar
-                    </button>
-                    <button onClick={handleDelete}>Deletar Caso de Teste</button>
-                </div>
-        </div> 
+        <form className="BasicForm" style={{width: '600px', height: '600'}}>
+            <div style={{display: "flex", "flexDirection": "column", gap: "8px"}}>
+                <div style={{fontSize: "16px", margin: 0, padding: 0, border: 0}}><b>Caso de teste:</b> {initialName}</div>
+                <b>Cenário de teste:</b>
+                <select
+                    value={test_scenario_id}
+                    onChange={(event) => {
+                        setTest_scenario_id(parseInt(event.target.value))
+                    }}>
+                <option>Selecione um cenário de teste:</option>
+                {
+                    props.testScenarios.map((x) => (
+                        <option key={x.id} value={x.id}>{x.name}</option>
+                    ))
+                }
+                </select>
+                    <b>Nome:</b> <input 
+                            id="TestCaseName"
+                            value={name}
+                            onChange={(e)=> setName(e.target.value)}
+                            type="text"/>
+                    <b>Descrição:</b> <input 
+                            id="TestCaseDescription"
+                            value={description}
+                            onChange={(e)=> setDescription(e.target.value)}
+                            type="text"/>
+                    <b>Passos:</b> <textarea 
+                            id="TestCaseSteps"
+                            value={steps}
+                            onChange={(e)=> setSteps(e.target.value)}
+                            rows={8}/>
+                    <div style={{display: 'flex', justifyContent: "space-between"}}>
+                        <Button size="small" variant="contained"
+                            onClick={handleUpdateTestCaseClick}>
+                            Editar
+                        </Button>
+                        <Button size="small" variant="contained"
+                            onClick={handleCloneTestCaseClick}>
+                            Clonar
+                        </Button>
+                        <Button size="small" color="error" variant="contained"
+                            onClick={handleDelete}>
+                            Deletar
+                        </Button>
+                    </div>
+            </div>
+        </form>
     )
 }
 

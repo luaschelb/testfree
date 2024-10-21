@@ -37,10 +37,9 @@ function TestScenarioScreen() {
 
     return (
         <div className="BasicScreenContainer">
-            <div style={{fontSize: '1em'}}>Cenários de teste para o projeto: {testProjects.find((x) => x.id === selectedProject)?.name}</div>
             <div className="TestScenarioScreenToolBar">
-                <Button variant="contained" onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_SCENARIO)}}>Criar Cenário de Teste</Button>
-                <Button variant="contained" onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_CASE)}}>Criar Caso de Teste</Button>
+                <Button color="info" size="small" variant="contained" onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_SCENARIO)}}>Criar Cenário de Teste</Button>
+                <Button color="info" size="small" variant="contained" onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_CASE)}}>Criar Caso de Teste</Button>
             </div>
             <div className="TestScenarioScreenTreeViewAndPanel">
                 <TreeViewComponent 
@@ -52,10 +51,10 @@ function TestScenarioScreen() {
                 <div className="TestScenarioScreen">
                     {
                         (menuToShow === TestScenarioMenuControl.DEFAULT && 
-                            <>
+                            <div className="BasicForm" style={{height: "320px"}}>
                                 <p>Clique no botão "Criar Cenário de Teste" na barra superior para criar um novo cenário</p>
                                 <p>Clique em algo na arvore lateral para visualizar/editar cenários e casos de teste existentes</p>
-                            </> 
+                            </div> 
                         ) ||
                         (menuToShow === TestScenarioMenuControl.CREATE_TEST_SCENARIO && 
                             <TestScenarioCreateScreen 

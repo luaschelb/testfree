@@ -20,8 +20,8 @@ const TreeViewComponent = (props : {
 
     return (
         <div className="TreeViewComponent" style={{userSelect: 'none'}}>
-            <span className="ClickableOpacityTreeView" style={{width: "fit-content"}}onClick={handleCollapseAll}>Collapse All</span>
-            <span className="ClickableOpacityTreeView" style={{width: "fit-content"}}onClick={handleExpandAll}>Expand All</span>
+            {/* <span className="ClickableOpacityTreeView" style={{width: "fit-content"}}onClick={handleCollapseAll}>Collapse All</span>
+            <span className="ClickableOpacityTreeView" style={{width: "fit-content"}}onClick={handleExpandAll}>Expand All</span> */}
             {
             props.testScenarios.map((scenario, index) => (
                 <div key={scenario.id}>

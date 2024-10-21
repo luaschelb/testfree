@@ -28,6 +28,7 @@ const TestScenarioCreateScreen = (props: {
             })
             alert("Sucesso")
             props.SetShouldUpdate(true)
+            props.SetMenuToShow(TestScenarioMenuControlEnum.DEFAULT)
         } catch (error) {
             alert('Erro ao cadastrar cenário: ' + (error as Error).message);
         }
@@ -51,7 +52,7 @@ const TestScenarioCreateScreen = (props: {
                     onChange={(e) => setDescription(e.target.value)}
                     type="text"/>
             <div>
-                <Button variant="contained"
+                <Button size="small" variant="contained"
                     onClick={(event) => submit(event)}>
                     Cadastrar
                 </Button>

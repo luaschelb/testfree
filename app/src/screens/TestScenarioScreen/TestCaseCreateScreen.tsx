@@ -3,6 +3,7 @@ import TestCase from "../../models/TestCase";
 import TestCaseService from "../../services/TestCaseService";
 import TestScenarioMenuControlEnum from "../../enums/TestScenarioMenuControlEnum";
 import TestScenario from "../../models/TestScenario";
+import { Button } from "@mui/material";
 
 const TestCaseCreateScreen = (props: {
         lastClicked: TestCase,
@@ -42,8 +43,9 @@ const TestCaseCreateScreen = (props: {
     }
 
     return (
-        <div style={{display: "flex", "flexDirection": "column", gap: "8px"}}>
-        <h3>Novo caso de teste</h3>
+        <form className="BasicForm" style={{width: '600px', height: '600'}}>
+            <div style={{fontWeight: "bold", fontSize: "16px", margin: 0, padding: 0, border: 0}}>Novo cenário de teste</div>
+            <b>Cenário de teste:</b>
             <select
                     value={testscenario_id}
                     onChange={(event) => {
@@ -56,29 +58,29 @@ const TestCaseCreateScreen = (props: {
                     ))
                 }
             </select>
-            Nome: <input 
+            <b>Nome:</b> <input 
                     id="TestCaseName"
                     value={name}
                     onChange={(e)=> setName(e.target.value)}
                     type="text"/>
-            Descrição: <input 
+            <b>Descrição:</b> <input 
                     id="TestCaseDescription"
                     value={description}
                     onChange={(e)=> setDescription(e.target.value)}
                     type="text"/>
-            Passos: <textarea 
+            <b>Passos:</b> <textarea 
                     id="TestCaseSteps"
                     value={steps}
                     onChange={(e)=> setSteps(e.target.value)}
                     rows={8}/>
-            <button 
-                className="TestScenarioScreenFormButtons"
-                type="submit" 
-                onClick={handleCreateTestCaseClick}
-            >
-                Cadastrar
-            </button>
-        </div> 
+            
+            <div>
+                <Button size="small" variant="contained"
+                onClick={handleCreateTestCaseClick}>
+                    Cadastrar
+                </Button>
+            </div>
+        </form>
     )
 }
 

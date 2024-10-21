@@ -84,13 +84,14 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
                 onChange={(event) => setComments(event.target.value)}
                 >
               </textarea>
-              <div style={{display: "flex", gap: "16px", marginTop: "16px"}}>
+              <b>Alterar status:</b>
+              <div style={{display: "flex", gap: "16px", marginTop: "8px"}}>
                 <Button variant="contained" onClick={() => {setStatus(2)}} size="small" style={{backgroundColor: "#ccc", color: "#333", fontWeight: "bold"}}> Pulado </Button>
                 <Button variant="contained" onClick={() => {setStatus(1)}} size="small" color="success">Sucesso</Button>
                 <Button variant="contained" onClick={() => {setStatus(3)}} size="small" color="error">Falha</Button>
               </div>
               <div style={{marginTop: "16px"}}>
-                <Button variant="contained" size="small" style={{float: "right"}} color="primary" onClick={submit}>Atualizar Caso</Button>
+                <Button variant="contained" size="small" style={{float: "right"}} color="primary" onClick={submit}>Atualizar</Button>
               </div>
             </div>
         ) : "Nenhum caso de teste selecionado."}

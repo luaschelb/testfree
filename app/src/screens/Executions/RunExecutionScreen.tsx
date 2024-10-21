@@ -8,7 +8,7 @@ import React from "react";
 import TestScenarioService from "../../services/TestScenarioService";
 import TestScenario from "../../models/TestScenario";
 import "./CreateTestPlanScreen.css"
-import { Button, IconButton, Tooltip } from "@mui/material";
+import { Button, IconButton, responsiveFontSizes, Tooltip } from "@mui/material";
 import { PlayArrow } from "@mui/icons-material";
 import ExecutionService from "../../services/ExecutionService";
 import Execution from "../../models/Execution";
@@ -126,6 +126,9 @@ const RunExecutionScreen = () => {
                         onChange={(e) => setDescription(e.target.value)}
                         style={{ width: "100%", padding: "0.5em", height: "4em" }}
                     />
+                </div>
+                <div>
+                    <Button variant="contained" style={{width: "160px", fontSize: "10px"}} onClick={submit}>Salvar comentário</Button>
                 </div>
             </div>
             <table className="styledTableAux">

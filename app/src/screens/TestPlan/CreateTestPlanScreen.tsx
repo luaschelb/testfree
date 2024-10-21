@@ -68,7 +68,7 @@ const CreateTestPlanScreen = () => {
         <div 
             className="BasicScreenContainer"
             style={{
-                backgroundColor: "#eee",
+                backgroundColor: "#fff",
                 padding: "16px",
                 borderRadius: "2.5%",
                 border: "solid 1px #222"

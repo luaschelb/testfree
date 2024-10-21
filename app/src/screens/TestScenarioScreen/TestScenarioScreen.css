@@ -43,7 +43,9 @@
     flex-direction: column;
     border: 1px solid #125f78;
     width: 320px;
-    height: 320px;
+    min-height: 320px;
+    height: fit-content;
+    padding: 8px;
 }
 
 
