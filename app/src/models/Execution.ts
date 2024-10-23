@@ -1,3 +1,4 @@
+import TestExecutionStatusEnum from "../enums/TestExecutionStatusEnum";
 import Build from "./Build";
 import TestCase from "./TestCase";
 import { TestPlan } from "./TestPlan";
@@ -25,15 +26,7 @@ class Execution {
     }
     
     mapStatusToString = () => {
-        if(this.status === 0)
-            return "Não executado"
-        if(this.status === 1)
-            return "Sucesso"
-        if(this.status === 2)
-            return "Com erros"
-        if(this.status === 3)
-            return "Finalizada"
-        return ""
+        return TestExecutionStatusEnum[this.status]
     }
 }
 

@@ -15,6 +15,7 @@ import Execution from "../../models/Execution";
 import BuildService from "../../services/BuildService";
 import TestCase from "../../models/TestCase";
 import RunTestModal from "./RunTestModal";
+import TestExecutionStatusEnum from "../../enums/TestExecutionStatusEnum";
 
 const RunExecutionScreen = () => {
     const { selectedProject } = useGlobalSelectedProject();
@@ -118,6 +119,9 @@ const RunExecutionScreen = () => {
                 </div>
                 <div>
                     <label><b>Build:</b> {execution?.build?.title}</label>
+                </div>
+                <div>
+                    <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
                 </div>
                 <div>
                     <label><b>Comentários:</b></label>

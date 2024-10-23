@@ -43,8 +43,8 @@ const TestCaseCreateScreen = (props: {
     }
 
     return (
-        <form className="BasicForm" style={{width: '600px', height: '600'}}>
-            <div style={{fontWeight: "bold", fontSize: "16px", margin: 0, padding: 0, border: 0}}>Novo cenário de teste</div>
+        <form className="BasicForm">
+            <div style={{fontWeight: "bold", fontSize: "16px", margin: 0, padding: 0, border: 0}}>Novo caso de teste</div>
             <b>Cenário de teste:</b>
             <select
                     value={testscenario_id}
@@ -63,11 +63,11 @@ const TestCaseCreateScreen = (props: {
                     value={name}
                     onChange={(e)=> setName(e.target.value)}
                     type="text"/>
-            <b>Descrição:</b> <input 
+            <b>Descrição:</b> <textarea 
                     id="TestCaseDescription"
                     value={description}
                     onChange={(e)=> setDescription(e.target.value)}
-                    type="text"/>
+                    rows={3} />
             <b>Passos:</b> <textarea 
                     id="TestCaseSteps"
                     value={steps}

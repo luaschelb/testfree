@@ -64,7 +64,7 @@ const TestScenarioEditScreen = (props: {
                     id="TestScenarioDescription" 
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    rows={8}
+                    rows={3}
                     />
                     {/* <Button size="small" variant="contained"
                         onClick={()=> {props.SetMenuToShow(TestScenarioMenuControlEnum.CREATE_TEST_CASE)}}>

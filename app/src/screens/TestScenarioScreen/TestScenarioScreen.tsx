@@ -38,8 +38,8 @@ function TestScenarioScreen() {
     return (
         <div className="BasicScreenContainer">
             <div className="TestScenarioScreenToolBar">
-                <Button color="info" size="small" variant="contained" onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_SCENARIO)}}>Criar Cenário de Teste</Button>
-                <Button color="info" size="small" variant="contained" onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_CASE)}}>Criar Caso de Teste</Button>
+                <Button color="primary" size="small" variant="contained" onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_SCENARIO)}}>Criar Cenário de Teste</Button>
+                <Button color="primary" size="small" variant="contained" onClick={() => {SetMenuToShow(TestScenarioMenuControl.CREATE_TEST_CASE)}}>Criar Caso de Teste</Button>
             </div>
             <div className="TestScenarioScreenTreeViewAndPanel">
                 <TreeViewComponent 

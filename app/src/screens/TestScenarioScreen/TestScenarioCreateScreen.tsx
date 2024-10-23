@@ -41,16 +41,14 @@ const TestScenarioCreateScreen = (props: {
             <input
                     id="TestScenarioName"
                     value={name}
-                    className="BasicFormInput"
                     onChange={(e) => setName(e.target.value)}
                     type="text"/>
             <div className="InputLabel">Descrição:</div>
-            <input
+            <textarea
                     id="TestScenarioDescription"
                     value={description}
-                    className="BasicFormDescription"
                     onChange={(e) => setDescription(e.target.value)}
-                    type="text"/>
+                    rows={3} />
             <div>
                 <Button size="small" variant="contained"
                     onClick={(event) => submit(event)}>

@@ -91,7 +91,7 @@ const TestCaseEditScreen = (props: {
         }
     }
     return (
-        <form className="BasicForm" style={{width: '600px', height: '600'}}>
+        <form className="BasicForm" style={{width: "100%"}}>
             <div style={{display: "flex", "flexDirection": "column", gap: "8px"}}>
                 <div style={{fontSize: "16px", margin: 0, padding: 0, border: 0}}><b>Caso de teste:</b> {initialName}</div>
                 <b>Cenário de teste:</b>
@@ -112,11 +112,11 @@ const TestCaseEditScreen = (props: {
                             value={name}
                             onChange={(e)=> setName(e.target.value)}
                             type="text"/>
-                    <b>Descrição:</b> <input 
+                    <b>Descrição:</b> <textarea 
                             id="TestCaseDescription"
                             value={description}
                             onChange={(e)=> setDescription(e.target.value)}
-                            type="text"/>
+                        rows={3} />
                     <b>Passos:</b> <textarea 
                             id="TestCaseSteps"
                             value={steps}

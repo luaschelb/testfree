@@ -12,6 +12,8 @@ import ExecutionService from "../../services/ExecutionService";
 import Build from "../../models/Build";
 import { TestPlan } from "../../models/TestPlan";
 import { Delete, PlayArrow } from "@mui/icons-material";
+import TestExecutionStatusEnum from "../../enums/TestExecutionStatusEnum";
+import FileOpenOutlinedIcon from '@mui/icons-material/FileOpenOutlined';
 
 function ListExecutionScreen() {
     const [ executions, setExecutions ] = useState<Execution[]>([]);
@@ -23,6 +25,7 @@ function ListExecutionScreen() {
     useEffect(() => {
         ExecutionService.getAllExecutionsByProject(selectedProject).then((res : any) => {
             setExecutions(res);
+            console.log(res)
             setTestPlan(res.test_plan_name)
             setBuild(res.build_version)
         });
@@ -69,18 +72,30 @@ function ListExecutionScreen() {
                                 <td>{execution.execution_id}</td>
                                 <td>{execution.test_plan_name}</td>
                                 <td>{execution.build_version}</td>
-                                <td>{execution.status}</td>
+                                <td>{TestExecutionStatusEnum[execution.status]}</td>
                                 <td>
                                     <div style={{flex: 1, alignContent: "center"}}>
-                                        <Tooltip title="Executar">
-                                            <IconButton aria-label="PlayArrow" color="success" onClick={() => { navigate(`/executar_execucao/${execution.execution_id}`) }}>
-                                                <PlayArrow />
-                                            </IconButton>
-                                        </Tooltip>
+                                            {
+                                                execution.status !== 2 ? (
+                                                <Tooltip title="Executar">
+                                                    <IconButton aria-label="PlayArrow" color="success" onClick={() => { navigate(`/executar_execucao/${execution.execution_id}`) }}>
+                                                        <PlayArrow />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            )
+                                            :
+                                            (
+                                                <Tooltip title="Detalhes">
+                                                    <IconButton aria-label="Detalhes" onClick={() => navigate(`/executar_execucao/${execution.execution_id}`)}>
+                                                        <FileOpenOutlinedIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            )
+                                            }
                                         <Tooltip title="Deletar">
-                                            <IconButton aria-label="Delete" onClick={() => handleDelete(execution.execution_id)}>
-                                                <Delete />
-                                            </IconButton>
+                                                    <IconButton aria-label="Delete" onClick={() => handleDelete(execution.execution_id)}>
+                                                        <Delete />
+                                                    </IconButton>
                                         </Tooltip>
                                     </div>
                                 </td>
