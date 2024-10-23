@@ -89,7 +89,7 @@ const RunExecutionScreen = () => {
         try {
             await TestPlanService.updateTestPlan(payload);
             alert("Execução de teste editado com sucesso!");
-            navigate("/TestPlans");
+            navigate("/execucoes");
         } catch (error) {
             alert(`Erro: ${(error as Error).message}`);
         }
@@ -106,7 +106,7 @@ const RunExecutionScreen = () => {
                 border: "solid 1px #222"
             }}
             >
-            <Link to="/TestPlans">&lt; Voltar</Link>
+            <Link to="/execucoes">&lt; Voltar</Link>
             <h2 style={{ margin: 0 }}>Execução de Teste</h2>
             <RunTestModal 
                 open={openModal?.open} 
