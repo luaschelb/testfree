@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Execution from "../../models/Execution";
-import TestPlanService from "../../services/TestPlanService";
 import { useNavigate } from "react-router-dom";
 import "../../shared_styles/BasicScreenContainer.css";
 import "../../shared_styles/StyledTable.css";
@@ -12,6 +11,8 @@ import ExecutionService from "../../services/ExecutionService";
 import Build from "../../models/Build";
 import { TestPlan } from "../../models/TestPlan";
 import { Delete, PlayArrow } from "@mui/icons-material";
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import TestExecutionStatusEnum from "../../enums/TestExecutionStatusEnum";
 
 function ListExecutionScreen() {
     const [ executions, setExecutions ] = useState<Execution[]>([]);
@@ -69,14 +70,25 @@ function ListExecutionScreen() {
                                 <td>{execution.execution_id}</td>
                                 <td>{execution.test_plan_name}</td>
                                 <td>{execution.build_version}</td>
-                                <td>{execution.status}</td>
+                                <td>{TestExecutionStatusEnum[execution.status]}</td>
                                 <td>
                                     <div style={{flex: 1, alignContent: "center"}}>
-                                        <Tooltip title="Executar">
-                                            <IconButton aria-label="PlayArrow" color="success" onClick={() => { navigate(`/executar_execucao/${execution.execution_id}`) }}>
-                                                <PlayArrow />
-                                            </IconButton>
-                                        </Tooltip>
+                                        {
+                                            execution.status !== 2 ? (
+                                                <Tooltip title="Executar">
+                                                    <IconButton aria-label="PlayArrow" color="success" onClick={() => { navigate(`/executar_execucao/${execution.execution_id}`) }}>
+                                                        <PlayArrow />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            ) :
+                                            (
+                                                <Tooltip title="Baixar Relatório">
+                                                    <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { alert("Download do relatório ainda não implementado")}}>
+                                                        <FileDownloadIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            )
+                                        }
                                         <Tooltip title="Deletar">
                                             <IconButton aria-label="Delete" onClick={() => handleDelete(execution.execution_id)}>
                                                 <Delete />

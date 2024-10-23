@@ -28,9 +28,9 @@ class Execution {
         if(this.status === 0)
             return "Não executado"
         if(this.status === 1)
-            return "Sucesso"
+            return "Em execução"
         if(this.status === 2)
-            return "Com erros"
+            return "Finalizada"
         if(this.status === 3)
             return "Finalizada"
         return ""
