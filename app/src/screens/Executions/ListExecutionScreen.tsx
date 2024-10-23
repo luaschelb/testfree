@@ -11,7 +11,6 @@ import ExecutionService from "../../services/ExecutionService";
 import Build from "../../models/Build";
 import { TestPlan } from "../../models/TestPlan";
 import { Delete, PlayArrow } from "@mui/icons-material";
-import TestExecutionStatusEnum from "../../enums/TestExecutionStatusEnum";
 import FileOpenOutlinedIcon from '@mui/icons-material/FileOpenOutlined';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import TestExecutionStatusEnum from "../../enums/TestExecutionStatusEnum";
