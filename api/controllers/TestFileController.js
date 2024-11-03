@@ -62,14 +62,14 @@ router.post('/:testExecutionTestCaseId/files', upload.single('file'), (req, res)
     );
 });
 
-// Delete a file by fileId and test_executions_test_cases_id
-router.delete('/:testExecutionTestCaseId/files/:fileId', (req, res) => {
-    const { testExecutionTestCaseId, fileId } = req.params;
+// Delete a file by fileId
+router.delete('/files/:fileId', (req, res) => {
+    const { fileId } = req.params;
 
     // Primeiro, recuperamos o caminho do arquivo para excluí-lo
     db.get(
-        "SELECT path FROM files WHERE id = ? AND test_executions_test_cases_id = ?",
-        [fileId, testExecutionTestCaseId],
+        "SELECT path FROM files WHERE id = ?",
+        [fileId],
         (err, row) => {
             if (err) {
                 console.error(err);
@@ -90,8 +90,8 @@ router.delete('/:testExecutionTestCaseId/files/:fileId', (req, res) => {
 
                 // Removemos o registro do banco de dados
                 db.run(
-                    "DELETE FROM files WHERE id = ? AND test_executions_test_cases_id = ?",
-                    [fileId, testExecutionTestCaseId],
+                    "DELETE FROM files WHERE id = ?",
+                    [fileId],
                     function (err) {
                         if (err) {
                             console.error(err);
