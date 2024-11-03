@@ -74,15 +74,6 @@ function ListExecutionScreen() {
                                 <td>{TestExecutionStatusEnum[execution.status]}</td>
                                 <td>
                                     <div style={{flex: 1, alignContent: "center"}}>
-                                        {
-                                            execution.status === 2 ? (
-                                                <Tooltip title="Baixar Relatório">
-                                                    <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { alert("Download do relatório ainda não implementado")}}>
-                                                        <FileDownloadIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            ) : undefined
-                                        }
                                         <Tooltip title="Executar">
                                             <IconButton aria-label="PlayArrow" color="success" onClick={() => { navigate(`/executar_execucao/${execution.execution_id}`) }}>
                                                 <PlayArrow />
@@ -93,6 +84,15 @@ function ListExecutionScreen() {
                                                         <Delete />
                                                     </IconButton>
                                         </Tooltip>
+                                        {
+                                            execution.status === 2 ? (
+                                                <Tooltip title="Baixar Relatório">
+                                                    <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { alert("Download do relatório ainda não implementado")}}>
+                                                        <FileDownloadIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            ) : undefined
+                                        }
                                     </div>
                                 </td>
                             </tr>

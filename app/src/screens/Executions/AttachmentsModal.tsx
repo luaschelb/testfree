@@ -1,4 +1,4 @@
-import { Delete, Download } from "@mui/icons-material";
+import { Delete, Download, RemoveRedEye } from "@mui/icons-material";
 import { Box, Button, IconButton, Modal } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import TestCase from "../../models/TestCase";
@@ -64,6 +64,7 @@ const AttachmentsModal: React.FC<RunTestModalProps> = ({ open, handleClose, test
                             <td>Screenshot10.png</td>
                             <td>26/10/2024 08:26</td>
                             <td>
+                                <IconButton><RemoveRedEye color="primary"></RemoveRedEye></IconButton>
                                 <IconButton><Download color="success"></Download></IconButton>
                                 <IconButton><Delete color="error"></Delete></IconButton>
                             </td>
