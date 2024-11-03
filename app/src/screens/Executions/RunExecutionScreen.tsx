@@ -39,30 +39,30 @@ const RunExecutionScreen = () => {
     };
     
     useEffect(() => {
-        TestScenarioService.getTestScenariosEagerLoading(selectedProject).then((testscenariosData) => {
-            const allScenarioIds = testscenariosData.map(scenario => scenario.id);
-            setExpandedScenarios(allScenarioIds);
             ExecutionService.getExecutionById(Number(id)).then((res1) => {
                 BuildService.getBuildById(Number(res1.build_id)).then((res2) => {
                     TestPlanService.getTestPlanByIdEager(Number(res1.test_plan_id)).then((res3) => {
-                        res1.build = res2;
-                        res1.testPlan = res3;
-                        for(let i = 0; i < testscenariosData.length; i++) // foreach scenario
-                        {   
-                            for(let j = 0; j < testscenariosData[i].testCases.length; j++) // foreach testcase in scenario
-                            {
-                                let found = res1.testCases?.find((tc) => tc.id === testscenariosData[i].testCases[j].id)
-                                if(found)
+                        TestScenarioService.getTestScenariosEagerLoadingByTestPlans(selectedProject, res3.testCases).then((testscenariosData) => {
+                            const allScenarioIds = testscenariosData.map(scenario => scenario.id);
+                            setExpandedScenarios(allScenarioIds);
+                            res1.build = res2;
+                            res1.testPlan = res3;
+                            for(let i = 0; i < testscenariosData.length; i++) // foreach scenario
+                            {   
+                                for(let j = 0; j < testscenariosData[i].testCases.length; j++) // foreach testcase in scenario
                                 {
-                                    testscenariosData[i].testCases[j].status = found.status
-                                    testscenariosData[i].testCases[j].comment = found.comment
+                                    let found = res1.testCases?.find((tc) => tc.id === testscenariosData[i].testCases[j].id)
+                                    if(found)
+                                    {
+                                        testscenariosData[i].testCases[j].status = found.status
+                                        testscenariosData[i].testCases[j].comment = found.comment
+                                    }
                                 }
                             }
-                        }
-                        setExecution(res1);
-                        setDescription(res1.comments)
-                        setTestScenarios(testscenariosData);
-                        setShouldUpdateScreen(false)
+                            setExecution(res1);
+                            setDescription(res1.comments)
+                            setTestScenarios(testscenariosData);
+                            setShouldUpdateScreen(false)
                     });
                 });
             });
