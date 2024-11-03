@@ -8,6 +8,7 @@ import TestCase from '../../models/TestCase';
 import { Button } from '@mui/material';
 import { useState } from 'react';
 import TestCaseStatusEnum from '../../enums/TestCaseStatusEnum';
+import AttachmentsModal from './AttachmentsModal';
 
 const style = {
   position: 'absolute',
@@ -27,10 +28,20 @@ interface RunTestModalProps {
   testCase?: TestCase;
 }
 
+
 const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase }) => {
 
   const [ comments, setComments ] = useState<string | undefined>(testCase?.comment);
   const [ status, setStatus ] = useState<number | undefined>(testCase?.status);
+
+  const [openModal, setOpenModal] = useState<{
+      open: boolean,
+      testCase?: TestCase
+  }>({open: false, testCase: undefined});
+
+  const handleCloseModal = () => {
+    setOpenModal({ open: false, testCase: undefined });
+  };
 
   let submit = () => {
     if(status !== 0)
@@ -70,6 +81,11 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Caso de Teste: TC-{testCase?.id}
         </Typography>
+          <AttachmentsModal 
+              open={openModal?.open} 
+              handleClose={handleCloseModal}
+              testCase={openModal?.testCase} 
+          />
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           {testCase ? (
             <div style={{display: "flex", flexDirection:"column", gap: "4px", marginTop: "16px"}}>
@@ -79,11 +95,20 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
               <b>Passos:</b>{testCase?.steps.split("\n").map((str) => <div>{str}</div> )}
               <b>Comentários: </b> 
               <textarea 
-                rows={5} 
+                rows={5}
+                cols={10}
                 value={comments}
                 onChange={(event) => setComments(event.target.value)}
                 >
               </textarea>
+              <div style={{display: "flex", gap: "16px", marginTop: "8px"}}>
+                <Button variant="contained" size="small" 
+                onClick={() => { setOpenModal({
+                    open: true, 
+                    testCase: testCase
+                    }) 
+                }}>Ver anexos</Button>
+              </div>
               <b>Alterar status:</b>
               <div style={{display: "flex", gap: "16px", marginTop: "8px"}}>
                 <Button variant="contained" onClick={() => {setStatus(2)}} size="small" style={{backgroundColor: "#ccc", color: "#333", fontWeight: "bold"}}> Pulado </Button>
