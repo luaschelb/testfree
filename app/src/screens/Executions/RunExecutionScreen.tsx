@@ -60,6 +60,7 @@ const RunExecutionScreen = () => {
                             }
                         }
                         setExecution(res1);
+                        setDescription(res1.comments)
                         setTestScenarios(testscenariosData);
                         setShouldUpdateScreen(false)
                     });
@@ -76,22 +77,34 @@ const RunExecutionScreen = () => {
         }
     };
 
-    const submit = async (event: React.FormEvent) => {
+    const finaliza = async (event: React.FormEvent) => {
         event.preventDefault();
-
-        const payload = {
-            id: Number(id),
-            name,
-            description,
-            testCases: selectedTestCases,
-            active: true,
-            project_id: selectedProject
-        };
-
         try {
-            await TestPlanService.updateTestPlan(payload);
+            await ExecutionService.updateExecution({...execution as Execution, status: 2});
             alert("Execução de teste editado com sucesso!");
-            navigate("/execucoes");
+            setShouldUpdateScreen(true)
+        } catch (error) {
+            alert(`Erro: ${(error as Error).message}`);
+        }
+    };
+
+    const reativar = async (event: React.FormEvent) => {
+        event.preventDefault();
+        try {
+            await ExecutionService.updateExecution({...execution as Execution, status: 1});
+            alert("Execução de teste editado com sucesso!");
+            setShouldUpdateScreen(true)
+        } catch (error) {
+            alert(`Erro: ${(error as Error).message}`);
+        }
+    };
+
+    const comments = async (event: React.FormEvent) => {
+        event.preventDefault();
+        try {
+            await ExecutionService.updateExecution({...execution as Execution, comments: description});
+            alert("Execução de teste editado com sucesso!");
+            setShouldUpdateScreen(true)
         } catch (error) {
             alert(`Erro: ${(error as Error).message}`);
         }
@@ -126,23 +139,44 @@ const RunExecutionScreen = () => {
                         <label><b>Build:</b> {execution?.build?.title}</label>
                         <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
                     </div>
-                    <Button variant="contained" color="success" onClick={submit} style={{
-                        width: "160px",
-                        fontSize: "10px"
-                        }}
-                        >Finalizar Execução
-                    </Button>
+                    {
+                        execution?.status !== 2 ? (
+                            <Button variant="contained" color="error" onClick={finaliza} style={{
+                                width: "160px",
+                                fontSize: "10px"
+                                }}
+                                >Finalizar Execução
+                            </Button>
+                        ):
+                        (
+                            <div>
+                                <Button variant="contained" color="primary" style={{
+                                    width: "160px",
+                                    fontSize: "10px",
+                                    marginRight: "8px"
+                                    }}
+                                    >Baixar Relatório
+                                </Button>
+                                <Button variant="contained" color="success" onClick={reativar} style={{
+                                    width: "160px",
+                                    fontSize: "10px",
+                                    }}
+                                    >Reativar Execução
+                                </Button>
+                            </div>
+                        )
+                    }
                 </div>
                 <div>
                     <label><b>Comentários:</b></label>
                     <textarea
-                        value={execution?.comments}
+                        value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         style={{ width: "100%", padding: "0.5em", height: "4em" }}
                     />
                 </div>
                 <div>
-                    <Button variant="contained"  color="info" style={{width: "160px", fontSize: "10px"}} onClick={submit}>Salvar comentário</Button>
+                    <Button variant="contained"  color="info" style={{width: "160px", fontSize: "10px"}} onClick={comments}>Salvar comentário</Button>
                 </div>
             </div>
             <table className="styledTableAux">

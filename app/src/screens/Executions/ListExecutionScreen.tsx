@@ -75,21 +75,19 @@ function ListExecutionScreen() {
                                 <td>
                                     <div style={{flex: 1, alignContent: "center"}}>
                                         {
-                                            execution.status !== 2 ? (
-                                                <Tooltip title="Executar">
-                                                    <IconButton aria-label="PlayArrow" color="success" onClick={() => { navigate(`/executar_execucao/${execution.execution_id}`) }}>
-                                                        <PlayArrow />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            ) :
-                                            (
+                                            execution.status === 2 ? (
                                                 <Tooltip title="Baixar Relatório">
                                                     <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { alert("Download do relatório ainda não implementado")}}>
                                                         <FileDownloadIcon />
                                                     </IconButton>
                                                 </Tooltip>
-                                            )
+                                            ) : undefined
                                         }
+                                        <Tooltip title="Executar">
+                                            <IconButton aria-label="PlayArrow" color="success" onClick={() => { navigate(`/executar_execucao/${execution.execution_id}`) }}>
+                                                <PlayArrow />
+                                            </IconButton>
+                                        </Tooltip>
                                         <Tooltip title="Deletar">
                                                     <IconButton aria-label="Delete" onClick={() => handleDelete(execution.execution_id)}>
                                                         <Delete />
