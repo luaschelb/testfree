@@ -53,7 +53,7 @@ router.put('/:id', (req, res) => {
     const { id } = req.params;
     const { created_at, comment, passed, skipped, failed, test_execution_id, test_case_id } = req.body;
 
-    if (!created_at || !comment || passed === undefined || skipped === undefined|| failed === undefined|| !test_execution_id || !test_case_id) {
+    if (!created_at || comment === undefined || passed === undefined || skipped === undefined|| failed === undefined|| !test_execution_id || !test_case_id) {
         return res.status(400).json({ error: 'created_at, comment, passed, skipped, failed, test_execution_id, test_case_id são obrigatórios.' });
     }
 
@@ -67,7 +67,7 @@ router.put('/:id', (req, res) => {
             test_execution_id = ?,
             test_case_id = ?
         WHERE id = ?`,
-        [created_at, comment, passed, skipped, failed, test_execution_id, test_case_id],
+        [created_at, comment, passed, skipped, failed, test_execution_id, test_case_id, id],
         function (err) {
             if (err) {
                 console.error(err);
@@ -76,7 +76,7 @@ router.put('/:id', (req, res) => {
             if (this.changes === 0) {
                 return res.status(404).json({ error: 'Caso de teste não encontrado' });
             }
-            res.status(200).json({ id, description, steps, test_scenario_id });
+            res.status(200).json({ id });
         }
     );
 });

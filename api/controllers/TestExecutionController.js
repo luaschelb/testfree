@@ -90,7 +90,7 @@ router.get('/:id', (req, res) => {
                 tc.id,
                 tc.name as test_case_name,
                 tc.description as test_case_description,
-                tct.id as tct_id,
+                tct.id as test_execution_test_case_id,
                 tct.created_at,
                 tct.comment,
                 tct.passed,

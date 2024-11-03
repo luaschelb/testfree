@@ -6,6 +6,7 @@ class TestCase {
     description: string
     steps: string
     test_scenario_id: string
+    test_execution_test_case_id?: number
     testscenario ?: TestScenario
     files ?: File[]
     status ?: number

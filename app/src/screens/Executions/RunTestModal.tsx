@@ -79,7 +79,16 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
       failed = 1
     }
     try {
-        await TestExecutionTestCaseService.createTestExecutionTestCase(new TestExecutionTestCase(created_at, comments ? comments : "", passed, skipped, failed, execution_2.id, testCase_2.id))
+        if(testCase_2.test_execution_test_case_id === undefined)
+        {
+          await TestExecutionTestCaseService.createTestExecutionTestCase(new TestExecutionTestCase(created_at, comments ? comments : "", passed, skipped, failed, execution_2.id, testCase_2.id))
+        }
+        else
+        {
+          let aux = new TestExecutionTestCase(created_at, comments ? comments : "", passed, skipped, failed, execution_2.id, testCase_2.id);
+          aux.id = testCase_2.test_execution_test_case_id
+          await TestExecutionTestCaseService.updateTestExecutionTestCase(aux)
+        }
         alert("Sucesso")
         setShouldUpdateScreen(true)
     } catch (error) {
@@ -120,7 +129,6 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
               handleClose={handleCloseModal}
               testCase={openModal?.testCase} 
           />
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           {testCase ? (
             <div style={{display: "flex", flexDirection:"column", gap: "4px", marginTop: "16px"}}>
               <b>Nome:</b> {testCase?.name}<br />
@@ -137,7 +145,7 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
                 <option key={2} value={2}>Pulado</option>
                 <option key={3} value={3}>Com erros</option>
               </select>
-              <b>Passos:</b>{testCase?.steps.split("\n").map((str) => <div>{str}</div> )}
+              <b>Passos:</b>{testCase?.steps.split("\n").map((str, i) => <div key={i}>{str}</div> )}
               <b>Comentários: </b> 
               <textarea 
                 rows={5}
@@ -158,8 +166,13 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
                 <Button variant="contained" size="small" color="success" onClick={submit}>Atualizar</Button>
               </div>
             </div>
-        ) : "Nenhum caso de teste selecionado."}
-        </Typography>
+        ) :
+        ( 
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            "Nenhum caso de teste selecionado."
+          </Typography>
+        )
+        }
       </Box>
     </Modal>
   );

@@ -38,7 +38,6 @@ class TestScenarioService {
             let restantes = testCasesFilhos.filter((tc_filho : any) => {
                 return testcasesIds.find((tc_id) => tc_id === tc_filho.id)
             })
-            console.log(restantes)
             if(restantes.length !== 0)
             {
                 let testScenario = new TestScenario(item.id, item.count, item.name, item.description, item.test_project_id)
@@ -47,7 +46,6 @@ class TestScenarioService {
                 return testScenario
             }
         });
-        console.log(scenariosFinais)
         return scenariosFinais;
     }
 

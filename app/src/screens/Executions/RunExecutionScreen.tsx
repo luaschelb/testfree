@@ -54,11 +54,13 @@ const RunExecutionScreen = () => {
                                     let found = res1.testCases?.find((tc) => tc.id === testscenariosData[i].testCases[j].id)
                                     if(found)
                                     {
+                                        testscenariosData[i].testCases[j].test_execution_test_case_id = found.test_execution_test_case_id
                                         testscenariosData[i].testCases[j].status = found.status
                                         testscenariosData[i].testCases[j].comment = found.comment
                                     }
                                 }
                             }
+                            console.log(testscenariosData)
                             setExecution(res1);
                             setDescription(res1.comments)
                             setTestScenarios(testscenariosData);

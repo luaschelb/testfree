@@ -15,7 +15,7 @@ export default class TestExecutionTestCaseService {
         return response;
     }
 
-    static async updateTestExecutionTestCasee(data : TestExecutionTestCase): Promise<Response> {
+    static async updateTestExecutionTestCase(data : TestExecutionTestCase): Promise<Response> {
         const response = await fetch(`http://localhost:8080/testexecutions_testcases/${data.id}`, {
             method: 'PUT',
             headers: {

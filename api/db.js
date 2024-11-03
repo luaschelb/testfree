@@ -179,7 +179,8 @@ function createTablesAndInsertData() {
         (1, 1),
         (1, 2),
         (1, 3),
-        (2, 1);
+        (2, 1),
+        (2, 3);
     `);
 
     // Seeds para a tabela 'test_executions'
