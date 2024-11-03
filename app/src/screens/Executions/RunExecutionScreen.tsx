@@ -27,6 +27,8 @@ const RunExecutionScreen = () => {
     const [testScenarios, setTestScenarios] = useState<TestScenario[]>([]);
     const [execution, setExecution] = useState<Execution>();
     const [expandedScenarios, setExpandedScenarios] = useState<number[]>([]);
+    const [shouldUpdateScreen, setShouldUpdateScreen] = useState<boolean>(false);
+    
     const [openModal, setOpenModal] = useState<{
         open: boolean,
         testCase?: TestCase
@@ -57,14 +59,14 @@ const RunExecutionScreen = () => {
                                 }
                             }
                         }
-                        console.log()
                         setExecution(res1);
                         setTestScenarios(testscenariosData);
+                        setShouldUpdateScreen(false)
                     });
                 });
             });
         });
-    }, [selectedProject]);
+    }, [selectedProject, shouldUpdateScreen]);
 
     const toggleScenario = (scenarioId: number) => {
         if (expandedScenarios.includes(scenarioId)) {
@@ -101,27 +103,35 @@ const RunExecutionScreen = () => {
             style={{
                 backgroundColor: "#eee",
                 padding: "16px",
-                margin: "16px 10% 0px 10%",
-                borderRadius: "2.5%",
+                margin: "0px 10% 0px 10%",
+                borderRadius: "8px",
                 border: "solid 1px #222"
             }}
             >
-            <Link to="/execucoes">&lt; Voltar</Link>
-            <h2 style={{ margin: 0 }}>Execução de Teste</h2>
+            <div>
+                <Link to="/execucoes">&lt; Voltar</Link>
+                <h2 style={{ margin: "-33px 0 0 0", textAlign: "center"}}>Execução de Teste</h2>
+            </div>
             <RunTestModal 
                 open={openModal?.open} 
                 handleClose={handleCloseModal}
                 testCase={openModal?.testCase} 
+                execution={execution}
+                setShouldUpdateScreen={setShouldUpdateScreen}
             />
             <div style = {{ flexDirection: 'column', columnGap: "16px" }}>
-                <div>
-                    <label><b>Plano de Teste:</b> {execution?.testPlan?.name}</label>
-                </div>
-                <div>
-                    <label><b>Build:</b> {execution?.build?.title}</label>
-                </div>
-                <div>
-                    <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px"}}>
+                    <div style={{display: "flex", gap: "16px"}}>
+                        <label><b>Plano de Teste:</b> {execution?.testPlan?.name}</label>
+                        <label><b>Build:</b> {execution?.build?.title}</label>
+                        <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
+                    </div>
+                    <Button variant="contained" color="success" onClick={submit} style={{
+                        width: "160px",
+                        fontSize: "10px"
+                        }}
+                        >Finalizar Execução
+                    </Button>
                 </div>
                 <div>
                     <label><b>Comentários:</b></label>
@@ -132,7 +142,7 @@ const RunExecutionScreen = () => {
                     />
                 </div>
                 <div>
-                    <Button variant="contained" style={{width: "160px", fontSize: "10px"}} onClick={submit}>Salvar comentário</Button>
+                    <Button variant="contained"  color="info" style={{width: "160px", fontSize: "10px"}} onClick={submit}>Salvar comentário</Button>
                 </div>
             </div>
             <table className="styledTableAux">
@@ -199,9 +209,6 @@ const RunExecutionScreen = () => {
                     ))}
                 </tbody>
             </table>
-            <div>
-                <Button variant="contained" onClick={submit}>Finalizar Execução</Button>
-            </div>
         </div>
     );
 };

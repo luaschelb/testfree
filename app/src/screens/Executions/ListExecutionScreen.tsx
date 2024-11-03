@@ -25,7 +25,6 @@ function ListExecutionScreen() {
     useEffect(() => {
         ExecutionService.getAllExecutionsByProject(selectedProject).then((res : any) => {
             setExecutions(res);
-            console.log(res)
             setTestPlan(res.test_plan_name)
             setBuild(res.build_version)
         });

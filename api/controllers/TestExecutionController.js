@@ -87,9 +87,17 @@ router.get('/:id', (req, res) => {
         // Buscar test cases relacionados
         db.all(`
             SELECT 
-                tct.*, 
-                tc.name AS test_case_name, 
-                tc.description AS test_case_description
+                tc.id,
+                tc.name as test_case_name,
+                tc.description as test_case_description,
+                tct.id as tct_id,
+                tct.created_at,
+                tct.comment,
+                tct.passed,
+                tct.skipped,
+                tct.failed,
+                tct.test_execution_id,
+                tct.test_case_id
             FROM test_executions_test_cases tct
             JOIN test_cases tc ON tct.test_case_id = tc.id
             WHERE tct.test_execution_id = ?
@@ -99,8 +107,17 @@ router.get('/:id', (req, res) => {
                 return res.status(500).json({ error: 'Erro ao buscar os casos de teste' });
             }
 
-            // Adicionar arquivos aos test cases
-            const promises = testCases.map((testCase) => {
+            // Filtrar test cases únicos por test_case_id com maior created_at
+            const uniqueTestCases = testCases.reduce((acc, testCase) => {
+                const existing = acc[testCase.test_case_id];
+                if (!existing || new Date(testCase.created_at) > new Date(existing.created_at)) {
+                    acc[testCase.test_case_id] = testCase;
+                }
+                return acc;
+            }, {});
+
+            // Adicionar arquivos aos test cases únicos
+            const promises = Object.values(uniqueTestCases).map((testCase) => {
                 return new Promise((resolve, reject) => {
                     db.all("SELECT * FROM files WHERE test_executions_test_cases_id = ?", [testCase.id], (err, files) => {
                         if (err) reject(err);
@@ -114,7 +131,7 @@ router.get('/:id', (req, res) => {
             Promise.all(promises).then(() => {
                 res.status(200).json({
                     execution,
-                    test_cases: testCases
+                    test_cases: Object.values(uniqueTestCases) // Converte para array
                 });
             }).catch((error) => {
                 console.error(error);

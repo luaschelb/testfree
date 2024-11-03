@@ -33,7 +33,6 @@ class TestPlanService {
             throw new Error('Erro ao buscar o plano de teste.');
         }
         const item = await response.json();
-        console.log(item)
         let testplan = new TestPlan(item.id, item.name, item.description, item.active, item.project_id);
         testplan.testCases = item.test_cases;
         return testplan;

@@ -7,8 +7,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import TestCase from '../../models/TestCase';
 import { Button } from '@mui/material';
 import { useState } from 'react';
-import TestCaseStatusEnum from '../../enums/TestCaseStatusEnum';
 import AttachmentsModal from './AttachmentsModal';
+import TestExecutionTestCase from '../../models/TestExecutionTestCase';
+import Execution from '../../models/Execution';
+import TestExecutionTestCaseService from '../../services/TestExecutionTestCaseService';
 
 const style = {
   position: 'absolute',
@@ -26,10 +28,12 @@ interface RunTestModalProps {
   open: boolean;
   handleClose: () => void;
   testCase?: TestCase;
+  execution?: Execution;
+  setShouldUpdateScreen: (arg: boolean) => void;
 }
 
 
-const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase }) => {
+const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase, execution, setShouldUpdateScreen}) => {
 
   const [ comments, setComments ] = useState<string | undefined>(testCase?.comment);
   const [ status, setStatus ] = useState<number | undefined>(testCase?.status);
@@ -43,15 +47,45 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
     setOpenModal({ open: false, testCase: undefined });
   };
 
-  let submit = () => {
-    if(status !== 0)
+  async function submit() {
+    let execution_2 = execution as Execution
+    let testCase_2 = testCase as TestCase
+    const created_at = Date.now().toString()
+    let passed = 1
+    let skipped = 1
+    let failed = 1
+    if(status === 0)
     {
-      // edita o test_execution_test_cases!!
+      passed = 0
+      skipped = 0
+      failed = 0
     }
-    else if(status !== undefined)
+    if(status === 1)
     {
-      // cria test_executions_test_cases 
+      passed = 1
+      skipped = 0
+      failed = 0
     }
+    if(status === 2)
+    {
+      passed = 0
+      skipped = 1
+      failed = 0
+    }
+    if(status === 3)
+    {
+      passed = 0
+      skipped = 0
+      failed = 1
+    }
+    try {
+        await TestExecutionTestCaseService.createTestExecutionTestCase(new TestExecutionTestCase(created_at, comments ? comments : "", passed, skipped, failed, execution_2.id, testCase_2.id))
+        alert("Sucesso")
+        setShouldUpdateScreen(true)
+    } catch (error) {
+        alert('Erro ao atualizar caso de teste: ' + (error as Error).message);
+    }
+    handleClose()
   }
 
   React.useEffect(() => {
@@ -91,7 +125,18 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
             <div style={{display: "flex", flexDirection:"column", gap: "4px", marginTop: "16px"}}>
               <b>Nome:</b> {testCase?.name}<br />
               <b>Descrição:</b> {testCase?.description}<br />
-              <b>Estado:</b> {status ? TestCaseStatusEnum[status] : "Não executado"}<br />
+              <b>Estado:</b> 
+              <select 
+                style={{height: "1.8rem"}}
+                value={status ? status : 0}
+                onChange={(event) => {
+                    setStatus(parseInt(event.target.value))
+                }}>
+                <option key={0} value={0}>Não executado</option>
+                <option key={1} value={1}>Sucesso</option>
+                <option key={2} value={2}>Pulado</option>
+                <option key={3} value={3}>Com erros</option>
+              </select>
               <b>Passos:</b>{testCase?.steps.split("\n").map((str) => <div>{str}</div> )}
               <b>Comentários: </b> 
               <textarea 
@@ -109,14 +154,8 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
                     }) 
                 }}>Ver anexos</Button>
               </div>
-              <b>Alterar status:</b>
-              <div style={{display: "flex", gap: "16px", marginTop: "8px"}}>
-                <Button variant="contained" onClick={() => {setStatus(2)}} size="small" style={{backgroundColor: "#ccc", color: "#333", fontWeight: "bold"}}> Pulado </Button>
-                <Button variant="contained" onClick={() => {setStatus(1)}} size="small" color="success">Sucesso</Button>
-                <Button variant="contained" onClick={() => {setStatus(3)}} size="small" color="error">Falha</Button>
-              </div>
               <div style={{marginTop: "16px"}}>
-                <Button variant="contained" size="small" style={{float: "right"}} color="primary" onClick={submit}>Atualizar</Button>
+                <Button variant="contained" size="small" color="success" onClick={submit}>Atualizar</Button>
               </div>
             </div>
         ) : "Nenhum caso de teste selecionado."}
