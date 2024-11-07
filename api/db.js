@@ -197,6 +197,7 @@ function createTablesAndInsertData() {
       VALUES 
         ('1730659774550', 'Login realizado com sucesso', 1, 0, 0, 1, 1),
         ('1730659774550', 'Erro exibido ao tentar login com senha inválida', 0, 0, 1, 1, 2),
+        ('1730659774550', 'Produto cadastrado corretamente', 1, 0, 0, 1, 3),
         ('1730659774550', 'Produto cadastrado corretamente', 1, 0, 0, 2, 3);
     `);
 

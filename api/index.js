@@ -7,6 +7,7 @@ const TestBuildController = require("./controllers/TestBuildController")
 const TestPlanController = require("./controllers/TestPlanController")
 const TestExecutionController = require("./controllers/TestExecutionController")
 const TestExecutionTestCaseController = require("./controllers/TestExecutionTestCaseController")
+const TestFileController = require("./controllers/TestFileController")
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use('/builds', TestBuildController);
 app.use('/test-plans', TestPlanController);
 app.use('/executions', TestExecutionController);
 app.use('/testexecutions_testcases', TestExecutionTestCaseController);
+app.use('/testfiles', TestFileController);
 
 const PORT = 8080;
 app.listen(PORT, () => {

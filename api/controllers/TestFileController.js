@@ -8,13 +8,17 @@ const router = express.Router();
 // Configura o multer para salvar arquivos na pasta "screenshots"
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../screenshots')); // Pasta onde os arquivos serão salvos
+        cb(null, path.posix.join(__dirname, '../screenshots')); // Pasta onde os arquivos serão salvos
     },
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
+        const sanitizedFilename = `${Date.now()}-${file.originalname.replace(/[\s]/g, '_')}`;
+        cb(null, sanitizedFilename);
     }
 });
 const upload = multer({ storage });
+
+// Middleware para servir arquivos estáticos
+router.use('/screenshots', express.static(path.posix.join(__dirname, '../screenshots')));
 
 // Get all files for a specific test_executions_test_cases_id
 router.get('/:testExecutionTestCaseId/files', (req, res) => {
@@ -28,7 +32,12 @@ router.get('/:testExecutionTestCaseId/files', (req, res) => {
                 console.error(err);
                 return res.status(500).json({ error: 'Query no banco falhou' });
             }
-            res.status(200).json(rows);
+            // Adiciona a URL completa para renderização pelo frontend
+            const filesWithUrl = rows.map(file => ({
+                ...file,
+                url: `${req.protocol}://${req.get('host')}/testfiles/screenshots/${path.basename(file.path)}`
+            }));
+            res.status(200).json(filesWithUrl);
         }
     );
 });
@@ -42,7 +51,7 @@ router.post('/:testExecutionTestCaseId/files', upload.single('file'), (req, res)
         return res.status(400).json({ error: 'Nenhum arquivo foi enviado.' });
     }
 
-    const filePath = path.join('/screenshots', file.filename);
+    const filePath = path.posix.join('/screenshots', file.filename);
 
     db.run(
         "INSERT INTO files (name, path, test_executions_test_cases_id) VALUES (?, ?, ?)",
@@ -52,10 +61,12 @@ router.post('/:testExecutionTestCaseId/files', upload.single('file'), (req, res)
                 console.error(err);
                 return res.status(500).json({ error: 'Query no banco falhou.' });
             }
+            const url = `${req.protocol}://${req.get('host')}${filePath}`;
             res.status(201).json({
                 id: this.lastID,
                 name: file.filename,
                 path: filePath,
+                url,
                 test_executions_test_cases_id: testExecutionTestCaseId
             });
         }
@@ -79,7 +90,7 @@ router.delete('/files/:fileId', (req, res) => {
                 return res.status(404).json({ error: 'Arquivo não encontrado' });
             }
 
-            const filePath = path.join(__dirname, '..', row.path);
+            const filePath = path.posix.join(__dirname, '..', row.path);
 
             // Excluímos o arquivo do sistema de arquivos
             fs.unlink(filePath, (err) => {
