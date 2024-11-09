@@ -17,8 +17,6 @@ import Build from '@mui/icons-material/Build';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import Grid4x4 from '@mui/icons-material/Grid4x4';
 import Folder from '@mui/icons-material/Folder';
-import Settings from '@mui/icons-material/Settings';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -27,25 +25,6 @@ import LadyBettleSvg from "../../resources/LadyBeetleSvg";
 import { useGlobalSelectedProject } from '../../context/GlobalSelectedProjectContext'; // Importa o hook
 
 const drawerWidth = 240;
-
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
-  open?: boolean;
-}>(({ theme, open }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3),
-  transition: theme.transitions.create('margin', {
-	easing: theme.transitions.easing.sharp,
-	duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
-  ...(open && {
-	transition: theme.transitions.create('margin', {
-	  easing: theme.transitions.easing.easeOut,
-	  duration: theme.transitions.duration.enteringScreen,
-	}),
-	marginLeft: 0,
-  }),
-}));
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -76,13 +55,20 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function Header() {
+export default function Header(args: {
+	open: boolean,
+	setOpen: (args: boolean) => void
+	handleDrawerOpen: () => void
+	handleDrawerClose: () => void
+}) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
-    setOpen(!open);
-  };
+	if(!args.open)
+		args.handleDrawerOpen()
+	else
+		args.handleDrawerClose()
+  }
 
   const { selectedProject, setSelectedProject, testProjects} = useGlobalSelectedProject(); // Usa o setStatus do contexto
 
@@ -99,7 +85,7 @@ export default function Header() {
   return (
 	<Box sx={{ display: 'flex' }}>
 	  <CssBaseline />
-	  <AppBar position="fixed" open={open} sx={{ backgroundColor: '#BFE0EB', color: "black", fontWeight: "bold", fontSize: '24px'}}>
+	  <AppBar position="fixed" open={args.open} sx={{ backgroundColor: '#BFE0EB', color: "black", fontWeight: "bold", fontSize: '24px'}}>
 		<Toolbar
 			sx={{display: 'flex', justifyContent: "space-between"}}
 		>
@@ -141,11 +127,6 @@ export default function Header() {
 			}
 		  </select>
 		  </div>
-		  {/* <div style={{display: 'flex', columnGap: '8px', fontSize: '20px', alignItems: 'center', color: "#222"}}>
-			<AccountCircle sx={{fontSize: "36px"}}
-			/>
-			Luana Schelb
-		  </div> */}
 		</Toolbar>
 	  </AppBar>
 	  <Drawer
@@ -159,7 +140,7 @@ export default function Header() {
 		}}
 		variant="persistent"
 		anchor="left"
-		open={open}
+		open={args.open}
 	  >
 		<DrawerHeader>
 		  <IconButton onClick={handleDrawerToggle}>
@@ -181,9 +162,6 @@ export default function Header() {
 		  ))}
 		</List>
 	  </Drawer>
-	  <Main open={open}>
-		<DrawerHeader />
-	  </Main>
 	</Box>
   );
 }

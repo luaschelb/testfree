@@ -88,7 +88,6 @@ const ReportScreen = () => {
             style={{
                 backgroundColor: "#fefefe",
                 padding: "16px",
-                margin: "0px 10% 0px 10%",
                 borderRadius: "8px",
                 border: "solid 1px #222"
             }}

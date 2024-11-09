@@ -24,13 +24,56 @@ import CreateExecutionScreen from './screens/Executions/CreateExecutionScreen';
 import EditExecutionScreen from './screens/Executions/EditExecutionScreen';
 import RunExecutionScreen from './screens/Executions/RunExecutionScreen';
 import ReportScreen from './screens/Reports/ReportScreen';
+import { styled, useTheme } from '@mui/material/styles';
 
-const Layout = () => (
-  <div>
-    <Header />
-    <Outlet />
-  </div>
-);
+const drawerWidth = 240;
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
+  open?: boolean;
+}>(({ theme, open }) => ({
+  marginTop: 60,
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create('margin', {
+	easing: theme.transitions.easing.sharp,
+	duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: `0px`,
+  ...(open && {
+	transition: theme.transitions.create('margin', {
+	  easing: theme.transitions.easing.easeOut,
+	  duration: theme.transitions.duration.enteringScreen,
+	}),
+	marginLeft: drawerWidth,
+  }),
+}));
+
+const Layout = () => {
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <Header 
+	      open = {open}
+	      setOpen = {setOpen}
+	      handleDrawerOpen = {handleDrawerOpen}
+	      handleDrawerClose = {handleDrawerClose}
+      />
+      <Main open={open}>
+        <Outlet />
+      </Main>
+    </div>
+  )
+};
 
 const router = createBrowserRouter([
   {
