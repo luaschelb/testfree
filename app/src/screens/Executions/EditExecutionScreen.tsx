@@ -3,11 +3,14 @@ import { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 import { Button } from "@mui/material";
+import { TestPlan } from "../../models/TestPlan";
+import TestPlanService from "../../services/TestPlanService";
 
-function EditTestProjectScreen() {
+function EditExecutionScreen() {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
-    const { setShouldUpdateProjectList } = useGlobalSelectedProject();
+    const { selectedProject, setShouldUpdateProjectList } = useGlobalSelectedProject();
+    const [testPlans, setTestPlans] = useState<TestPlan[]>([]);
 
     const [formState, setFormState] = useState({
         name: "",
@@ -15,6 +18,12 @@ function EditTestProjectScreen() {
         initialName: "",
         initialDescription: ""
     });
+
+    useEffect(() => {
+        TestPlanService.getTestPlansByProjectId(selectedProject).then((res) => {
+            setTestPlans(res);
+        });
+    }, [selectedProject]);
 
     // Função para atualizar o estado de forma dinâmica
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -36,8 +45,8 @@ function EditTestProjectScreen() {
                     initialDescription: testProject.description
                 });
             } catch (error) {
-                alert('Erro ao carregar projeto: ' + (error as Error).message);
-                navigate("/projetos");
+                alert('Erro ao carregar Execução: ' + (error as Error).message);
+                navigate("/execucoes");
             }
         }
 
@@ -66,18 +75,18 @@ function EditTestProjectScreen() {
             });
             setShouldUpdateProjectList(true)
             alert("Sucesso");
-            navigate("/projetos");
+            navigate("/execucoes");
         } catch (error) {
-            alert('Erro ao atualizar projeto: ' + (error as Error).message);
+            alert('Erro ao atualizar Execução: ' + (error as Error).message);
         }
     }
 
     return (
         <div className="BasicScreenContainer">
-            <Link to="/projetos">&lt; Voltar</Link>
-            <h2 style={{margin: 0}}>Editar Projeto</h2>
+            <Link to="/execucoes">&lt; Voltar</Link>
+            <h2 style={{margin: 0}}>Editar Execução</h2>
             <form onSubmit={submit} className="BasicForm">
-            <div className="InputLabel">Nome do Projeto</div>
+            <div className="InputLabel">Nome do Execução</div>
                 <input 
                     type="text"
                     id="name"
@@ -85,7 +94,7 @@ function EditTestProjectScreen() {
                     value={formState.name}
                     onChange={handleChange}
                 />
-                <div className="InputLabel">Descrição do Projeto</div>
+                <div className="InputLabel">Descrição do Execução</div>
                 <textarea 
                     id="description"
                     className="BasicFormDescription"
@@ -100,4 +109,4 @@ function EditTestProjectScreen() {
     );
 }
 
-export default EditTestProjectScreen;
+export default EditExecutionScreen;

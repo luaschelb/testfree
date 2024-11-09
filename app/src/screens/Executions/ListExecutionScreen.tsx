@@ -20,6 +20,7 @@ function ListExecutionScreen() {
     const { selectedProject } = useGlobalSelectedProject();
     const [ build, setBuild ] = useState<Build>();
     const [ testPlan, setTestPlan] = useState<TestPlan>();
+    const [ shouldRefresh, setShouldRefresh] = useState<boolean>(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,16 +28,18 @@ function ListExecutionScreen() {
             setExecutions(res);
             setTestPlan(res.test_plan_name)
             setBuild(res.build_version)
+            setShouldRefresh(false)
         });
-    }, [selectedProject]);
+    }, [selectedProject, shouldRefresh]);
 
     const handleDelete = async (id: number) => {
         if (window.confirm(`Tem certeza que deseja deletar a execução com ID ${id}?`)) {
             try {
                 await ExecutionService.deleteExecution(id);
                 alert("Execução deletado com sucesso");
-                setExecutions(executions.filter(execution => execution.id !== id));
+                setExecutions(executions.filter((execution : any) => execution.execution_id !== id));
                 navigate("/execucoes");
+                //setShouldRefresh(true)
             } catch (error) {
                 alert('Erro ao deletar execução: ' + (error as Error).message);
             }

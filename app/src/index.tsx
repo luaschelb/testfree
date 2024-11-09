@@ -20,6 +20,8 @@ import TestPlanScreen from './screens/TestPlan/TestPlanScreen';
 import CreateTestPlanScreen from './screens/TestPlan/CreateTestPlanScreen';
 import EditTestPlanScreen from './screens/TestPlan/EditTestPlanScreen';
 import ListExecutionScreen from './screens/Executions/ListExecutionScreen';
+import CreateExecutionScreen from './screens/Executions/CreateExecutionScreen';
+import EditExecutionScreen from './screens/Executions/EditExecutionScreen';
 import RunExecutionScreen from './screens/Executions/RunExecutionScreen';
 
 const Layout = () => (
@@ -32,7 +34,7 @@ const Layout = () => (
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />, // Usa o Layout para incluir o Header
+    element: <Layout />,
     children: [
       { path: "/", element: <HomeScreen /> },
       { path: "/scenarios", element: <TestScenarioScreen /> },
@@ -40,6 +42,8 @@ const router = createBrowserRouter([
       { path: "/criar_build", element: <CreateBuildScreen /> },
       { path: "/editar_build/:id", element: <EditBuildScreen /> },
       { path: "/execucoes", element: <ListExecutionScreen /> },
+      { path: "/criar_execucao", element: <CreateExecutionScreen /> },
+      { path: "/editarr_execucao", element: <EditExecutionScreen /> },
       { path: "/executar_execucao/:id", element: <RunExecutionScreen /> },
       { path: "/testplans", element: <TestPlanScreen /> },
       { path: "/criar_testplan", element: <CreateTestPlanScreen /> },
@@ -57,7 +61,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <GlobalSelectedProjectProvider> {/* Envolva a aplicação */}
+    <GlobalSelectedProjectProvider>
       <RouterProvider router={router} />
     </GlobalSelectedProjectProvider>
   </React.StrictMode>
