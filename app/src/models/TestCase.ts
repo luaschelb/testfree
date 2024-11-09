@@ -1,3 +1,4 @@
+import File from "./File"
 import TestScenario from "./TestScenario"
 
 class TestCase {

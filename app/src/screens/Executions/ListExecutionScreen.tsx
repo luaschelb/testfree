@@ -90,7 +90,7 @@ function ListExecutionScreen() {
                                         {
                                             execution.status === 2 ? (
                                                 <Tooltip title="Baixar Relatório">
-                                                    <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { alert("Download do relatório ainda não implementado")}}>
+                                                    <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { navigate(`/relatorios/${execution.execution_id}`)}}>
                                                         <FileDownloadIcon />
                                                     </IconButton>
                                                 </Tooltip>

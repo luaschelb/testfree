@@ -23,6 +23,7 @@ import ListExecutionScreen from './screens/Executions/ListExecutionScreen';
 import CreateExecutionScreen from './screens/Executions/CreateExecutionScreen';
 import EditExecutionScreen from './screens/Executions/EditExecutionScreen';
 import RunExecutionScreen from './screens/Executions/RunExecutionScreen';
+import ReportScreen from './screens/Reports/ReportScreen';
 
 const Layout = () => (
   <div>
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
       { path: "/projetos", element: <TestProjectScreen /> },
       { path: "/criar_projeto", element: <CreateTestProjectScreen /> },
       { path: "/editar_projeto/:id", element: <EditTestProjectScreen /> },
+      { path: "/relatorios/:id", element: <ReportScreen /> },
     ]
   }
 ]);
