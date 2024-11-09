@@ -157,7 +157,8 @@ const RunExecutionScreen = () => {
                                     fontSize: "10px",
                                     marginRight: "8px"
                                     }}
-                                    >Baixar Relatório
+                                    onClick={() => { navigate(`/relatorios/${execution.id}`)}}
+                                    >Ver Relatório
                                 </Button>
                                 <Button variant="contained" color="success" onClick={reativar} style={{
                                     width: "160px",

@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
-import { useEffect, useState } from "react";
 import Execution from "../../models/Execution";
 import TestScenario from "../../models/TestScenario";
 import BuildService from "../../services/BuildService";
@@ -10,7 +10,8 @@ import TestScenarioService from "../../services/TestScenarioService";
 import TestExecutionStatusEnum from "../../enums/TestExecutionStatusEnum";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import React from "react";
+import { IconButton } from "@mui/material";
+import File from "../../models/File";
 
 const ReportScreen = () => {
     const { selectedProject } = useGlobalSelectedProject();
@@ -22,49 +23,64 @@ const ReportScreen = () => {
     const [testScenarios, setTestScenarios] = useState<TestScenario[]>([]);
     const [execution, setExecution] = useState<Execution>();
     const [expandedScenarios, setExpandedScenarios] = useState<number[]>([]);
+    const [expandedTestCases, setExpandedTestCases] = useState<{ [key: number]: number[] }>({});
     const [shouldUpdateScreen, setShouldUpdateScreen] = useState<boolean>(false);
-    
+
     const toggleScenario = (scenarioId: number) => {
-        if (expandedScenarios.includes(scenarioId)) {
-            setExpandedScenarios(expandedScenarios.filter(id => id !== scenarioId));
-        } else {
-            setExpandedScenarios([...expandedScenarios, scenarioId]);
-        }
+        setExpandedScenarios((prev) =>
+            prev.includes(scenarioId)
+                ? prev.filter(id => id !== scenarioId)
+                : [...prev, scenarioId]
+        );
     };
+
+    const toggleTestCase = (scenarioId: number, testCaseId: number) => {
+        setExpandedTestCases((prev) => ({
+            ...prev,
+            [scenarioId]: prev[scenarioId]?.includes(testCaseId)
+                ? prev[scenarioId].filter(id => id !== testCaseId)
+                : [...(prev[scenarioId] || []), testCaseId]
+        }));
+    };
+
     useEffect(() => {
         ExecutionService.getExecutionById(Number(id)).then((res1) => {
             BuildService.getBuildById(Number(res1.build_id)).then((res2) => {
                 TestPlanService.getTestPlanByIdEager(Number(res1.test_plan_id)).then((res3) => {
                     TestScenarioService.getTestScenariosEagerLoadingByTestPlans(selectedProject, res3.testCases).then((testscenariosData) => {
                         const allScenarioIds = testscenariosData.map(scenario => scenario.id);
+                        const initialExpandedTestCases: { [key: number]: number[] } = {};
+    
+                        // Adicione todos os IDs dos casos de teste para cada cenário.
+                        testscenariosData.forEach(scenario => {
+                            initialExpandedTestCases[scenario.id] = scenario.testCases.map(tc => tc.id);
+                        });
+    
                         setExpandedScenarios(allScenarioIds);
+                        setExpandedTestCases(initialExpandedTestCases);
+    
                         res1.build = res2;
                         res1.testPlan = res3;
-                        for(let i = 0; i < testscenariosData.length; i++) // foreach scenario
-                        {   
-                            for(let j = 0; j < testscenariosData[i].testCases.length; j++) // foreach testcase in scenario
-                            {
+                        for(let i = 0; i < testscenariosData.length; i++) {
+                            for(let j = 0; j < testscenariosData[i].testCases.length; j++) {
                                 let found = res1.testCases?.find((tc) => tc.id === testscenariosData[i].testCases[j].id)
-                                if(found)
-                                {
-                                    testscenariosData[i].testCases[j].test_execution_test_case_id = found.test_execution_test_case_id
-                                    testscenariosData[i].testCases[j].status = found.status
-                                    testscenariosData[i].testCases[j].comment = found.comment
-                                    testscenariosData[i].testCases[j].files = found.files
+                                if(found) {
+                                    testscenariosData[i].testCases[j].test_execution_test_case_id = found.test_execution_test_case_id;
+                                    testscenariosData[i].testCases[j].status = found.status;
+                                    testscenariosData[i].testCases[j].comment = found.comment;
+                                    testscenariosData[i].testCases[j].files = found.files;
                                 }
                             }
                         }
-                        console.log(testscenariosData)
                         setExecution(res1);
-                        setDescription(res1.comments)
+                        setDescription(res1.comments);
                         setTestScenarios(testscenariosData);
-                        setShouldUpdateScreen(false)
+                        setShouldUpdateScreen(false);
                     });
                 });
             });
         });
     }, [selectedProject, shouldUpdateScreen]);
-
 
     return (
         <div 
@@ -82,61 +98,64 @@ const ReportScreen = () => {
                 <label><b>Build:</b> {execution?.build?.title}</label>
                 <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
             </div>
-            <div style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "16px"
-            }}>
-                {testScenarios.map(scenario => (
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginLeft: "60px" }}>
+                {testScenarios.map((scenario: any, tsIndex: number) => (
                     <div key={scenario.id}>
-                        <div style={{display: "grid", gridTemplateColumns: '1fr 2fr repeat(5, 1fr)', justifyItems: "center"}}>
-                            <th>Código</th>
-                            <th>Cenário de Teste</th>
-                            <th>Não executados</th>
-                            <th>Sucesso</th>
-                            <th>Pulados</th>
-                            <th>Com erros</th>
-                            <span></span>
-                            <span>{scenario.id}</span>
-                            <span>{scenario.name}</span>
-                            <span>{scenario.testCases.filter(tc => tc.status === 0).length}</span>
-                            <span>{scenario.testCases.filter(tc => tc.status === 1).length}</span>
-                            <span>{scenario.testCases.filter(tc => tc.status === 2).length}</span>
-                            <span>{scenario.testCases.filter(tc => tc.status === 3).length}</span>
-                            <span>
-                                <button type="button" onClick={() => toggleScenario(scenario.id)}>
-                                    {expandedScenarios.includes(scenario.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                                </button>
-                            </span>
-                        </div>
-                        {expandedScenarios.includes(scenario.id) &&
+                        <div style={{ display: "grid", gridTemplateColumns: 'auto 2fr repeat(4, 1fr)', alignItems: "center" }}>
                             <div>
-                                <div style={{display: "grid", gridTemplateColumns: '1fr 2fr 2fr 3fr repeat(2, 1fr)', justifyItems: "center"}}>
-                                    <span><b>ID</b></span>
-                                    <span><b>Nome</b></span>
-                                    <span><b>Descrição</b></span>
-                                    <span><b>Comentários</b></span>
-                                    <span><b>Status</b></span>
-                                </div>
-                                {scenario.testCases.map(testCase => (
-                                    <>
-                                        <div key={testCase.id} style={{display: "grid", gridTemplateColumns: '1fr 2fr 2fr 3fr repeat(2, 1fr)', justifyItems: "center"}}>
-                                            <span>{testCase.id}</span>
-                                            <span>{testCase.name}</span>
-                                            <span>{testCase.description}</span>
-                                            <span>{testCase.comment}</span>
-                                            <span>{testCase.mapStatusToString()}</span>
+                                <IconButton onClick={() => toggleScenario(scenario.id)}>
+                                    {expandedScenarios.includes(scenario.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                                </IconButton>
+                            </div>
+                            <div style={{ fontSize: '20px', fontWeight: "bold" }}>
+                                {tsIndex + 1}. {scenario.name}
+                            </div>
+                            <div><b>Não executados: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 0).length}</span></div>
+                            <div><b>Sucesso: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 1).length}</span></div>
+                            <div><b>Pulados: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 2).length}</span></div>
+                            <div><b>Com erros: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 3).length}</span></div>
+                        </div>
+                        {expandedScenarios.includes(scenario.id) && (
+                            <div style={{ marginLeft: "60px" }}>
+                                {scenario.testCases.map((testCase: any, tcIndex: number) => (
+                                    <div key={testCase.id}>
+                                        <div style={{ display: "flex", alignItems: "center" }}>
+                                            <IconButton onClick={() => toggleTestCase(scenario.id, testCase.id)}>
+                                                {expandedTestCases[scenario.id]?.includes(testCase.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                                            </IconButton>
+                                            <div style={{ fontSize: '18px', fontWeight: "bold" }}>
+                                                {tcIndex + 1}. {testCase.name}
+                                            </div>
+                                            <div style={{marginLeft: "6px"}}>
+                                               - {testCase.mapStatusToString().toLocaleLowerCase()}
+                                            </div>
                                         </div>
-                                        {/*<img src={}*/}
-                                    </>
+                                        {expandedTestCases[scenario.id]?.includes(testCase.id) && (
+                                            <div style={{ marginLeft: "40px" }}>
+                                                <div><b>Status: </b>{testCase.mapStatusToString()}</div>
+                                                <div><b>Descrição: </b>{testCase.description}</div>
+                                                <div><b>Comentários: </b>{testCase.comment}</div>
+                                                <b>Evidências:</b>
+                                                {testCase.files?.map((file: File) => (
+                                                    <div key={file.id}>
+                                                        <img 
+                                                            src={`http://localhost:8080/testfiles${file.path}`}
+                                                            width={400}
+                                                            alt={`Evidência do Caso ${testCase.id}`}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
                                 ))}
                             </div>
-                        }
+                        )}
                     </div>
                 ))}
             </div>
         </div>
-    )
+    );
 }
 
 export default ReportScreen;
