@@ -69,6 +69,7 @@ const ReportScreen = () => {
                                     testscenariosData[i].testCases[j].status = found.status;
                                     testscenariosData[i].testCases[j].comment = found.comment;
                                     testscenariosData[i].testCases[j].files = found.files;
+                                    testscenariosData[i].testCases[j].created_at = found.created_at;
                                 }
                             }
                         }
@@ -132,9 +133,10 @@ const ReportScreen = () => {
                                         </div>
                                         {expandedTestCases[scenario.id]?.includes(testCase.id) && (
                                             <div style={{ marginLeft: "40px" }}>
+                                                <div><b>Descrição do teste: </b>{testCase.description}</div>
+                                                <div><b>Execução realizada em:</b> {testCase?.created_at}</div>
                                                 <div><b>Status: </b>{testCase.mapStatusToString()}</div>
-                                                <div><b>Descrição: </b>{testCase.description}</div>
-                                                <div><b>Comentários: </b>{testCase.comment}</div>
+                                                <div><b>Comentários da execução: </b>{testCase.comment}</div>
                                                 <b>Evidências:</b>
                                                 {testCase.files?.map((file: File) => (
                                                     <div key={file.id}>

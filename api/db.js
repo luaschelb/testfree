@@ -187,18 +187,18 @@ function createTablesAndInsertData() {
     insertIfTableEmpty('test_executions', `
       INSERT INTO test_executions (start_date, end_date, test_plan_id, build_id, status, comments)
       VALUES 
-        ('2024-09-28', '2024-09-28', 1, 1, 1, 'Primeira execução de testes do plano 1'),
-        ('2024-09-28', '2024-09-29', 2, 2, 2, 'Execução de testes com observações');
+        ('28/09/2024', '28/09/2024 14:00', 1, 1, 2, 'Primeira execução de testes do plano 1'),
+        ('28/09/2024', '29/09/2024 14:00', 2, 2, 2, 'Execução de testes com observações');
     `);
 
     // Seeds para a tabela 'test_executions_test_cases'
     insertIfTableEmpty('test_executions_test_cases', `
       INSERT INTO test_executions_test_cases (created_at, comment, passed, skipped, failed, test_execution_id, test_case_id)
       VALUES 
-        ('2024-09-28 14:00', 'Login realizado com sucesso', 1, 0, 0, 1, 1),
-        ('2024-09-28 14:00', 'Erro exibido ao tentar login com senha inválida', 0, 0, 1, 1, 2),
-        ('2024-09-28 14:00', 'Produto cadastrado corretamente', 1, 0, 0, 1, 3),
-        ('2024-09-28 14:00', 'Produto cadastrado corretamente', 1, 0, 0, 2, 3);
+        ('28/09/2024 14:01', 'Login realizado com sucesso', 1, 0, 0, 1, 1),
+        ('28/09/2024 14:03', 'Erro exibido ao tentar login com senha inválida', 0, 0, 1, 1, 2),
+        ('28/09/2024 14:05', 'Produto cadastrado corretamente', 1, 0, 0, 1, 3),
+        ('28/09/2024 14:14', 'Produto cadastrado corretamente', 1, 0, 0, 2, 3);
     `);
 
     // Seeds para a tabela 'files'

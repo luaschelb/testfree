@@ -12,6 +12,7 @@ class TestCase {
     files ?: File[]
     status ?: number
     comment ?: string
+    created_at ?: string
     
     constructor(id: number, name: string, description: string, steps: string, test_scenario_id: string) {
         this.id = id

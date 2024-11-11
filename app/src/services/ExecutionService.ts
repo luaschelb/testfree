@@ -42,7 +42,9 @@ class ExecutionService {
                 tc.status = 3
             tc.comment = testCase.comment
             tc.files = testCase.files;
+            tc.created_at = testCase.created_at;
             tc.test_execution_test_case_id = testCase.test_execution_test_case_id;
+            console.log(tc)
             return tc;
         });
         return execution;
