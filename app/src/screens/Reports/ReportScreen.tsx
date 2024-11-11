@@ -92,9 +92,10 @@ const ReportScreen = () => {
                 border: "solid 1px #222"
             }}
         >
-            <div style={{display: "flex", flexDirection: "row", gap: "16px"}}>
+            <div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
                 <label><b>Plano de Teste:</b> {execution?.testPlan?.name}</label>
                 <label><b>Build:</b> {execution?.build?.title}</label>
+                <label><b>Finalizada em:</b> {execution?.end_date}</label>
                 <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginLeft: "60px" }}>

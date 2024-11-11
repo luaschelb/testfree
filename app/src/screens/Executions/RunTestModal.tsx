@@ -50,7 +50,15 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
   async function submit() {
     let execution_2 = execution as Execution
     let testCase_2 = testCase as TestCase
-    const created_at = Date.now().toString()
+    const data = new Date();
+    const created_at = data.toLocaleString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false // Use false para formato 24 horas
+    }).replace(',', ''); // Remove a vírgula
     let passed = 1
     let skipped = 1
     let failed = 1

@@ -82,7 +82,16 @@ const RunExecutionScreen = () => {
     const finaliza = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
-            await ExecutionService.updateExecution({...execution as Execution, status: 2});
+            const data = new Date();
+            const dataHoraFormatada = data.toLocaleString('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false // Use false para formato 24 horas
+            }).replace(',', ''); // Remove a vírgula
+            await ExecutionService.updateExecution({...execution as Execution, status: 2, end_date: dataHoraFormatada});
             alert("Execução de teste editado com sucesso!");
             setShouldUpdateScreen(true)
         } catch (error) {
@@ -151,6 +160,7 @@ const RunExecutionScreen = () => {
                         ):
                         (
                             <div>
+                                Finalizada em: {execution.end_date}
                                 <Button variant="contained" color="primary" style={{
                                     width: "160px",
                                     fontSize: "10px",
