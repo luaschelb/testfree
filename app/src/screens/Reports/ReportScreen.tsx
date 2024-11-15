@@ -10,21 +10,25 @@ import TestScenarioService from "../../services/TestScenarioService";
 import TestExecutionStatusEnum from "../../enums/TestExecutionStatusEnum";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
+import generatePDF, { Resolution, Margin, Options } from 'react-to-pdf';
 import File from "../../models/File";
 
 const ReportScreen = () => {
     const { selectedProject } = useGlobalSelectedProject();
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
-    const [name, setName] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
-    const [selectedTestCases, setSelectedTestCases] = useState<number[]>([]);
     const [testScenarios, setTestScenarios] = useState<TestScenario[]>([]);
     const [execution, setExecution] = useState<Execution>();
     const [expandedScenarios, setExpandedScenarios] = useState<number[]>([]);
     const [expandedTestCases, setExpandedTestCases] = useState<{ [key: number]: number[] }>({});
     const [shouldUpdateScreen, setShouldUpdateScreen] = useState<boolean>(false);
+
+    let options : Options = {
+        method: "save",
+        filename: `relatorio.pdf`,
+        page: { margin: Margin.MEDIUM },
+     };
+    
 
     const toggleScenario = (scenarioId: number) => {
         setExpandedScenarios((prev) =>
@@ -42,6 +46,27 @@ const ReportScreen = () => {
                 : [...(prev[scenarioId] || []), testCaseId]
         }));
     };
+
+    function handlePDFGeneration() {
+        // you can use a function to return the target element besides using React refs
+        const getTargetElement = () => {
+            let content = document.getElementById('content-id') as HTMLElement
+            let expandIcons = content.getElementsByClassName('expandIcon')
+            for(let i = 0; i < expandIcons.length; i++)
+            {
+                expandIcons[i].setAttribute('hidden', 'true')
+            }
+            return content
+         };
+         generatePDF(getTargetElement, options)
+         let content = document.getElementById('content-id') as HTMLElement
+         let expandIcons = content.getElementsByClassName('expandIcon')
+         for(let i = 0; i < expandIcons.length; i++)
+         {
+             expandIcons[i].removeAttribute('hidden')
+         }
+         return content
+    }
 
     useEffect(() => {
         ExecutionService.getExecutionById(Number(id)).then((res1) => {
@@ -74,7 +99,6 @@ const ReportScreen = () => {
                             }
                         }
                         setExecution(res1);
-                        setDescription(res1.comments);
                         setTestScenarios(testscenariosData);
                         setShouldUpdateScreen(false);
                     });
@@ -84,77 +108,96 @@ const ReportScreen = () => {
     }, [selectedProject, shouldUpdateScreen]);
 
     return (
-        <div 
-            className="BasicScreenContainer"
-            style={{
-                backgroundColor: "#fefefe",
-                padding: "16px",
-                borderRadius: "8px",
-                border: "solid 1px #222"
-            }}
-        >
-            <div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
-                <label><b>Plano de Teste:</b> {execution?.testPlan?.name}</label>
-                <label><b>Build:</b> {execution?.build?.title}</label>
-                <label><b>Finalizada em:</b> {execution?.end_date}</label>
-                <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginLeft: "60px" }}>
-                {testScenarios.map((scenario: any, tsIndex: number) => (
-                    <div key={scenario.id}>
-                        <div style={{ display: "grid", gridTemplateColumns: 'auto 2fr repeat(4, 1fr)', alignItems: "center" }}>
-                            <div>
-                                <IconButton onClick={() => toggleScenario(scenario.id)}>
-                                    {expandedScenarios.includes(scenario.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                                </IconButton>
-                            </div>
-                            <div style={{ fontSize: '20px', fontWeight: "bold" }}>
-                                {tsIndex + 1}. {scenario.name}
-                            </div>
-                            <div><b>Não executados: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 0).length}</span></div>
-                            <div><b>Sucesso: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 1).length}</span></div>
-                            <div><b>Pulados: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 2).length}</span></div>
-                            <div><b>Com erros: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 3).length}</span></div>
-                        </div>
-                        {expandedScenarios.includes(scenario.id) && (
-                            <div style={{ marginLeft: "60px" }}>
-                                {scenario.testCases.map((testCase: any, tcIndex: number) => (
-                                    <div key={testCase.id}>
-                                        <div style={{ display: "flex", alignItems: "center" }}>
-                                            <IconButton onClick={() => toggleTestCase(scenario.id, testCase.id)}>
-                                                {expandedTestCases[scenario.id]?.includes(testCase.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                                            </IconButton>
-                                            <div style={{ fontSize: '18px', fontWeight: "bold" }}>
-                                                {tcIndex + 1}. {testCase.name}
-                                            </div>
-                                            <div style={{marginLeft: "6px"}}>
-                                               - {testCase.mapStatusToString().toLocaleLowerCase()}
-                                            </div>
+        <div
+        style={{
+            padding: "16px",
+            margin: "16px 22% 0px 22%",
+            borderRadius: "8px",
+            border: "solid 1px #222",
+        }}>
+            <Button color="primary" variant="contained" onClick={handlePDFGeneration}
+                >Download PDF</Button>
+            <div 
+                style={{
+                    backgroundColor: "#fefefe",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "16px",
+                    marginTop: "16px"
+                }}
+                id="content-id"
+            >
+                <div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
+                    <label><b>Plano de Teste:</b> {execution?.testPlan?.name}</label>
+                    <label><b>Build:</b> {execution?.build?.title}</label>
+                    <label><b>Finalizada em:</b> {execution?.end_date}</label>
+                    <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginLeft: "10px" }}>
+                    {testScenarios.map((scenario: any, tsIndex: number) => (
+                        <div key={scenario.id}>
+                            <div style={{ display: "flex", alignItems: "center"}}>
+                                <div style={{minHeight: 40}}>
+                                    <IconButton onClick={() => toggleScenario(scenario.id)}>
+                                        <div className="expandIcon">
+                                            {expandedScenarios.includes(scenario.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                                         </div>
-                                        {expandedTestCases[scenario.id]?.includes(testCase.id) && (
-                                            <div style={{ marginLeft: "40px" }}>
-                                                <div><b>Descrição do teste: </b>{testCase.description}</div>
-                                                <div><b>Execução realizada em:</b> {testCase?.created_at}</div>
-                                                <div><b>Status: </b>{testCase.mapStatusToString()}</div>
-                                                <div><b>Comentários da execução: </b>{testCase.comment}</div>
-                                                <b>Evidências:</b>
-                                                {testCase.files?.map((file: File) => (
-                                                    <div key={file.id}>
-                                                        <img 
-                                                            src={`http://localhost:8080/testfiles${file.path}`}
-                                                            width={400}
-                                                            alt={`Evidência do Caso ${testCase.id}`}
-                                                        />
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
+                                    </IconButton>
+                                </div>                
+                                <div style={{ display: "flex", gap: "16px" ,alignItems: "center"}}>
+                                    <div style={{ fontSize: '20px', fontWeight: "bold"}}>
+                                        {tsIndex + 1}. {scenario.name}
+                                    </div>            
+                                    <div><b>Sucesso: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 1).length}</span></div>
+                                    <div><b>Pulados: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 2).length}</span></div>
+                                    <div><b>Com erros: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 3).length}</span></div>
+                                    <div><b>Não executados: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 0).length}</span></div>
+                                </div>
                             </div>
-                        )}
-                    </div>
-                ))}
+                            {expandedScenarios.includes(scenario.id) && (
+                                <div style={{ marginLeft: "30px" }}>
+                                    {scenario.testCases.map((testCase: any, tcIndex: number) => (
+                                        <div key={testCase.id}>
+                                            <div style={{ display: "flex", alignItems: "center" }}>
+                                                <div style={{minHeight: 40}}>
+                                                    <IconButton onClick={() => toggleTestCase(scenario.id, testCase.id)}>
+                                                        <div className="expandIcon">
+                                                            {expandedTestCases[scenario.id]?.includes(testCase.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                                                        </div>
+                                                    </IconButton>
+                                                </div>
+                                                <div style={{ fontSize: '18px', fontWeight: "bold" }}>
+                                                    {tcIndex + 1}. {testCase.name}
+                                                </div>
+                                                <div style={{marginLeft: "6px"}}>
+                                                - {testCase.mapStatusToString().toLocaleLowerCase()}
+                                                </div>
+                                            </div>
+                                            {expandedTestCases[scenario.id]?.includes(testCase.id) && (
+                                                <div style={{ marginLeft: "40px" }}>
+                                                    <div><b>Descrição do teste: </b>{testCase.description}</div>
+                                                    <div><b>Execução realizada em:</b> {testCase?.created_at}</div>
+                                                    <div><b>Status: </b>{testCase.mapStatusToString()}</div>
+                                                    <div><b>Comentários da execução: </b>{testCase.comment}</div>
+                                                    <b>Evidências:</b>
+                                                    {testCase.files?.map((file: File) => (
+                                                        <div key={file.id}>
+                                                            <img 
+                                                                src={`http://localhost:8080/testfiles${file.path}`}
+                                                                width={400}
+                                                                alt={`Evidência do Caso ${testCase.id}`}
+                                                            />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

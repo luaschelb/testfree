@@ -160,7 +160,7 @@ const RunExecutionScreen = () => {
                         ):
                         (
                             <div>
-                                Finalizada em: {execution.end_date}
+                                <span style={{marginRight: "12px"}}>Finalizada em: {execution.end_date}</span>
                                 <Button variant="contained" color="primary" style={{
                                     width: "160px",
                                     fontSize: "10px",
