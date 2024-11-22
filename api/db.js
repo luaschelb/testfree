@@ -220,8 +220,12 @@ function createTablesAndInsertData() {
   });
 }
 
+let allowSeed = false;
 // Função auxiliar para verificar e inserir dados
 function insertIfTableEmpty(tableName, insertQuery) {
+  if (!allowSeed)
+    return;
+  
   db.get(`SELECT COUNT(*) AS count FROM ${tableName}`, (err, row) => {
     if (err) {
       console.error(`Erro ao verificar a tabela ${tableName}:`, err.message);
