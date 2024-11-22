@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import TestPlanService from "../../services/TestPlanService"; // Supondo que você tenha esse serviço
+import TestPlanService from "../../services/TestPlanService";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 import Checkbox from '@mui/material/Checkbox';
@@ -53,6 +53,24 @@ const EditTestPlanScreen = () => {
         }
     };
 
+    const toggleSelectAllTestCases = () => {
+        const allTestCases = testScenarios.flatMap(scenario => scenario.testCases.map(testCase => testCase.id));
+        if (selectedTestCases.length === allTestCases.length) {
+            setSelectedTestCases([]);
+        } else {
+            setSelectedTestCases(allTestCases);
+        }
+    };
+
+    const toggleExpandCollapseAll = () => {
+        if (expandedScenarios.length === testScenarios.length) {
+            setExpandedScenarios([]);
+        } else {
+            const allScenarioIds = testScenarios.map(scenario => scenario.id);
+            setExpandedScenarios(allScenarioIds);
+        }
+    };
+
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -75,7 +93,7 @@ const EditTestPlanScreen = () => {
     };
 
     return (
-        <div 
+        <div
             className="BasicScreenContainer"
             style={{
                 backgroundColor: "#fff",
@@ -83,10 +101,10 @@ const EditTestPlanScreen = () => {
                 borderRadius: "2.5%",
                 border: "solid 1px #222"
             }}
-            >
+        >
             <Link to="/TestPlans">&lt; Voltar</Link>
             <h2 style={{ margin: 0 }}>Edição de Plano de Teste</h2>
-            <div style = {{ flexDirection: 'column', columnGap: "16px" }}>
+            <div style={{ flexDirection: 'column', columnGap: "16px" }}>
                 <div>
                     <label><b>Nome:</b></label>
                     <input
@@ -104,6 +122,15 @@ const EditTestPlanScreen = () => {
                         style={{ width: "100%", padding: "0.5em", height: "4em" }}
                     />
                 </div>
+            </div>
+            <div style={{ marginBottom: "1em", display: "flex", gap: "1em", width: '100%' }}>
+                <Button variant="outlined" onClick={toggleExpandCollapseAll}>
+                    {expandedScenarios.length === testScenarios.length ? 'Colapsar Todos' : 'Expandir Todos'}
+                </Button>
+                <Button variant="outlined" onClick={toggleSelectAllTestCases} style={{ marginLeft: '10px' }}>
+                    {selectedTestCases.length === testScenarios.flatMap(scenario => scenario.testCases.map(testCase => testCase.id)).length ? 'Desmarcar Todos' : 'Selecionar Todos'}
+                </Button>
+                <Button variant="contained" onClick={submit}>Finalizar Cadastro</Button>
             </div>
             <table className="styledTableAux">
                 <thead>
@@ -147,9 +174,6 @@ const EditTestPlanScreen = () => {
                     ))}
                 </tbody>
             </table>
-            <div>
-                <Button variant="contained" onClick={submit}>Finalizar Cadastro</Button>
-            </div>
         </div>
     );
 };
