@@ -149,35 +149,30 @@ const RunExecutionScreen = () => {
                         <label><b>Build:</b> {execution?.build?.title}</label>
                         <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
                     </div>
-                    {
-                        execution?.status !== 2 ? (
-                            <Button variant="contained" color="error" onClick={finaliza} style={{
-                                width: "160px",
-                                fontSize: "10px"
-                                }}
-                                >Finalizar Execução
-                            </Button>
-                        ):
-                        (
-                            <div>
-                                <span style={{marginRight: "12px"}}>Finalizada em: {execution.end_date}</span>
-                                <Button variant="contained" color="primary" style={{
-                                    width: "160px",
-                                    fontSize: "10px",
-                                    marginRight: "8px"
-                                    }}
-                                    onClick={() => { navigate(`/relatorios/${execution.id}`)}}
-                                    >Ver Relatório
-                                </Button>
-                                <Button variant="contained" color="success" onClick={reativar} style={{
-                                    width: "160px",
-                                    fontSize: "10px",
-                                    }}
-                                    >Reativar Execução
-                                </Button>
-                            </div>
-                        )
-                    }
+                    <div>
+                        {execution?.status === TestExecutionStatusEnum.Finalizada ? 
+                            (<span style={{marginRight: "12px"}}>Finalizada em: {execution.end_date}</span>) : null
+                            }
+                        <Button variant="contained" color="primary" style={{
+                            //width: "160px",
+                            fontSize: "14px",
+                            marginRight: "8px"
+                            }}
+                            onClick={() => { navigate(`/relatorios/${execution?.id}`)}}
+                            >Ver Relatório
+                        </Button>
+                        <Button variant="contained" 
+                            color={
+                                execution?.status === TestExecutionStatusEnum.Finalizada ? "success" : "error"
+                            }
+                            disabled={execution?.status === undefined}
+                            onClick={(e) => {execution?.status === TestExecutionStatusEnum.Finalizada ? reativar(e) : finaliza(e)}} 
+                            style={{
+                            fontSize: "14px",
+                            }}>
+                                {execution?.status === TestExecutionStatusEnum.Finalizada ? "Reativar Execução" : "Finalizar Execução"}
+                        </Button>
+                    </div>
                 </div>
                 <div>
                     <label><b>Comentários:</b></label>
@@ -188,7 +183,16 @@ const RunExecutionScreen = () => {
                     />
                 </div>
                 <div>
-                    <Button variant="contained"  color="info" style={{width: "160px", fontSize: "10px"}} onClick={comments}>Salvar comentário</Button>
+                    <Button 
+                    variant="contained"  
+                    color="info" 
+                    style={{
+                        //width: "160px", 
+                        fontSize: "14px"
+                    }} 
+                    onClick={comments}
+                        >Salvar comentário
+                    </Button>
                 </div>
             </div>
             <table className="styledTableAux">

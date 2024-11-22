@@ -11,6 +11,7 @@ import AttachmentsModal from './AttachmentsModal';
 import TestExecutionTestCase from '../../models/TestExecutionTestCase';
 import Execution from '../../models/Execution';
 import TestExecutionTestCaseService from '../../services/TestExecutionTestCaseService';
+import TestCaseStatusEnum from '../../enums/TestCaseStatusEnum';
 
 const style = {
   position: 'absolute',
@@ -148,7 +149,7 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
                 onChange={(event) => {
                     setStatus(parseInt(event.target.value))
                 }}>
-                <option key={0} value={0}>Não executado</option>
+                {/* <option key={0} value={0}>Não executado</option> */}
                 <option key={1} value={1}>Sucesso</option>
                 <option key={2} value={2}>Pulado</option>
                 <option key={3} value={3}>Com erros</option>
@@ -162,16 +163,28 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
                 onChange={(event) => setComments(event.target.value)}
                 >
               </textarea>
-              <div style={{display: "flex", gap: "16px", marginTop: "8px"}}>
+              <div style={{display: "flex", flexDirection: "column", gap: "2px", marginTop: "8px"}}>
                 <Button variant="contained" size="small" 
-                onClick={() => { setOpenModal({
+                  onClick={() => { setOpenModal({
                     open: true, 
                     testCase: testCase
                     }) 
-                }}>Ver anexos</Button>
+                }}
+                  style={{width: "fit-content" }}
+                  disabled={testCase?.status === TestCaseStatusEnum['Não executado'] }
+                >Gerenciar Anexos</Button>
+                {
+                  testCase?.status === TestCaseStatusEnum['Não executado'] ? (
+                    <span style={{fontSize: "12px", color: "red"}}>Salve a execução para gerenciar anexos</span>
+                  ) : null
+                }
               </div>
               <div style={{marginTop: "16px"}}>
-                <Button variant="contained" size="small" color="success" onClick={submit}>Atualizar</Button>
+                <Button variant="contained" size="small" color="success" onClick={submit}>
+                  {
+                    testCase?.status === TestCaseStatusEnum['Não executado'] ? "Salvar" : "Atualizar"
+                  }
+                </Button>
               </div>
             </div>
         ) :

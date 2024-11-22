@@ -87,15 +87,11 @@ function ListExecutionScreen() {
                                                         <Delete />
                                                     </IconButton>
                                         </Tooltip>
-                                        {
-                                            execution.status === 2 ? (
-                                                <Tooltip title="Baixar Relatório">
-                                                    <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { navigate(`/relatorios/${execution.execution_id}`)}}>
-                                                        <FileDownloadIcon />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            ) : undefined
-                                        }
+                                        <Tooltip title="Baixar Relatório">
+                                            <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { navigate(`/relatorios/${execution.execution_id}`)}}>
+                                                <FileDownloadIcon />
+                                            </IconButton>
+                                        </Tooltip>
                                     </div>
                                 </td>
                             </tr>

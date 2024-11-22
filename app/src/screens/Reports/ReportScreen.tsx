@@ -13,8 +13,10 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Button, IconButton } from "@mui/material";
 import generatePDF, { Resolution, Margin, Options } from 'react-to-pdf';
 import File from "../../models/File";
+import { Download } from "@mui/icons-material";
 
 const ReportScreen = () => {
+    const navigate = useNavigate();
     const { selectedProject } = useGlobalSelectedProject();
     const { id } = useParams<{ id: string }>();
     const [testScenarios, setTestScenarios] = useState<TestScenario[]>([]);
@@ -115,8 +117,19 @@ const ReportScreen = () => {
             borderRadius: "8px",
             border: "solid 1px #222",
         }}>
-            <Button color="primary" variant="contained" onClick={handlePDFGeneration}
-                >Download PDF</Button>
+            <Button variant="contained" color="primary" style={{
+                marginRight: "8px"
+                }}
+                onClick={() => { navigate(`/executar_execucao/${execution?.id}`)}}
+                >Ver Execução
+            </Button>
+            <Button 
+                color="success" 
+                variant="contained" 
+                endIcon={<Download />}
+                onClick={handlePDFGeneration}
+                >Download PDF
+            </Button>
             <div 
                 style={{
                     backgroundColor: "#fefefe",
