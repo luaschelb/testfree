@@ -1,0 +1,4 @@
+# Ignore tudo no diretório menos este arquivo para o diretório estar criado porém sempre vazio
+*
+# Não deixe este arquivo ser ignorado para o diretório ficar no repositório.
+!.gitignore
