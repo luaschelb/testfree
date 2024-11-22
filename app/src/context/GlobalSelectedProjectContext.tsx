@@ -34,6 +34,8 @@ export const GlobalSelectedProjectProvider = ({ children }: { children: ReactNod
   useEffect(() => {
       TestProjectService.getTestProjects().then((res) => {
           setTestProjects(res);
+          if(res.length)
+            setSelectedProject(res[0].id)
       });
       setShouldUpdateProjectList(false)
   }, [shouldUpdateProjectList]);
