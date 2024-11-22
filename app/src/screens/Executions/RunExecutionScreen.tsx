@@ -62,7 +62,7 @@ const RunExecutionScreen = () => {
                             }
                             console.log(testscenariosData)
                             setExecution(res1);
-                            setDescription(res1.comments)
+                            setDescription(res1.comments === null ? "" : res1.comments)
                             setTestScenarios(testscenariosData);
                             setShouldUpdateScreen(false)
                     });

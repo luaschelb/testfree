@@ -259,5 +259,7 @@ process.on('SIGINT', () => {
 // Chama a função para criar as tabelas e inserir os dados
 createTablesAndInsertData();
 
+db.run('PRAGMA foreign_keys = ON;')
+
 // Exporta o banco de dados para ser utilizado nas controllers
 module.exports = db;
