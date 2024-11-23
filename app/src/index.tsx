@@ -21,7 +21,6 @@ import CreateTestPlanScreen from './screens/TestPlan/CreateTestPlanScreen';
 import EditTestPlanScreen from './screens/TestPlan/EditTestPlanScreen';
 import ListExecutionScreen from './screens/Executions/ListExecutionScreen';
 import CreateExecutionScreen from './screens/Executions/CreateExecutionScreen';
-import EditExecutionScreen from './screens/Executions/EditExecutionScreen';
 import RunExecutionScreen from './screens/Executions/RunExecutionScreen';
 import ReportScreen from './screens/Reports/ReportScreen';
 import { styled, useTheme } from '@mui/material/styles';
@@ -87,7 +86,6 @@ const router = createBrowserRouter([
       { path: "/editar_build/:id", element: <EditBuildScreen /> },
       { path: "/execucoes", element: <ListExecutionScreen /> },
       { path: "/criar_execucao", element: <CreateExecutionScreen /> },
-      { path: "/editarr_execucao", element: <EditExecutionScreen /> },
       { path: "/executar_execucao/:id", element: <RunExecutionScreen /> },
       { path: "/testplans", element: <TestPlanScreen /> },
       { path: "/criar_testplan", element: <CreateTestPlanScreen /> },
