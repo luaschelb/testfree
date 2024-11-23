@@ -1,3 +1,4 @@
+import TestCounts from "../models/TestCounts";
 import {TestProject, IProject} from "../models/TestProject";
 
 class TestProjectService {
@@ -33,7 +34,15 @@ class TestProjectService {
         }
         const item = await response.json();
         return new TestProject({ ...item });
-
+    }
+    // Função para pegar os counts do projeto de teste
+    static async getTestProjectCounts(id: number): Promise<TestCounts> {
+        const response = await fetch(`http://localhost:8080/projetos/count/${id}`);
+        if (!response.ok) {
+            throw new Error('Erro ao buscar os counts do projeto de teste.');
+        }
+        const counts: TestCounts = await response.json();
+        return counts;
     }
 
     static async updateTestProject(id: number, data: IProject): Promise<Response> {

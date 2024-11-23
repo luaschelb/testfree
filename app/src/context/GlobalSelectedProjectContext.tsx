@@ -56,7 +56,7 @@ export const GlobalSelectedProjectProvider = ({ children }: { children: ReactNod
             
       });
       setShouldUpdateProjectList(false)
-  }, [shouldUpdateProjectList, testProjects]);
+  }, [shouldUpdateProjectList]);
 
   return (
     <GlobalStatusContext.Provider value={{ 

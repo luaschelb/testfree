@@ -14,7 +14,7 @@ import { red } from '@mui/material/colors';
 const color = red[400];
 
 function TestProjectScreen() {
-    const { testProjects, setTestProjects } = useGlobalSelectedProject();
+    const { testProjects, setTestProjects, setShouldUpdateProjectList } = useGlobalSelectedProject();
     const navigate = useNavigate();
 
     const handleDelete = async (id: number) => {
@@ -23,6 +23,7 @@ function TestProjectScreen() {
                 await TestProjectService.deleteTestProject(id);
                 alert("Projeto deletado com sucesso");
                 setTestProjects(testProjects.filter(tc => tc.id !== id));
+                setShouldUpdateProjectList(true)
                 navigate("/projetos");
             } catch (error) {
                 alert('Erro ao deletar projeto de teste: ' + (error as Error).message);
