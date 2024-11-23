@@ -122,7 +122,7 @@ function createTablesAndInsertData() {
       `INSERT INTO projects (testcase_counter, testscenario_counter, testexecutions_counter, name, description, active)
         VALUES 
           (5, 2, 3, 'GESCAD - Gestão de Produtos', 'Plataforma para gerenciar produtos e vendas em uma loja virtual', 1),
-          (5, 2, 3, 'CDCFACIL - Sistema de Empréstimos', 'Plataforma para empréstimos disponibilizados pela nossa empresa', 1);`
+          (5, 2, 3, 'CDCFACIL - Sistema de Financiamento', 'Plataforma para financiamentos disponibilizados pela nossa empresa', 1);`
     );
     
     // Seeds para a tabela 'builds'
