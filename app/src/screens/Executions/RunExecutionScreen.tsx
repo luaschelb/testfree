@@ -7,7 +7,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import React from "react";
 import TestScenarioService from "../../services/TestScenarioService";
 import TestScenario from "../../models/TestScenario";
-import "./CreateTestPlanScreen.css"
+import "./RunExecutionScreen.css"
 import { Button, IconButton, responsiveFontSizes, Tooltip } from "@mui/material";
 import { PlayArrow } from "@mui/icons-material";
 import ExecutionService from "../../services/ExecutionService";
