@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import "../../shared_styles/BasicScreenContainer.css"
 import { useGlobalSelectedProject } from '../../context/GlobalSelectedProjectContext';
-
+import CountAndLinkCard from '../../components/CountAndLinkCard';
 
 export default function HomeScreen() {
-  const { selectedProject } = useGlobalSelectedProject();
+  const { testProjects, selectedProject } = useGlobalSelectedProject();
   return (
     <div>
       <div className="BasicScreenContainer">
@@ -15,12 +15,40 @@ export default function HomeScreen() {
           selectedProject === 0 ?
             <p>Não foi encontrado nenhum projeto. Crie um para iniciar o uso da aplicação</p> : null
         }
-        <p>Esta tela serve de placeholder para uma futura tela inicial</p>
-        <p>Links para as outras páginas:</p>
-        {/* Links aqui são redundantes, pois já estão no Drawer */}
-        <Link to="/" className="HomeScreenLinks">Página Inicial</Link>
-        <Link to="/scenarios" className="HomeScreenLinks">Cenários</Link>
-        <Link to="/projetos" className="HomeScreenLinks">Projetos</Link>
+        <CountAndLinkCard 
+          title="Projetos"
+          count={testProjects.length}
+          route="/projetos"
+        />
+        {
+          selectedProject === 0 ? null : (
+            <>
+              <span><b>Projeto Selecionado:</b> {testProjects.find((e, i) => (e.id === selectedProject))?.name}</span>
+              <div style={{display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))"}}>
+                <CountAndLinkCard 
+                  title="Cenários"
+                  count={4}
+                  route="/scenarios"
+                />
+                <CountAndLinkCard 
+                  title="Builds"
+                  count={4}
+                  route="/builds"
+                />
+                <CountAndLinkCard 
+                  title="Execuções"
+                  count={4}
+                  route="/execucoes"
+                />
+                <CountAndLinkCard 
+                  title="Planos de Teste"
+                  count={4}
+                  route="/testplans"
+                />
+              </div>
+            </>
+          )
+        }
       </div>
     </div>
   );
