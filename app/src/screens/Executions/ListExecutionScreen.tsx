@@ -85,9 +85,9 @@ function ListExecutionScreen() {
                                                     </IconButton>
                                                 </Tooltip>
                                                 <Tooltip title="Deletar">
-                                                            <IconButton aria-label="Delete" onClick={() => handleDelete(execution?.execution_id)}>
-                                                                <Delete />
-                                                            </IconButton>
+                                                    <IconButton aria-label="Delete" onClick={() => handleDelete(execution?.execution_id)}>
+                                                        <Delete />
+                                                    </IconButton>
                                                 </Tooltip>
                                                 <Tooltip title="Baixar Relatório">
                                                     <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { navigate(`/relatorios/${execution?.execution_id}`)}}>
