@@ -35,10 +35,28 @@ export const GlobalSelectedProjectProvider = ({ children }: { children: ReactNod
       TestProjectService.getTestProjects().then((res) => {
           setTestProjects(res);
           if(res.length)
-            setSelectedProject(res[0].id)
+          {
+            const storageId = parseInt(window.localStorage.getItem('selectedProject') as string)
+            const foundProjectById = res.find((e, i) => e.id === storageId)
+            if(foundProjectById === undefined) 
+            {
+              window.localStorage.setItem('selectedProject', `${res[0].id}`)
+              setSelectedProject(res[0].id)
+            }
+            else
+            {
+              setSelectedProject(storageId)
+            }
+          }
+          else
+          {
+            window.localStorage.removeItem('selectedProject')
+            setSelectedProject(0)
+          }
+            
       });
       setShouldUpdateProjectList(false)
-  }, [shouldUpdateProjectList]);
+  }, [shouldUpdateProjectList, testProjects]);
 
   return (
     <GlobalStatusContext.Provider value={{ 

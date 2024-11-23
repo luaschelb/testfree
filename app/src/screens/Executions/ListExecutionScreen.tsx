@@ -69,33 +69,40 @@ function ListExecutionScreen() {
                         </tr>
                     </thead>
                     <tbody>
-                        {executions.map((execution: any) => (
-                            <tr key={execution.execution_id}>
-                                <td>{execution.execution_id}</td>
-                                <td>{execution.test_plan_name}</td>
-                                <td>{execution.build_version}</td>
-                                <td>{TestExecutionStatusEnum[execution.status]}</td>
-                                <td>
-                                    <div style={{flex: 1, alignContent: "center"}}>
-                                        <Tooltip title="Executar">
-                                            <IconButton aria-label="PlayArrow" color="success" onClick={() => { navigate(`/executar_execucao/${execution.execution_id}`) }}>
-                                                <PlayArrow />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="Deletar">
-                                                    <IconButton aria-label="Delete" onClick={() => handleDelete(execution.execution_id)}>
-                                                        <Delete />
+                        {
+                            executions.length ? (
+                                executions.map((execution: any) => (
+                                    <tr key={execution?.execution_id}>
+                                        <td>{execution?.execution_id}</td>
+                                        <td>{execution?.test_plan_name}</td>
+                                        <td>{execution?.build_version}</td>
+                                        <td>{TestExecutionStatusEnum[execution?.status]}</td>
+                                        <td>
+                                            <div style={{flex: 1, alignContent: "center"}}>
+                                                <Tooltip title="Executar">
+                                                    <IconButton aria-label="PlayArrow" color="success" onClick={() => { navigate(`/executar_execucao/${execution?.execution_id}`) }}>
+                                                        <PlayArrow />
                                                     </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="Baixar Relatório">
-                                            <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { navigate(`/relatorios/${execution.execution_id}`)}}>
-                                                <FileDownloadIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
+                                                </Tooltip>
+                                                <Tooltip title="Deletar">
+                                                            <IconButton aria-label="Delete" onClick={() => handleDelete(execution?.execution_id)}>
+                                                                <Delete />
+                                                            </IconButton>
+                                                </Tooltip>
+                                                <Tooltip title="Baixar Relatório">
+                                                    <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { navigate(`/relatorios/${execution?.execution_id}`)}}>
+                                                        <FileDownloadIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            ): (
+                                <tr style={{marginTop: '6px'}}>
+                                <td colSpan={5}>Não foram encontradas execuções para o projeto selecionado</td></tr>
+                            )
+                        }
                     </tbody>
                 </table>
             </div>

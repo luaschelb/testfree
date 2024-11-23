@@ -267,7 +267,7 @@ function createTablesAndInsertData() {
   });
 }
 
-let allowSeed = true;
+let allowSeed = false;
 // Função auxiliar para verificar e inserir dados
 function insertIfTableEmpty(tableName, insertQuery) {
   if (!allowSeed)
@@ -307,7 +307,6 @@ process.on('SIGINT', () => {
 createTablesAndInsertData();
 
 db.run('PRAGMA foreign_keys = OFF;')
-db.exec("PRAGMA max_sql_length = 2097152"); // Define limite para 2 MB
 
 // Exporta o banco de dados para ser utilizado nas controllers
 module.exports = db;

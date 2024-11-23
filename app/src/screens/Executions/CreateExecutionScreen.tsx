@@ -20,13 +20,22 @@ function CreateExecutionScreen() {
 
     useEffect(() => {
         TestPlanService.getTestPlansByProjectId(selectedProject).then((res) => {
+            if(res.length === 0)
+            {
+                return
+            }
             setTestPlanId(res[0].id);
             setTestPlans(res);
-        });
-        BuildService.getBuildsByProjectId(selectedProject).then((res) => {
-            setBuildId(res[0].id);
-            setBuilds(res);
-        });
+        }).then(() => {
+            BuildService.getBuildsByProjectId(selectedProject).then((res) => {
+                if(res.length === 0)
+                {
+                    return
+                }
+                setBuildId(res[0].id);
+                setBuilds(res);
+            })
+        })
     }, [selectedProject]);
 
     async function submit(event: FormEvent) {
@@ -58,7 +67,7 @@ function CreateExecutionScreen() {
                     type="text"
                     className="BasicFormInput"
                     id="projectName"></input> */}
-                <b>Plano de Teste:</b> 
+                <b>Plano de Teste:<span style={{color: "red"}}>*</span></b> 
                 <select 
                     style={{height: "1.8rem"}}
                     value={testPlanId}
@@ -69,7 +78,7 @@ function CreateExecutionScreen() {
                         testPlans.map((tp) => <option value={tp.id} key={tp.id}>{tp.name}</option>)
                     }
                 </select>
-                <b>Build:</b> 
+                <b>Build:<span style={{color: "red"}}>*</span></b> 
                 <select 
                     style={{height: "1.8rem"}}
                     value={buildId}
@@ -80,8 +89,16 @@ function CreateExecutionScreen() {
                         builds.map((build) => <option value={build.id} key={build.id}>{build.title}</option>)
                     }
                 </select>
-                <div>
-                    <Button variant="contained" onClick={submit}>Cadastrar</Button>
+                <div style={{display: "flex", flexDirection: "column", gap: "2px", marginTop: "8px"}}>
+                    <Button variant="contained" onClick={submit}
+                    disabled={!builds.length || !testPlans.length}
+                    style={{width: "fit-content" }}
+                    >Cadastrar</Button>
+                    {
+                        !builds.length || !testPlans.length ? (
+                        <span style={{fontSize: "12px", color: "red"}}>Campos Build e Plano de Teste são obrigatórios</span>
+                    ) : null
+                    }
                 </div>
             </form>
         </div>

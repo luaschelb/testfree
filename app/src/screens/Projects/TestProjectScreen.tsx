@@ -48,21 +48,27 @@ function TestProjectScreen() {
                         </tr>
                     </thead>
                     <tbody>
-                        {testProjects.map((tc: TestProject) => (
-                            <tr key={tc.id}>
-                                <td>{tc.id}</td>
-                                <td>{tc.name}</td>
-                                <td>{tc.description}</td>
-                                <td>
-                                    <span className="ClickableOpacityIcon" onClick={() => { navigate(`/editar_projeto/${tc.id}`) }}>
-                                        ✏️
-                                    </span>
-                                    <span className="ClickableOpacityIcon" onClick={() => handleDelete(tc.id)}>
-                                        🗑️
-                                    </span>
-                                </td>
-                            </tr>
-                        ))}
+                        {
+                            testProjects.length ? (
+                                testProjects.map((tc: TestProject) => (
+                                    <tr key={tc.id}>
+                                        <td>{tc.id}</td>
+                                        <td>{tc.name}</td>
+                                        <td>{tc.description}</td>
+                                        <td>
+                                            <span className="ClickableOpacityIcon" onClick={() => { navigate(`/editar_projeto/${tc.id}`) }}>
+                                                ✏️
+                                            </span>
+                                            <span className="ClickableOpacityIcon" onClick={() => handleDelete(tc.id)}>
+                                                🗑️
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))): (
+                                <tr style={{marginTop: '6px'}}>
+                                <td colSpan={5}>Não foi encontrado nenhum projeto. Crie um para iniciar o uso da aplicação</td></tr>
+                            )
+                        }
                     </tbody>
                 </table>
             </div>

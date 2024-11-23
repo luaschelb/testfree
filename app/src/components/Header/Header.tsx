@@ -119,11 +119,12 @@ export default function Header(args: {
 				setSelectedProject(parseInt(event.target.value))
 			}}
 		  >
-			<option value={0}>Selecione um projeto</option>
 			{
-				testProjects.map((project) => (
+				testProjects.length === 0 ? 
+				(<option value={0}>Crie um projeto para começar a utilizar a aplicação</option>) :
+				(testProjects.map((project) => (
 					<option key={project.id} value={project.id}>{project.name}</option>
-				))
+				)))
 			}
 		  </select>
 		  </div>

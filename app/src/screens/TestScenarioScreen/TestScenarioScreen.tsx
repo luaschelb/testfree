@@ -52,6 +52,10 @@ function TestScenarioScreen() {
                     {
                         (menuToShow === TestScenarioMenuControl.DEFAULT && 
                             <div className="BasicForm" style={{height: "320px"}}>
+                                {
+                                    selectedProject === 0? 
+                                    <p>Não foi encontrado nenhum projeto. Crie um para iniciar o uso da aplicação</p> : null
+                                }
                                 <p>Clique no botão "Criar Cenário de Teste" na barra superior para criar um novo cenário</p>
                                 <p>Clique em algo na arvore lateral para visualizar/editar cenários e casos de teste existentes</p>
                             </div> 

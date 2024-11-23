@@ -56,22 +56,28 @@ function TestPlanScreen() {
                         </tr>
                     </thead>
                     <tbody>
-                        {testPlans.map((plan: TestPlan) => (
-                            <tr key={plan.id}>
-                                <td>{plan.id}</td>
-                                <td>{plan.name}</td>
-                                <td>{plan.description}</td>
-                                <td>{plan.active ? "Ativo" : "Inativo"}</td>
-                                <td>
-                                    <span className="ClickableOpacityIcon" onClick={() => { navigate(`/editar_testplan/${plan.id}`) }}>
-                                        ✏️
-                                    </span>
-                                    <span className="ClickableOpacityIcon" onClick={() => handleDelete(plan.id)}>
-                                        🗑️
-                                    </span>
-                                </td>
-                            </tr>
-                        ))}
+                        {
+                            testPlans.length ? (
+                                testPlans.map((plan: TestPlan) => (
+                                    <tr key={plan.id}>
+                                        <td>{plan.id}</td>
+                                        <td>{plan.name}</td>
+                                        <td>{plan.description}</td>
+                                        <td>{plan.active ? "Ativo" : "Inativo"}</td>
+                                        <td>
+                                            <span className="ClickableOpacityIcon" onClick={() => { navigate(`/editar_testplan/${plan.id}`) }}>
+                                                ✏️
+                                            </span>
+                                            <span className="ClickableOpacityIcon" onClick={() => handleDelete(plan.id)}>
+                                                🗑️
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))): (
+                                <tr style={{marginTop: '6px'}}>
+                                <td colSpan={5}>Não foram encontrados planos de teste para o projeto selecionado</td></tr>
+                            )
+                        }
                     </tbody>
                 </table>
             </div>

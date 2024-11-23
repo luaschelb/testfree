@@ -56,22 +56,29 @@ function BuildScreen() {
                         </tr>
                     </thead>
                     <tbody>
-                        {builds.map((build: Build) => (
-                            <tr key={build.id}>
-                                <td>{build.id}</td>
-                                <td>{build.title}</td>
-                                <td>{build.version}</td>
-                                <td>{build.description}</td>
-                                <td>
-                                    <span className="ClickableOpacityIcon" onClick={() => { navigate(`/editar_build/${build.id}`) }}>
-                                        ✏️
-                                    </span>
-                                    <span className="ClickableOpacityIcon" onClick={() => handleDelete(build.id)}>
-                                        🗑️
-                                    </span>
-                                </td>
-                            </tr>
-                        ))}
+                        {
+                            builds.length ? (
+                                builds.map((build: Build) => (
+                                <tr key={build.id}>
+                                    <td>{build.id}</td>
+                                    <td>{build.title}</td>
+                                    <td>{build.version}</td>
+                                    <td>{build.description}</td>
+                                    <td>
+                                        <span className="ClickableOpacityIcon" onClick={() => { navigate(`/editar_build/${build.id}`) }}>
+                                            ✏️
+                                        </span>
+                                        <span className="ClickableOpacityIcon" onClick={() => handleDelete(build.id)}>
+                                            🗑️
+                                        </span>
+                                    </td>
+                                </tr>
+                                ))
+                            ): (
+                                <tr style={{marginTop: '6px'}}>
+                                <td colSpan={5}>Não foram encontradas builds para o projeto selecionado</td></tr>
+                            )
+                        }
                     </tbody>
                 </table>
             </div>
