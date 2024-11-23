@@ -7,7 +7,8 @@ import "../../shared_styles/StyledTable.css";
 import "../../shared_styles/ClickableOpacityIcon.css";
 import "../../shared_styles/ClickableOpacityButton.css";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
-import { Button } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
+import { Edit, Delete } from "@mui/icons-material";
 
 function TestPlanScreen() {
     const [testPlans, setTestPlans] = useState<TestPlan[]>([]);
@@ -65,12 +66,16 @@ function TestPlanScreen() {
                                         <td>{plan.description}</td>
                                         <td>{plan.active ? "Ativo" : "Inativo"}</td>
                                         <td>
-                                            <span className="ClickableOpacityIcon" onClick={() => { navigate(`/editar_testplan/${plan.id}`) }}>
-                                                ✏️
-                                            </span>
-                                            <span className="ClickableOpacityIcon" onClick={() => handleDelete(plan.id)}>
-                                                🗑️
-                                            </span>
+                                            <Tooltip title="Editar">
+                                                <IconButton aria-label="Editar" onClick={() => { navigate(`/editar_testplan/${plan.id}`) }}>
+                                                    <Edit />
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title="Deletar">
+                                                <IconButton aria-label="Delete" onClick={() => handleDelete(plan.id)}>
+                                                    <Delete />
+                                                </IconButton>
+                                            </Tooltip>
                                         </td>
                                     </tr>
                                 ))): (

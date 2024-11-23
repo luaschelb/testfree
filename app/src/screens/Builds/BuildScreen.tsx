@@ -7,7 +7,8 @@ import "../../shared_styles/StyledTable.css";
 import "../../shared_styles/ClickableOpacityIcon.css";
 import "../../shared_styles/ClickableOpacityButton.css";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
-import { Button } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
 
 function BuildScreen() {
     const [builds, setBuilds] = useState<Build[]>([]);
@@ -65,12 +66,16 @@ function BuildScreen() {
                                     <td>{build.version}</td>
                                     <td>{build.description}</td>
                                     <td>
-                                        <span className="ClickableOpacityIcon" onClick={() => { navigate(`/editar_build/${build.id}`) }}>
-                                            ✏️
-                                        </span>
-                                        <span className="ClickableOpacityIcon" onClick={() => handleDelete(build.id)}>
-                                            🗑️
-                                        </span>
+                                        <Tooltip title="Editar">
+                                            <IconButton aria-label="Editar" onClick={() => { navigate(`/editar_build/${build.id}`) }}>
+                                                <Edit />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Deletar">
+                                            <IconButton aria-label="Delete" onClick={() => handleDelete(build.id)}>
+                                                <Delete />
+                                            </IconButton>
+                                        </Tooltip>
                                     </td>
                                 </tr>
                                 ))

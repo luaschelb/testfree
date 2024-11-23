@@ -7,8 +7,11 @@ import "../../shared_styles/StyledTable.css"
 import "../../shared_styles/ClickableOpacityIcon.css"
 import "../../shared_styles/ClickableOpacityButton.css"
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
-import { Button } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
+import { Edit, Delete } from "@mui/icons-material";
+import { red } from '@mui/material/colors';
 
+const color = red[400];
 
 function TestProjectScreen() {
     const { testProjects, setTestProjects } = useGlobalSelectedProject();
@@ -56,12 +59,16 @@ function TestProjectScreen() {
                                         <td>{tc.name}</td>
                                         <td>{tc.description}</td>
                                         <td>
-                                            <span className="ClickableOpacityIcon" onClick={() => { navigate(`/editar_projeto/${tc.id}`) }}>
-                                                ✏️
-                                            </span>
-                                            <span className="ClickableOpacityIcon" onClick={() => handleDelete(tc.id)}>
-                                                🗑️
-                                            </span>
+                                            <Tooltip title="Editar">
+                                                <IconButton aria-label="Editar" onClick={() => { navigate(`/editar_projeto/${tc.id}`) }}>
+                                                    <Edit />
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title="Deletar">
+                                                <IconButton aria-label="Delete" onClick={() => handleDelete(tc.id)}>
+                                                    <Delete />
+                                                </IconButton>
+                                            </Tooltip>
                                         </td>
                                     </tr>
                                 ))): (
