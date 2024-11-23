@@ -91,14 +91,14 @@ function CreateExecutionScreen() {
                 </select>
                 <div style={{display: "flex", flexDirection: "column", gap: "2px", marginTop: "8px"}}>
                     <Button variant="contained" onClick={submit}
-                    disabled={!builds.length || !testPlans.length}
+                    //disabled={!builds.length || !testPlans.length}
                     style={{width: "fit-content" }}
                     >Cadastrar</Button>
-                    {
+                    {/* {
                         !builds.length || !testPlans.length ? (
                         <span style={{fontSize: "12px", color: "red"}}>Campos Build e Plano de Teste são obrigatórios</span>
                     ) : null
-                    }
+                    } */}
                 </div>
             </form>
         </div>
