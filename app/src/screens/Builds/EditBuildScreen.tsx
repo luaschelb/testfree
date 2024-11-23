@@ -30,11 +30,11 @@ function EditBuildScreen() {
                     title: build.title,
                     version: build.version,
                     description: build.description,
-                    active: build.active ?? false,  // Garante que seja booleano
+                    active: !!build.active,  // Garante que seja booleano
                     initialTitle: build.title,
                     initialVersion: build.version,
                     initialDescription: build.description,
-                    initialActive: build.active ?? false,
+                    initialActive: !!build.active,
                 });
             } catch (error) {
                 alert("Erro ao carregar build: " + (error as Error).message);
