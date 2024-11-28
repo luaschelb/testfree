@@ -166,12 +166,7 @@ function createTablesAndInsertData() {
           ('Excluir produto', 3, 1, 'Excluir um produto existente', '1. Acessar a página de produtos\n2. Selecionar um produto existente\n3. Clicar em "Excluir"\n4. Confirmar a exclusão\n5. Verificar se o produto foi removido', 1, 1, 2),
           
           ('Gerar relatório de vendas', 1, 1, 'Geração de relatório com vendas realizadas em um período', '1. Acessar a página de Relatórios\n2. Selecionar período desejado\n3. Clicar em "Gerar Relatório"\n4. Verificar se os dados estão corretos', 1, 1, 3),
-          ('Exportar relatório de vendas', 2, 1, 'Exportar relatório de vendas para arquivo', '1. Acessar a página de Relatórios\n2. Selecionar o relatório desejado\n3. Clicar em "Exportar"\n4. Verificar se o arquivo foi baixado corretamente', 1, 1, 3);`
-    );
-    // Seeds para a tabela 'test_cases'
-    insertIfTableEmpty(
-      'test_cases',
-      `INSERT INTO test_cases (name, "order", count, description, steps, enabled, can_edit, test_scenario_id) VALUES
+          ('Exportar relatório de vendas', 2, 1, 'Exportar relatório de vendas para arquivo', '1. Acessar a página de Relatórios\n2. Selecionar o relatório desejado\n3. Clicar em "Exportar"\n4. Verificar se o arquivo foi baixado corretamente', 1, 1, 3),
           ('Atualizar estoque de produto existente', 1, 1, 'Verificar atualização do estoque de um produto existente', '1. Acessar a página de Estoque\n2. Localizar o produto desejado\n3. Atualizar o campo de quantidade disponível\n4. Clicar em "Salvar"\n5. Verificar se o estoque foi atualizado', 1, 1, 4),
           ('Reduzir estoque após venda', 2, 1, 'Validar redução automática no estoque após venda', '1. Acessar a página de Vendas\n2. Registrar a venda de um produto existente\n3. Finalizar venda\n4. Verificar se o estoque foi reduzido', 1, 1, 4),
           
@@ -182,7 +177,8 @@ function createTablesAndInsertData() {
           ('Exportar relatório de estoque', 2, 1, 'Exportar relatório atual de estoque para arquivo', '1. Acessar a página de Relatórios\n2. Selecionar o relatório de estoque atual\n3. Clicar em "Exportar"\n4. Verificar se o arquivo foi baixado com os dados corretos', 1, 1, 6),
 
           ('Calcular financiamento com entrada válida', 1, 1, 'Verificar cálculo correto do financiamento com entrada', '1. Acessar a página de Financiamento\n2. Inserir os dados do cliente e do veículo\n3. Informar um valor de entrada válido\n4. Clicar em "Calcular"\n5. Verificar se o valor do financiamento foi exibido corretamente', 1, 1, 7),
-          ('Calcular financiamento sem entrada', 2, 1, 'Verificar cálculo de financiamento sem entrada', '1. Acessar a página de Financiamento\n2. Inserir os dados do cliente e do veículo\n3. Não informar valor de entrada\n4. Clicar em "Calcular"\n5. Verificar se o valor do financiamento foi exibido corretamente', 1, 1, 7);`
+          ('Calcular financiamento sem entrada', 2, 1, 'Verificar cálculo de financiamento sem entrada', '1. Acessar a página de Financiamento\n2. Inserir os dados do cliente e do veículo\n3. Não informar valor de entrada\n4. Clicar em "Calcular"\n5. Verificar se o valor do financiamento foi exibido corretamente', 1, 1, 7);
+          `
     );
     // // Seeds para a tabela 'test_cases'
     insertIfTableEmpty(
