@@ -177,13 +177,8 @@ function createTablesAndInsertData() {
           ('Exportar relatório de estoque', 2, 1, 'Exportar relatório atual de estoque para arquivo', '1. Acessar a página de Relatórios\n2. Selecionar o relatório de estoque atual\n3. Clicar em "Exportar"\n4. Verificar se o arquivo foi baixado com os dados corretos', 1, 1, 6),
 
           ('Calcular financiamento com entrada válida', 1, 1, 'Verificar cálculo correto do financiamento com entrada', '1. Acessar a página de Financiamento\n2. Inserir os dados do cliente e do veículo\n3. Informar um valor de entrada válido\n4. Clicar em "Calcular"\n5. Verificar se o valor do financiamento foi exibido corretamente', 1, 1, 7),
-          ('Calcular financiamento sem entrada', 2, 1, 'Verificar cálculo de financiamento sem entrada', '1. Acessar a página de Financiamento\n2. Inserir os dados do cliente e do veículo\n3. Não informar valor de entrada\n4. Clicar em "Calcular"\n5. Verificar se o valor do financiamento foi exibido corretamente', 1, 1, 7);
-          `
-    );
-    // // Seeds para a tabela 'test_cases'
-    insertIfTableEmpty(
-      'test_cases',
-      `INSERT INTO test_cases (name, "order", count, description, steps, enabled, can_edit, test_scenario_id) VALUES
+          ('Calcular financiamento sem entrada', 2, 1, 'Verificar cálculo de financiamento sem entrada', '1. Acessar a página de Financiamento\n2. Inserir os dados do cliente e do veículo\n3. Não informar valor de entrada\n4. Clicar em "Calcular"\n5. Verificar se o valor do financiamento foi exibido corretamente', 1, 1, 7),
+          
           ('Inserir CPF inválido', 1, 1, 'Validar erro ao inserir CPF inválido em cadastro', '1. Acessar a página de Cadastro do Cliente\n2. Inserir um CPF inválido\n3. Clicar em "Salvar"\n4. Verificar se o sistema exibe uma mensagem de erro', 1, 1, 8),
           ('Validar campos obrigatórios', 2, 1, 'Verificar se o sistema impede o envio de cadastro sem campos obrigatórios preenchidos', '1. Acessar a página de Cadastro do Cliente\n2. Tentar salvar sem preencher os campos obrigatórios\n3. Verificar se o sistema exibe mensagem de erro', 1, 1, 8),
 
@@ -194,7 +189,8 @@ function createTablesAndInsertData() {
           ('Rejeitar documentos inválidos', 2, 1, 'Verificar rejeição de documentos inválidos enviados', '1. Acessar a página de Documentação\n2. Selecionar documentos inválidos\n3. Clicar em "Rejeitar"\n4. Verificar se o sistema marca os documentos como rejeitados', 1, 1, 10),
 
           ('Realizar transação de venda com sucesso', 1, 1, 'Validar realização de transação de venda bem-sucedida', '1. Acessar a página de Transações na MPOS\n2. Inserir dados do cliente e do cartão\n3. Inserir valor da venda\n4. Clicar em "Confirmar"\n5. Verificar se a transação foi aprovada', 1, 1, 11),
-          ('Rejeitar transação com cartão inválido', 2, 1, 'Validar rejeição de transação com dados inválidos do cartão', '1. Acessar a página de Transações na MPOS\n2. Inserir dados do cliente e um cartão inválido\n3. Inserir valor da venda\n4. Clicar em "Confirmar"\n5. Verificar se o sistema rejeita a transação', 1, 1, 11);`
+          ('Rejeitar transação com cartão inválido', 2, 1, 'Validar rejeição de transação com dados inválidos do cartão', '1. Acessar a página de Transações na MPOS\n2. Inserir dados do cliente e um cartão inválido\n3. Inserir valor da venda\n4. Clicar em "Confirmar"\n5. Verificar se o sistema rejeita a transação', 1, 1, 11)
+          `
     );
 
     // Seeds para a tabela 'test_steps'
@@ -248,9 +244,9 @@ function createTablesAndInsertData() {
     insertIfTableEmpty('files', `
       INSERT INTO files (name, path, test_executions_test_cases_id)
       VALUES 
-        ('screenshot-login-sucesso.png', '/screenshots/login-success.png', 1),
-        ('screenshot-login-falha.png', '/screenshots/login-failure.png', 2),
-        ('screenshot-cadastro-produto.png', '/screenshots/product-add.png', 3);
+        ('screenshot-login-sucesso.png', '/screenshots/img1.png', 1),
+        ('screenshot-login-falha.png', '/screenshots/img2.png', 2),
+        ('screenshot-cadastro-produto.png', '/screenshots/img3.png', 3);
     `);
 
     // Seeds para a tabela 'User'
