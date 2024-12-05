@@ -234,8 +234,8 @@ function createTablesAndInsertData() {
     insertIfTableEmpty('test_executions_test_cases', `
       INSERT INTO test_executions_test_cases (created_at, comment, passed, skipped, failed, test_execution_id, test_case_id)
       VALUES 
-        ('28/09/2024 14:01', 'Produto atualizado com sucesso', 1, 0, 0, 1, 1),
-        ('28/09/2024 14:03', 'Não foi reduzido estoque', 0, 0, 1, 1, 2),
+        ('28/09/2024 14:01', 'Senha recuperada com sucesso', 1, 0, 0, 1, 1),
+        ('28/09/2024 14:03', 'Foi acusado credenciais inválidas com as credenciais validas Admin@Admin', 0, 0, 1, 1, 2),
         ('28/09/2024 14:05', 'Categoria cadastrada corretamente', 1, 0, 0, 1, 3),
         ('28/09/2024 14:14', 'Categoria cadastrada corretamente', 1, 0, 0, 2, 3);
     `);
@@ -244,9 +244,9 @@ function createTablesAndInsertData() {
     insertIfTableEmpty('files', `
       INSERT INTO files (name, path, test_executions_test_cases_id)
       VALUES 
-        ('screenshot-login-sucesso.png', '/screenshots/img1.png', 1),
+        ('screenshot-login-sucesso.png', '/screenshots/img1.png', 3),
         ('screenshot-login-falha.png', '/screenshots/img2.png', 2),
-        ('screenshot-cadastro-produto.png', '/screenshots/img3.png', 3);
+        ('screenshot-cadastro-produto.png', '/screenshots/img3.png', 1);
     `);
 
     // Seeds para a tabela 'User'
