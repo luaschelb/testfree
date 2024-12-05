@@ -119,7 +119,7 @@ router.get('/:id', (req, res) => {
             // Adicionar arquivos aos test cases únicos
             const promises = Object.values(uniqueTestCases).map((testCase) => {
                 return new Promise((resolve, reject) => {
-                    db.all("SELECT * FROM files WHERE test_executions_test_cases_id = ?", [testCase.id], (err, files) => {
+                    db.all("SELECT * FROM files WHERE test_executions_test_cases_id = ?", [testCase.test_execution_test_case_id], (err, files) => {
                         if (err) reject(err);
                         testCase.files = files || [];
                         resolve();
