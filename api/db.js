@@ -108,7 +108,7 @@ function createTablesAndInsertData() {
       FOREIGN KEY (test_executions_test_cases_id) REFERENCES test_executions_test_cases(id) ON DELETE CASCADE
     );`);
 
-    db.run(`CREATE TABLE IF NOT EXISTS User (
+    db.run(`CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name VARCHAR(255),
       login VARCHAR(255),
@@ -254,8 +254,8 @@ function createTablesAndInsertData() {
     `);
 
     // Seeds para a tabela 'User'
-    insertIfTableEmpty('User', `
-      INSERT INTO User (name, login, email, password, role)
+    insertIfTableEmpty('users', `
+      INSERT INTO users (name, login, email, password, role)
       VALUES 
         ('Admin', 'admin', 'admin@loja.com', 'admin123', 'admin'),
         ('Tester', 'tester', 'tester@loja.com', 'tester123', 'tester');
@@ -263,7 +263,7 @@ function createTablesAndInsertData() {
   });
 }
 
-let allowSeed = true;
+let allowSeed = false;
 // Função auxiliar para verificar e inserir dados
 function insertIfTableEmpty(tableName, insertQuery) {
   if (!allowSeed)

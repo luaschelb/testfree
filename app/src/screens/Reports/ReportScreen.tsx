@@ -50,7 +50,6 @@ const ReportScreen = () => {
     };
 
     function handlePDFGeneration() {
-        // you can use a function to return the target element besides using React refs
         const getTargetElement = () => {
             let content = document.getElementById('content-id') as HTMLElement
             let expandIcons = content.getElementsByClassName('expandIcon')
