@@ -148,14 +148,14 @@ const RunExecutionScreen = () => {
                         <label><b>Plano de Teste:</b> {execution?.testPlan?.name}</label>
                         <label><b>Build:</b> {execution?.build?.title}</label>
                         <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
-                    </div>
-                    <div>
                         {execution?.status === TestExecutionStatusEnum.Finalizada ? 
                             (<span style={{marginRight: "12px"}}>Finalizada em: {execution.end_date}</span>) : null
                             }
+                    </div>
+                    <div>
                         <Button variant="contained" color="primary" style={{
                             //width: "160px",
-                            fontSize: "14px",
+                            fontSize: "12px",
                             marginRight: "8px"
                             }}
                             onClick={() => { navigate(`/relatorios/${execution?.id}`)}}
@@ -168,7 +168,7 @@ const RunExecutionScreen = () => {
                             disabled={execution?.status === undefined}
                             onClick={(e) => {execution?.status === TestExecutionStatusEnum.Finalizada ? reativar(e) : finaliza(e)}} 
                             style={{
-                            fontSize: "14px",
+                            fontSize: "12px",
                             }}>
                                 {execution?.status === TestExecutionStatusEnum.Finalizada ? "Reativar Execução" : "Finalizar Execução"}
                         </Button>

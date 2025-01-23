@@ -37,7 +37,7 @@ interface RunTestModalProps {
 const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase, execution, setShouldUpdateScreen}) => {
 
   const [ comments, setComments ] = useState<string | undefined>(testCase?.comment);
-  const [ status, setStatus ] = useState<number | undefined>(testCase?.status);
+  const [ status, setStatus ] = useState<number | undefined>(testCase?.status ? testCase.status : 1);
 
   const [openModal, setOpenModal] = useState<{
       open: boolean,
@@ -63,13 +63,7 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
     let passed = 1
     let skipped = 1
     let failed = 1
-    if(status === 0)
-    {
-      passed = 0
-      skipped = 0
-      failed = 0
-    }
-    if(status === 1)
+    if(status === 1 || status === 0)
     {
       passed = 1
       skipped = 0
@@ -145,7 +139,7 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
               <b>Estado:</b> 
               <select 
                 style={{height: "1.8rem"}}
-                value={status ? status : 0}
+                value={status ? status : 1}
                 onChange={(event) => {
                     setStatus(parseInt(event.target.value))
                 }}>
