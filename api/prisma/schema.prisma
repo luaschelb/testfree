@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model builds {
+  id              Int               @id @default(autoincrement())
+  title           String?
+  version         String?
+  description     String?
+  active          Boolean?
+  project_id      Int?
+  projects        projects?         @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_executions test_executions[]
+}
+
+model files {
+  id                            Int                         @id @default(autoincrement())
+  name                          String?
+  path                          String?
+  test_executions_test_cases_id Int?
+  test_executions_test_cases    test_executions_test_cases? @relation(fields: [test_executions_test_cases_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model projects {
+  id                     Int              @id @default(autoincrement())
+  testcase_counter       Int?             @default(1)
+  testscenario_counter   Int?             @default(1)
+  testexecutions_counter Int?             @default(1)
+  name                   String?
+  description            String?
+  active                 Boolean?
+  builds                 builds[]
+  test_plans             test_plans[]
+  test_scenarios         test_scenarios[]
+}
+
+model test_cases {
+  id                         Int                          @id @default(autoincrement())
+  name                       String?
+  order                      Int?
+  count                      Int?
+  description                String?
+  steps                      String?
+  enabled                    Boolean?
+  can_edit                   Boolean?
+  test_scenario_id           Int?
+  test_scenarios             test_scenarios?              @relation(fields: [test_scenario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_executions_test_cases test_executions_test_cases[]
+  test_steps                 test_steps[]
+  testplans_testcases        testplans_testcases[]
+}
+
+model test_executions {
+  id                         Int                          @id @default(autoincrement())
+  start_date                 DateTime?
+  end_date                   DateTime?
+  test_plan_id               Int?
+  build_id                   Int?
+  status                     Int?                         @default(1)
+  comments                   String?
+  builds                     builds?                      @relation(fields: [build_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_plans                 test_plans?                  @relation(fields: [test_plan_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_executions_test_cases test_executions_test_cases[]
+}
+
+model test_executions_test_cases {
+  id                Int              @id @default(autoincrement())
+  created_at        DateTime?
+  comment           String?
+  passed            Boolean?
+  skipped           Boolean?
+  failed            Boolean?
+  test_execution_id Int?
+  test_case_id      Int?
+  files             files[]
+  test_cases        test_cases?      @relation(fields: [test_case_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_executions   test_executions? @relation(fields: [test_execution_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model test_plans {
+  id                  Int                   @id @default(autoincrement())
+  name                String?
+  description         String?
+  active              Boolean?
+  project_id          Int?
+  test_executions     test_executions[]
+  projects            projects?             @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  testplans_testcases testplans_testcases[]
+}
+
+model test_scenarios {
+  id              Int          @id @default(autoincrement())
+  name            String?
+  count           Int?
+  description     String?
+  order           Int?
+  test_project_id Int?
+  test_cases      test_cases[]
+  projects        projects?    @relation(fields: [test_project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model test_steps {
+  id              Int         @id @default(autoincrement())
+  stepnumber      Int?
+  action          String?
+  expected_result String?
+  test_case_id    Int?
+  test_cases      test_cases? @relation(fields: [test_case_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model testplans_testcases {
+  id           Int         @id @default(autoincrement())
+  test_plan_id Int?
+  test_case_id Int?
+  test_cases   test_cases? @relation(fields: [test_case_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_plans   test_plans? @relation(fields: [test_plan_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model users {
+  id       Int     @id @default(autoincrement())
+  name     String?
+  login    String?
+  email    String?
+  password String?
+  role     String?
+}
