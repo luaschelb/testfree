@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('testfree.db'); // Banco de dados persistido em arquivo
+const db = new sqlite3.Database('dev.db'); // Banco de dados persistido em arquivo
 
 // Função para criar tabelas e inserir dados
 function createTablesAndInsertData() {
@@ -259,7 +259,7 @@ function createTablesAndInsertData() {
   });
 }
 
-let allowSeed = false;
+let allowSeed = true;
 // Função auxiliar para verificar e inserir dados
 function insertIfTableEmpty(tableName, insertQuery) {
   if (!allowSeed)
