@@ -55,9 +55,16 @@ router.put('/:id', async (req : any, res : any) => {
 });
 
 router.delete('/:id', async (req : any, res : any) => {
-    const { id } = req.params;
-    const result = await prismaClient.builds.delete({where: {id: Number(id)}})
-    res.json(result)
+    try
+    {
+        const { id } = req.params;
+        const result = await prismaClient.builds.delete({where: {id: Number(id)}})
+        res.json(result)
+    }
+    catch (error)
+    {
+        return res.status(404).json({ error: 'Build não encontrada' });
+    }
 });
 
 module.exports = router;
