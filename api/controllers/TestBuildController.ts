@@ -50,7 +50,7 @@ router.put('/:id', async (req : any, res : any) => {
     }
     catch (error)
     {
-        return res.status(404).json({ error: 'Projeto de teste não encontrado' });
+        return res.status(404).json({ error: 'Build não encontrada' });
     }
 });
 
