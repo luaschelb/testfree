@@ -20,9 +20,6 @@ router.get('/:id', async (req : any, res : any) => {
 
 router.post('/', async (req, res) => {
     const { name, description } = req.body;
-    if (!name || !description) {
-        return res.status(400).json({ error: 'Nome e descrição são obrigatórios.' });
-    }
 
     const result = await prismaClient.projects.create({
         data: {name, description}
@@ -34,9 +31,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { name, description } = req.body;
-    if (!name || !description) {
-        return res.status(400).json({ error: 'Nome e descrição são obrigatórios.' });
-    }
+
     try
     {
         const result = await prismaClient.projects.update({
