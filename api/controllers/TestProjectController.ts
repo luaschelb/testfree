@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
         data: {name, description}
     })
 
-    res.json(result)
+    res.status(201).json(result)
 });
 
 router.put('/:id', async (req, res) => {
