@@ -1,8 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 
-// const TestCaseController = require("./controllers/TestCaseController")
-// const TestScenarioController = require("./controllers/TestScenarioController")
+const TestCaseController = require("./controllers/TestCaseController")
+const TestScenarioController = require("./controllers/TestScenarioController")
 const TestProjectController = require("./controllers/TestProjectController")
 const TestBuildController = require("./controllers/TestBuildController")
 // const TestPlanController = require("./controllers/TestPlanController")
@@ -16,8 +16,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/projetos', TestProjectController);
-// app.use('/scenarios', TestScenarioController);
-// app.use('/testcases', TestCaseController);
+app.use('/scenarios', TestScenarioController);
+app.use('/testcases', TestCaseController);
 app.use('/builds', TestBuildController);
 // app.use('/test-plans', TestPlanController);
 // app.use('/executions', TestExecutionController);
