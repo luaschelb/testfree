@@ -1,10 +1,10 @@
 const express = require('express');
-import prismaClient from '../db';
+import prisma from '../db';
 const router = express.Router();
 
 router.get('/project/:project_id', async (req : any, res : any) => {
     const { project_id } = req.params;
-    const result = await prismaClient.projects.findFirst({
+    const result = await prisma.projects.findFirst({
         where: { id: Number(project_id)},
         include: {
             builds: true,
@@ -15,13 +15,13 @@ router.get('/project/:project_id', async (req : any, res : any) => {
 
 router.get('/', async (req : any, res : any) => {
     const { id } = req.params;
-    const build = await prismaClient.builds.findMany()
+    const build = await prisma.builds.findMany()
     res.json(build)
 });
 
 router.get('/:id', async (req : any, res : any) => {
     const { id } = req.params;
-    const build = await prismaClient.builds.findFirst({
+    const build = await prisma.builds.findFirst({
         where: { id: Number(id)}
     })
     res.json(build)
@@ -30,7 +30,7 @@ router.get('/:id', async (req : any, res : any) => {
 router.post('/', async (req : any, res : any) => {
     const { title, version, description, active, project_id } = req.body;
 
-    const result = await prismaClient.builds.create({
+    const result = await prisma.builds.create({
         data: {title, version, description, active, project_id}
     })
 
@@ -42,7 +42,7 @@ router.put('/:id', async (req : any, res : any) => {
     const { title, version, description, active, project_id } = req.body;
     try
     {
-        const result = await prismaClient.builds.update({
+        const result = await prisma.builds.update({
             where: { id: Number(id)},
             data: { title, version, description, active, project_id }
         })
@@ -58,7 +58,7 @@ router.delete('/:id', async (req : any, res : any) => {
     try
     {
         const { id } = req.params;
-        const result = await prismaClient.builds.delete({where: {id: Number(id)}})
+        const result = await prisma.builds.delete({where: {id: Number(id)}})
         res.json(result)
     }
     catch (error)

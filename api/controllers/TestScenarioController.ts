@@ -1,16 +1,16 @@
 import express from 'express'
-import prismaClient from '../db'
+import prisma from '../db'
 
 const router = express.Router()
 
 router.get('/', async (req, res) => {
-  const scenarios = await prismaClient.test_scenarios.findMany()
+  const scenarios = await prisma.test_scenarios.findMany()
   res.json(scenarios)
 })
 
 router.get('/project/:projectId', async (req, res) => {
   const { projectId } = req.params
-  const scenarios = await prismaClient.test_scenarios.findMany({
+  const scenarios = await prisma.test_scenarios.findMany({
     where: { test_project_id: Number(projectId) },
     include: {
       test_cases: true
@@ -21,7 +21,7 @@ router.get('/project/:projectId', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params
-  const scenario = await prismaClient.test_scenarios.findFirst({
+  const scenario = await prisma.test_scenarios.findFirst({
     where: { id: Number(id) },
     include: {
       test_cases: true
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const { name, description, test_project_id } = req.body
-  const result = await prismaClient.test_scenarios.create({
+  const result = await prisma.test_scenarios.create({
     data: { name, description, test_project_id: Number(test_project_id) }
   })
   res.status(201).json(result)
@@ -43,7 +43,7 @@ router.put('/:id', async (req, res) => {
   const { name, description, test_project_id } = req.body
 
   try {
-    const result = await prismaClient.test_scenarios.update({
+    const result = await prisma.test_scenarios.update({
       where: { id: Number(id) },
       data: { name, description, test_project_id: Number(test_project_id) }
     })
@@ -56,7 +56,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
   try {
-    const result = await prismaClient.test_scenarios.delete({
+    const result = await prisma.test_scenarios.delete({
       where: { id: Number(id) }
     })
     res.json(result)

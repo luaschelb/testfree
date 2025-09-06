@@ -1,16 +1,16 @@
 import express from 'express'
-import prismaClient from '../db'
+import prisma from '../db'
 
 const router = express.Router()
 
 router.get('/', async (req, res) => {
-  const testCases = await prismaClient.test_cases.findMany()
+  const testCases = await prisma.test_cases.findMany()
   res.json(testCases)
 })
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params
-  const testCase = await prismaClient.test_cases.findFirst({
+  const testCase = await prisma.test_cases.findFirst({
     where: { id: Number(id) }
   })
   res.json(testCase)
@@ -19,7 +19,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   const { name, description, steps, test_scenario_id } = req.body
 
-  const result = await prismaClient.test_cases.create({
+  const result = await prisma.test_cases.create({
     data: { name, description, steps, test_scenario_id: Number(test_scenario_id) }
   })
 
@@ -31,7 +31,7 @@ router.put('/:id', async (req, res) => {
   const { name, description, steps, test_scenario_id } = req.body
 
   try {
-    const result = await prismaClient.test_cases.update({
+    const result = await prisma.test_cases.update({
       where: { id: Number(id) },
       data: { name, description, steps, test_scenario_id: Number(test_scenario_id) }
     })
@@ -44,7 +44,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
   try {
-    const result = await prismaClient.test_cases.delete({
+    const result = await prisma.test_cases.delete({
       where: { id: Number(id) }
     })
     res.json(result)

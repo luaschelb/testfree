@@ -1,16 +1,16 @@
 import express from 'express'
-import prismaClient from '../db';
+import prisma from '../db';
 
 const router = express.Router();
 
 router.get('/', async (req : any, res : any) => {
-    const projects = await prismaClient.projects.findMany()
+    const projects = await prisma.projects.findMany()
     res.json(projects)
 });
 
 router.get('/:id', async (req : any, res : any) => {
     const { id } = req.params;
-    const project = await prismaClient.projects.findFirst({
+    const project = await prisma.projects.findFirst({
         where: {
             id: Number(id)
         }
@@ -21,7 +21,7 @@ router.get('/:id', async (req : any, res : any) => {
 router.post('/', async (req, res) => {
     const { name, description } = req.body;
 
-    const result = await prismaClient.projects.create({
+    const result = await prisma.projects.create({
         data: {name, description}
     })
 
@@ -34,7 +34,7 @@ router.put('/:id', async (req, res) => {
 
     try
     {
-        const result = await prismaClient.projects.update({
+        const result = await prisma.projects.update({
             where: {
                 id: Number(id)
             },
@@ -54,7 +54,7 @@ router.delete('/:id',  async (req, res) => {
     const { id } = req.params;
     try
     {
-        const result = await prismaClient.projects.delete({where: {id: Number(id)}})
+        const result = await prisma.projects.delete({where: {id: Number(id)}})
         res.json(result)
     }
     catch (error)
@@ -67,7 +67,7 @@ router.delete('/:id',  async (req, res) => {
 // Get count for test_scenarios, builds, test_executions, e test_plans for the project
 router.get('/count/:id',  async (req, res) => {
     const { id } = req.params;
-    const result: any = await prismaClient.$queryRaw`
+    const result: any = await prisma.$queryRaw`
         SELECT
             (SELECT COUNT(*) FROM test_scenarios WHERE test_project_id = p.id) AS test_scenarios_count,
             (SELECT COUNT(*) FROM builds WHERE project_id = p.id) AS builds_count,
