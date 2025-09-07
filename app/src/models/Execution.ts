@@ -12,7 +12,7 @@ class Execution {
     test_plan_id: number;
     build_id: number;
     testCases?: TestCase[];
-    testPlan?: TestPlan;
+    test_plans?: TestPlan;
     build?: Build;
 
     constructor(id: number, start_date: string, end_date: string, test_plan_id: number, build_id: number, status: number, comments: string) {

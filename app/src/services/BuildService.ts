@@ -7,11 +7,11 @@ class BuildService {
             throw new Error('Erro ao buscar builds.');
         }
         const body = await response.json();
-        if(!body?.builds)
+        let builds = []
+        if(body?.builds?.length > 0)
         {
-            return [];
+            builds = body.builds.map((item: any) => new Build(item.id, item.title, item.version, item.description, item.active, item.project_id));
         }
-        const builds = body.map((item: any) => new Build(item.id, item.title, item.version, item.description, item.active, item.project_id));
         return builds;
     }
 

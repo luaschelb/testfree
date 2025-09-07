@@ -86,7 +86,7 @@ const ReportScreen = () => {
                         setExpandedTestCases(initialExpandedTestCases);
     
                         res1.build = res2;
-                        res1.testPlan = res3;
+                        res1.test_plans = res3;
                         for(let i = 0; i < testscenariosData.length; i++) {
                             for(let j = 0; j < testscenariosData[i].testCases.length; j++) {
                                 let found = res1.testCases?.find((tc) => tc.id === testscenariosData[i].testCases[j].id)
@@ -140,7 +140,7 @@ const ReportScreen = () => {
                 id="content-id"
             >
                 <div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
-                    <label><b>Plano de Teste:</b> {execution?.testPlan?.name}</label>
+                    <label><b>Plano de Teste:</b> {execution?.test_plans?.name}</label>
                     <label><b>Build:</b> {execution?.build?.title}</label>
                     <label><b>Finalizada em:</b> {execution?.end_date}</label>
                     <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>

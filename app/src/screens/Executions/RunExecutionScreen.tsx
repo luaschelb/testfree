@@ -46,7 +46,7 @@ const RunExecutionScreen = () => {
                             const allScenarioIds = testscenariosData.map(scenario => scenario.id);
                             setExpandedScenarios(allScenarioIds);
                             res1.build = res2;
-                            res1.testPlan = res3;
+                            res1.test_plans = res3;
                             for(let i = 0; i < testscenariosData.length; i++) // foreach scenario
                             {   
                                 for(let j = 0; j < testscenariosData[i].testCases.length; j++) // foreach testcase in scenario
@@ -145,7 +145,7 @@ const RunExecutionScreen = () => {
             <div style = {{ flexDirection: 'column', columnGap: "16px" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px"}}>
                     <div style={{display: "flex", gap: "16px"}}>
-                        <label><b>Plano de Teste:</b> {execution?.testPlan?.name}</label>
+                        <label><b>Plano de Teste:</b> {execution?.test_plans?.name}</label>
                         <label><b>Build:</b> {execution?.build?.title}</label>
                         <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
                         {execution?.status === TestExecutionStatusEnum.Finalizada ? 

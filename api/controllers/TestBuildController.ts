@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/project/:project_id', async (req : any, res : any) => {
     const { project_id } = req.params;
-    const result = await prisma.projects.findMany({
+    const result = await prisma.projects.findFirst({
         where: { id: Number(project_id)},
         include: {
             builds: true,
