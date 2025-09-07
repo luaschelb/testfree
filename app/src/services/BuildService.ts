@@ -7,6 +7,10 @@ class BuildService {
             throw new Error('Erro ao buscar builds.');
         }
         const body = await response.json();
+        if(!body?.builds)
+        {
+            return [];
+        }
         const builds = body.map((item: any) => new Build(item.id, item.title, item.version, item.description, item.active, item.project_id));
         return builds;
     }
