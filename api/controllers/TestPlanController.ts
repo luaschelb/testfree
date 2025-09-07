@@ -22,7 +22,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/project/:project_id', async (req, res) => {
     const { project_id } = req.params;
-    const testplans = await prisma.test_plans.findFirst({
+    const testplans = await prisma.test_plans.findMany({
         where: { project_id: Number(project_id) },
         include: {
             testplans_testcases: true

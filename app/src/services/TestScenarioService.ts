@@ -13,7 +13,7 @@ class TestScenarioService {
     }
 
     static async getTestScenariosEagerLoading(project_id : number): Promise<TestScenario[]> {
-        const response = await fetch(`http://localhost:8080/scenarios/eager/${project_id}`);
+        const response = await fetch(`http://localhost:8080/scenarios/project/${project_id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar cenários de teste.');
         }
@@ -27,7 +27,7 @@ class TestScenarioService {
     }
 
     static async getTestScenariosEagerLoadingByTestPlans(project_id : number, testcasesIds : number[]): Promise<TestScenario[]> {
-        const response = await fetch(`http://localhost:8080/scenarios/eager/${project_id}`);
+        const response = await fetch(`http://localhost:8080/scenarios/project/${project_id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar cenários de teste.');
         }
