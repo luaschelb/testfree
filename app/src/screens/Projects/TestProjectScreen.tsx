@@ -42,7 +42,7 @@ function TestProjectScreen() {
                 >Adicionar Projeto</Button> 
             </div>
             <div >
-                <table className="styledTable">
+                <table className="styledTable" data-testid="testProjectTable">
                     <thead>
                         <tr>
                             <th>Id</th>

@@ -24,6 +24,10 @@ app.use('/executions', TestExecutionController);
 app.use('/testexecutions_testcases', TestExecutionTestCaseController);
 app.use('/testfiles', TestFileController);
 
+app.get('/health-check', (req, res) => {
+    res.status(200).json({ status: 'ok', uptime: process.uptime() })
+})
+
 const PORT = 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -42,14 +42,18 @@ function CreateTestProjectScreen() {
                 <input 
                     type="text"
                     className="BasicFormInput"
+                    data-testid="inputProjectName"
                     id="projectName"></input>
                 <div  
                     className="InputLabel">Descrição do Projeto</div>
                 <textarea  
                     className="BasicFormDescription"
+                    data-testid="inputProjectDescription"
                     id="projectDescription" rows={10} cols={50}></textarea>
                 <div>
-                    <Button variant="contained" onClick={submit}>Cadastrar</Button>
+                    <Button
+                    data-testid="buttonRegisterProject"
+                    variant="contained" onClick={submit}>Cadastrar</Button>
                 </div>
             </form>
         </div>
