@@ -74,7 +74,6 @@ async function main() {
   try {
     await run("npx playwright test", appDir);
     console.log("✅ Tests completed successfully.");
-    await run("npx playwright show-report", appDir);
     apiProcess.kill("SIGINT");
     process.exit(0);
   } catch (err) {
