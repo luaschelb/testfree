@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 test('Add project', async ({ page }) => {
   await page.goto('projetos')
   await page.getByText("Adicionar projeto", {exact: false}).click()
-  await expect(page).toHaveURL('/criar_projeto')
+  await page.waitForURL('**/criar_projeto')
   await page.getByTestId("inputProjectName").fill("Auto Test Project Title")
   await page.getByTestId("inputProjectDescription").fill("Auto Test Project Description")
   const request = page.waitForRequest(request =>
