@@ -4,11 +4,11 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev index.ts",
-    "start-test": "dotenv -e test.env ts-node-dev index.ts",
+    "start-test": "dotenv -e .env.test ts-node-dev index.ts",
     "reset-db": "npx prisma migrate reset --force --skip-generate --schema=./prisma/schema.prisma",
-    "reset-db-test": "dotenv -e .test.env  npx prisma migrate reset --force --skip-generate --schema=./prisma/schema.prisma",
+    "reset-db-test": "dotenv -e .env.test  npx prisma migrate reset --force --skip-generate --schema=./prisma/schema.prisma",
     "seed": "ts-node-dev ./prisma/seed.ts",
-    "seed-test": "dotenv -e test.env ts-node-dev ./prisma/seed.ts",
+    "seed-test": "dotenv -e .env.test ts-node-dev ./prisma/seed.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
