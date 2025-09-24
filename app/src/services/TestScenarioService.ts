@@ -4,7 +4,7 @@ import { apiRequest } from "./ApiService";
 
 class TestScenarioService {
     static async getTestScenarios(): Promise<TestScenario[]> {
-        const response = await apiRequest("/scenarios/");
+        const response = await apiRequest("/scenarios");
         if (!response.ok) {
             throw new Error('Erro ao buscar cenários de teste.');
         }

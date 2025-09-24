@@ -4,7 +4,7 @@ import { apiRequest } from "./ApiService";
 
 class TestProjectService {
     static async getTestProjects(): Promise<TestProject[]> {
-        const response = await apiRequest("/projetos/");
+        const response = await apiRequest("/projetos");
         if (!response.ok) {
             throw new Error('Erro ao buscar projetos de teste.');
         }
