@@ -7,7 +7,7 @@ test('Adicionar projeto', async ({ page }) => {
   await page.getByTestId("inputProjectName").fill("Auto Test Project Title")
   await page.getByTestId("inputProjectDescription").fill("Auto Test Project Description")
   const request = page.waitForRequest(request =>
-    request.url() === process.env.API_BASE_URL + '/projetos' && request.method() === 'POST',
+    request.url() === process.env.REACT_APP_API_BASE_URL + '/projetos' && request.method() === 'POST',
   )
   await page.getByTestId("buttonRegisterProject").click()
   const response = (await (await request).response())
@@ -21,3 +21,21 @@ test('Adicionar projeto', async ({ page }) => {
   expect(cellWithNewEntry[2]).toHaveText(`${responseJson.description}`)
 })
 
+test("Deletar projeto", async ({page}) => {
+  await page.goto('projetos')
+  // wait for at least of valid row to be rendered
+  await expect(await page.getByLabel('Editar').count()).toBeGreaterThan(0)
+  // rest of the test
+  const lengthBeforeDelete = await page.getByLabel('Deletar').count()
+  const request = page.waitForRequest(request =>
+    request.url().startsWith(process.env.REACT_APP_API_BASE_URL + '/projetos/') && request.method() === 'DELETE',
+  )
+  // prepara o listener para aceitar o confirm
+  page.once('dialog', dialog => {
+    dialog.accept()
+  });
+  await page.getByLabel('Deletar').first().click();
+  const response = (await (await request).response())
+
+  await expect(page.getByLabel('Deletar')).toHaveCount(lengthBeforeDelete - 1);
+})

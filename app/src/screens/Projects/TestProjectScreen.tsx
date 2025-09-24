@@ -66,7 +66,7 @@ function TestProjectScreen() {
                                                 </IconButton>
                                             </Tooltip>
                                             <Tooltip title="Deletar">
-                                                <IconButton aria-label="Delete" onClick={() => handleDelete(tc.id)}>
+                                                <IconButton aria-label="Deletar" onClick={() => handleDelete(tc.id)}>
                                                     <Delete />
                                                 </IconButton>
                                             </Tooltip>
