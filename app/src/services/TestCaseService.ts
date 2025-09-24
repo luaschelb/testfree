@@ -3,7 +3,7 @@ import { apiRequest } from "./ApiService";
 
 class TestCaseService {
     static async getTestCases(): Promise<TestCase[]> {
-        const response = await apiRequest("/testcases/");
+        const response = await apiRequest("/testcases");
         if (!response.ok) {
             throw new Error('Erro ao buscar casos de teste.');
         }
