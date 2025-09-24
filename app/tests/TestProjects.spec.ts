@@ -7,7 +7,7 @@ test('Adicionar projeto', async ({ page }) => {
   await page.getByTestId("inputProjectName").fill("Auto Test Project Title")
   await page.getByTestId("inputProjectDescription").fill("Auto Test Project Description")
   const request = page.waitForRequest(request =>
-    request.url() === 'http://localhost:8080/projetos' && request.method() === 'POST',
+    request.url() === process.env.API_BASE_URL + '/projetos' && request.method() === 'POST',
   )
   await page.getByTestId("buttonRegisterProject").click()
   const response = (await (await request).response())
