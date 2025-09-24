@@ -1,4 +1,4 @@
-const BaseUrl = process.env.API_BASE_URL
+const BaseUrl = process.env.REACT_APP_API_BASE_URL
 
 export async function apiRequest(path : string, options?: RequestInit)
 {
