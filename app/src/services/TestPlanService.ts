@@ -1,10 +1,11 @@
 import TestCase from "../models/TestCase";
 import { TestPlan } from "../models/TestPlan";
+import { apiRequest } from "./ApiService";
 
 class TestPlanService {
     // Buscar todos os planos de teste
     static async getAllTestPlans(): Promise<TestPlan[]> {
-        const response = await fetch('http://localhost:8080/test-plans');
+        const response = await apiRequest('/test-plans');
         if (!response.ok) {
             throw new Error('Erro ao buscar planos de teste.');
         }
@@ -13,7 +14,7 @@ class TestPlanService {
     }
 
     static async getTestPlansByProjectId(project_id : number): Promise<TestPlan[]> {
-        const response = await fetch(`http://localhost:8080/test-plans/project/${project_id}`);
+        const response = await apiRequest(`/test-plans/project/${project_id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar test-plans.');
         }
@@ -28,7 +29,7 @@ class TestPlanService {
 
     // Buscar um plano de teste por ID
     static async getTestPlanByIdEager(id: number): Promise<TestPlan> {
-        const response = await fetch(`http://localhost:8080/test-plans/${id}`);
+        const response = await apiRequest(`/test-plans/${id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar o plano de teste.');
         }
@@ -40,7 +41,7 @@ class TestPlanService {
 
     // Criar um novo plano de teste
     static async createTestPlan(data: { name: string, description: string, active: boolean, project_id: number }): Promise<Response> {
-        const response = await fetch('http://localhost:8080/test-plans', {
+        const response = await apiRequest('/test-plans', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -55,7 +56,7 @@ class TestPlanService {
 
     // Atualizar um plano de teste
     static async updateTestPlan(data: TestPlan): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/test-plans/${data.id}`, {
+        const response = await apiRequest(`/test-plans/${data.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +71,7 @@ class TestPlanService {
 
     // Deletar um plano de teste
     static async deleteTestPlan(id: number): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/test-plans/${id}`, {
+        const response = await apiRequest(`/test-plans/${id}`, {
             method: 'DELETE',
         });
         if (!response.ok) {
@@ -81,7 +82,7 @@ class TestPlanService {
 
     // Vincular um caso de teste a um plano de teste
     static async linkTestCaseToTestPlan(testPlanId: number, testCaseId: number): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/test-plans/${testPlanId}/test-cases/${testCaseId}`, {
+        const response = await apiRequest(`/test-plans/${testPlanId}/test-cases/${testCaseId}`, {
             method: 'POST',
         });
         if (!response.ok) {
@@ -92,7 +93,7 @@ class TestPlanService {
 
     // Desvincular um caso de teste de um plano de teste
     static async unlinkTestCaseFromTestPlan(testPlanId: number, testCaseId: number): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/test-plans/${testPlanId}/test-cases/${testCaseId}`, {
+        const response = await apiRequest(`/test-plans/${testPlanId}/test-cases/${testCaseId}`, {
             method: 'DELETE',
         });
         if (!response.ok) {
@@ -103,7 +104,7 @@ class TestPlanService {
 
     // Vincular múltiplos casos de teste a um plano de teste
     static async linkMultipleTestCases(testPlanId: number, testCaseIds: number[]): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/test-plans/${testPlanId}/test-cases`, {
+        const response = await apiRequest(`/test-plans/${testPlanId}/test-cases`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

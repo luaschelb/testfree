@@ -1,10 +1,11 @@
 import Execution from "../models/Execution"; // Assuma que você tem esse modelo
 import TestCase from "../models/TestCase"; // Assuma que você tem esse modelo para test cases
+import { apiRequest } from "./ApiService";
 
 class ExecutionService {
     // Buscar todas as execuções
     static async getAllExecutions(): Promise<Execution[]> {
-        const response = await fetch('http://localhost:8080/executions/list');
+        const response = await apiRequest('/executions/list');
         if (!response.ok) {
             throw new Error('Erro ao buscar execuções.');
         }
@@ -14,7 +15,7 @@ class ExecutionService {
 
     // Buscar todas as execuções por project
     static async getAllExecutionsByProject(project_id : number): Promise<any> {
-        const response = await fetch(`http://localhost:8080/executions/project/${project_id}`);
+        const response = await apiRequest(`/executions/project/${project_id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar execuções.');
         }
@@ -24,7 +25,7 @@ class ExecutionService {
 
     // Buscar execução por ID (incluindo casos de teste e arquivos)
     static async getExecutionById(id: number): Promise<Execution> {
-        const response = await fetch(`http://localhost:8080/executions/${id}`);
+        const response = await apiRequest(`/executions/${id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar a execução.');
         }
@@ -52,7 +53,7 @@ class ExecutionService {
 
     // Criar uma nova execução
     static async createExecution(data: { start_date: string, end_date: string, test_plan_id: number, build_id: number, status?: number, comments?: string }): Promise<Response> {
-        const response = await fetch('http://localhost:8080/executions', {
+        const response = await apiRequest('/executions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -67,7 +68,7 @@ class ExecutionService {
 
     // Atualizar uma execução
     static async updateExecution(data: Execution): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/executions/${data.id}`, {
+        const response = await apiRequest(`/executions/${data.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -82,7 +83,7 @@ class ExecutionService {
 
     // Deletar uma execução
     static async deleteExecution(id: number): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/executions/${id}`, {
+        const response = await apiRequest(`/executions/${id}`, {
             method: 'DELETE',
         });
         if (!response.ok) {
@@ -93,7 +94,7 @@ class ExecutionService {
 
     // Vincular um caso de teste a uma execução
     static async linkTestCaseToExecution(executionId: number, testCaseId: number): Promise<Response> {
-        const response = await fetch('http://localhost:8080/executions/link-test-case', {
+        const response = await apiRequest('/executions/link-test-case', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -108,7 +109,7 @@ class ExecutionService {
 
     // Desvincular um caso de teste de uma execução
     static async unlinkTestCaseFromExecution(executionId: number, testCaseId: number): Promise<Response> {
-        const response = await fetch('http://localhost:8080/executions/unlink-test-case', {
+        const response = await apiRequest('/executions/unlink-test-case', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -123,7 +124,7 @@ class ExecutionService {
 
     // Vincular um arquivo a um caso de teste em uma execução
     static async linkFileToTestCase(data: { name: string, path: string, test_executions_test_cases_id: number }): Promise<Response> {
-        const response = await fetch('http://localhost:8080/executions/link-file', {
+        const response = await apiRequest('/executions/link-file', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -138,7 +139,7 @@ class ExecutionService {
 
     // Desvincular um arquivo de um caso de teste em uma execução
     static async unlinkFileFromTestCase(fileId: number): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/executions/unlink-file/${fileId}`, {
+        const response = await apiRequest(`/executions/unlink-file/${fileId}`, {
             method: 'DELETE',
         });
         if (!response.ok) {

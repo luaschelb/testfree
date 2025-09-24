@@ -1,3 +1,5 @@
+import { apiRequest } from "./ApiService";
+
 interface FileData {
     id: number; // Identificador único do arquivo
     name: string; // Nome do arquivo
@@ -9,7 +11,7 @@ interface FileData {
 class TestFileService {
     // Método para buscar arquivos por test_execution_test_case_id
     static async getFilesByTestExecutionTestCaseId(testExecutionTestCaseId: number): Promise<FileData[]> {
-        const response = await fetch(`http://localhost:8080/testfiles/${testExecutionTestCaseId}/files`);
+        const response = await apiRequest(`/testfiles/${testExecutionTestCaseId}/files`);
         if (!response.ok) {
             throw new Error('Erro ao buscar arquivos.');
         }
@@ -21,7 +23,7 @@ class TestFileService {
         const formData = new FormData();
         formData.append('file', file);
 
-        const response = await fetch(`http://localhost:8080/testfiles/${testExecutionTestCaseId}/files`, {
+        const response = await apiRequest(`/testfiles/${testExecutionTestCaseId}/files`, {
             method: 'POST',
             body: formData,
         });
@@ -33,7 +35,7 @@ class TestFileService {
 
     // Método para deletar arquivo
     static async deleteFile(fileId: number): Promise<void> {
-        const response = await fetch(`http://localhost:8080/testfiles/files/${fileId}`, {
+        const response = await apiRequest(`/testfiles/files/${fileId}`, {
             method: 'DELETE',
         });
         if (!response.ok) {

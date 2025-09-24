@@ -1,9 +1,10 @@
 import TestCounts from "../models/TestCounts";
 import {TestProject, IProject} from "../models/TestProject";
+import { apiRequest } from "./ApiService";
 
 class TestProjectService {
     static async getTestProjects(): Promise<TestProject[]> {
-        const response = await fetch("http://localhost:8080/projetos/");
+        const response = await apiRequest("/projetos/");
         if (!response.ok) {
             throw new Error('Erro ao buscar projetos de teste.');
         }
@@ -13,7 +14,7 @@ class TestProjectService {
     }
 
     static async createTestProject(data: IProject): Promise<Response> {
-        const response = await fetch('http://localhost:8080/projetos', {
+        const response = await apiRequest('/projetos', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -28,7 +29,7 @@ class TestProjectService {
     }
 
     static async getTestProjectById(id: number): Promise<TestProject> {
-        const response = await fetch(`http://localhost:8080/projetos/${id}`);
+        const response = await apiRequest(`/projetos/${id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar o projeto de teste.');
         }
@@ -37,7 +38,7 @@ class TestProjectService {
     }
     // Função para pegar os counts do projeto de teste
     static async getTestProjectCounts(id: number): Promise<TestCounts> {
-        const response = await fetch(`http://localhost:8080/projetos/count/${id}`);
+        const response = await apiRequest(`/projetos/count/${id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar os counts do projeto de teste.');
         }
@@ -46,7 +47,7 @@ class TestProjectService {
     }
 
     static async updateTestProject(id: number, data: IProject): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/projetos/${id}`, {
+        const response = await apiRequest(`/projetos/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -61,7 +62,7 @@ class TestProjectService {
     }
 
     static async deleteTestProject(id: number): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/projetos/${id}`, {
+        const response = await apiRequest(`/projetos/${id}`, {
             method: 'DELETE'
         });
 

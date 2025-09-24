@@ -1,8 +1,9 @@
 import Build from "../models/Build";
+import { apiRequest } from "./ApiService";
 
 class BuildService {
     static async getBuildsByProjectId(project_id : number): Promise<Build[]> {
-        const response = await fetch(`http://localhost:8080/builds/project/${project_id}`);
+        const response = await apiRequest(`/builds/project/${project_id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar builds.');
         }
@@ -16,7 +17,7 @@ class BuildService {
     }
 
     static async createBuild(data: { title: string, version: string, description: string, active: boolean, project_id: number }): Promise<Response> {
-        const response = await fetch('http://localhost:8080/builds', {
+        const response = await apiRequest('/builds', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -31,7 +32,7 @@ class BuildService {
     }
 
     static async getBuildById(id: number): Promise<Build> {
-        const response = await fetch(`http://localhost:8080/builds/${id}`);
+        const response = await apiRequest(`/builds/${id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar o build.');
         }
@@ -40,7 +41,7 @@ class BuildService {
     }
 
     static async updateBuild(data: Build): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/builds/${data.id}`, {
+        const response = await apiRequest(`/builds/${data.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -55,7 +56,7 @@ class BuildService {
     }
 
     static async deleteBuild(id: number): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/builds/${id}`, {
+        const response = await apiRequest(`/builds/${id}`, {
             method: 'DELETE'
         });
 

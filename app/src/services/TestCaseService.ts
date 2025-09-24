@@ -1,8 +1,9 @@
 import TestCase from "../models/TestCase";
+import { apiRequest } from "./ApiService";
 
 class TestCaseService {
     static async getTestCases(): Promise<TestCase[]> {
-        const response = await fetch("http://localhost:8080/testcases/");
+        const response = await apiRequest("/testcases/");
         if (!response.ok) {
             throw new Error('Erro ao buscar casos de teste.');
         }
@@ -12,7 +13,7 @@ class TestCaseService {
     }
 
     static async createTestCase(data: {name: string, description: string, steps: string, test_scenario_id: string}): Promise<Response> {
-        const response = await fetch('http://localhost:8080/testcases', {
+        const response = await apiRequest('/testcases', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -27,7 +28,7 @@ class TestCaseService {
     }
 
     static async getTestCaseById(id: number): Promise<TestCase> {
-        const response = await fetch(`http://localhost:8080/testcases/${id}`);
+        const response = await apiRequest(`/testcases/${id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar o caso de teste.');
         }
@@ -36,7 +37,7 @@ class TestCaseService {
     }
 
     static async updateTestCase(data : TestCase): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/testcases/${data.id}`, {
+        const response = await apiRequest(`/testcases/${data.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,7 +52,7 @@ class TestCaseService {
     }
 
     static async deleteTestCase(id: number): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/testcases/${id}`, {
+        const response = await apiRequest(`/testcases/${id}`, {
             method: 'DELETE'
         });
 

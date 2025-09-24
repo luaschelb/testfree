@@ -1,9 +1,10 @@
 import TestCase from "../models/TestCase";
 import TestScenario from "../models/TestScenario";
+import { apiRequest } from "./ApiService";
 
 class TestScenarioService {
     static async getTestScenarios(): Promise<TestScenario[]> {
-        const response = await fetch("http://localhost:8080/scenarios/");
+        const response = await apiRequest("/scenarios/");
         if (!response.ok) {
             throw new Error('Erro ao buscar cenários de teste.');
         }
@@ -13,7 +14,7 @@ class TestScenarioService {
     }
 
     static async getTestScenariosEagerLoading(project_id : number): Promise<TestScenario[]> {
-        const response = await fetch(`http://localhost:8080/scenarios/project/${project_id}`);
+        const response = await apiRequest(`/scenarios/project/${project_id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar cenários de teste.');
         }
@@ -27,7 +28,7 @@ class TestScenarioService {
     }
 
     static async getTestScenariosEagerLoadingByTestPlans(project_id : number, testcasesIds : number[]): Promise<TestScenario[]> {
-        const response = await fetch(`http://localhost:8080/scenarios/project/${project_id}`);
+        const response = await apiRequest(`/scenarios/project/${project_id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar cenários de teste.');
         }
@@ -50,7 +51,7 @@ class TestScenarioService {
     }
 
     static async createTestScenario(data: { name: string, description: string, test_project_id: number }): Promise<Response> {
-        const response = await fetch('http://localhost:8080/scenarios', {
+        const response = await apiRequest('/scenarios', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,7 +66,7 @@ class TestScenarioService {
     }
 
     static async getTestScenarioById(id: number): Promise<TestScenario> {
-        const response = await fetch(`http://localhost:8080/scenarios/${id}`);
+        const response = await apiRequest(`/scenarios/${id}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar o cenário de teste.');
         }
@@ -74,7 +75,7 @@ class TestScenarioService {
     }
 
     static async updateTestScenario(id: number, data: { name: string, description: string, test_project_id: number }): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/scenarios/${id}`, {
+        const response = await apiRequest(`/scenarios/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -89,7 +90,7 @@ class TestScenarioService {
     }
 
     static async deleteTestScenario(id: number): Promise<Response> {
-        const response = await fetch(`http://localhost:8080/scenarios/${id}`, {
+        const response = await apiRequest(`/scenarios/${id}`, {
             method: 'DELETE'
         });
 
