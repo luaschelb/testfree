@@ -78,6 +78,11 @@ router.get('/count/:id',  async (req, res) => {
         FROM projects p
         WHERE p.id = ${Number(id)}
     `
+        if(result[0] === undefined || result[0] === null ) 
+        {
+            res.status(404).json({ error: 'Query no banco falhou' })
+        }
+
         const counts = {
             test_scenarios_count: Number(result[0].test_scenarios_count),
             builds_count: Number(result[0].builds_count),
