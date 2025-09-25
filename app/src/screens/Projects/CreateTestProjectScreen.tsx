@@ -51,9 +51,7 @@ function CreateTestProjectScreen() {
                     data-testid="inputProjectDescription"
                     id="projectDescription" rows={10} cols={50}></textarea>
                 <div>
-                    <Button
-                    data-testid="buttonRegisterProject"
-                    variant="contained" onClick={submit}>Cadastrar</Button>
+                    <Button variant="contained" onClick={submit}>Cadastrar</Button>
                 </div>
             </form>
         </div>

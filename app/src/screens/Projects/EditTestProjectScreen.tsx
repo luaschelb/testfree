@@ -81,6 +81,7 @@ function EditTestProjectScreen() {
                 <input 
                     type="text"
                     id="name"
+                    data-testid="inputProjectName"
                     className="BasicFormInput"
                     value={formState.name}
                     onChange={handleChange}
@@ -89,6 +90,7 @@ function EditTestProjectScreen() {
                 <textarea 
                     id="description"
                     className="BasicFormDescription"
+                    data-testid="inputProjectDescription"
                     value={formState.description}
                     onChange={handleChange}
                 />
