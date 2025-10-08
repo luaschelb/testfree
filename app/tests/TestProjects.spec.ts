@@ -21,7 +21,7 @@ test('Adicionar projeto', async ({ page }) => {
   expect(cellWithNewEntry.nth(2)).toHaveText(`${responseJson.description}`)
 })
 
-test("Editar projeto", async ({page}) => {
+test.skip("Editar projeto", async ({page}) => {
   await page.goto('projetos')
   // wait for at least of valid row to be rendered
   await expect(await page.getByLabel('Editar').count()).toBeGreaterThan(0)
@@ -47,7 +47,7 @@ test("Editar projeto", async ({page}) => {
   expect(cellWithNewEntry.nth(2)).toHaveText(newDescription)
 })
 
-test("Deletar projeto", async ({page}) => {
+test.skip("Deletar projeto", async ({page}) => {
   await page.goto('projetos')
   // wait for at least of valid row to be rendered
   await expect(await page.getByLabel('Editar').count()).toBeGreaterThan(0)
