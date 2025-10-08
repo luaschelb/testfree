@@ -72,25 +72,25 @@ function ListExecutionScreen() {
                         {
                             executions.length ? (
                                 executions.map((execution: any) => (
-                                    <tr key={execution?.execution_id}>
-                                        <td>{execution?.execution_id}</td>
-                                        <td>{execution?.test_plan_name}</td>
-                                        <td>{execution?.build_version}</td>
+                                    <tr key={execution?.id}>
+                                        <td>{execution?.id}</td>
+                                        <td>{execution?.test_plans?.name}</td>
+                                        <td>{execution?.builds?.title}</td>
                                         <td>{TestExecutionStatusEnum[execution?.status]}</td>
                                         <td>
                                             <div style={{flex: 1, alignContent: "center"}}>
                                                 <Tooltip title="Executar">
-                                                    <IconButton aria-label="PlayArrow" color="success" onClick={() => { navigate(`/executar_execucao/${execution?.execution_id}`) }}>
+                                                    <IconButton aria-label="PlayArrow" color="success" onClick={() => { navigate(`/executar_execucao/${execution?.id}`) }}>
                                                         <PlayArrow />
                                                     </IconButton>
                                                 </Tooltip>
                                                 <Tooltip title="Deletar">
-                                                    <IconButton aria-label="Delete" onClick={() => handleDelete(execution?.execution_id)}>
+                                                    <IconButton aria-label="Delete" onClick={() => handleDelete(execution?.id)}>
                                                         <Delete />
                                                     </IconButton>
                                                 </Tooltip>
                                                 <Tooltip title="Baixar Relatório">
-                                                    <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { navigate(`/relatorios/${execution?.execution_id}`)}}>
+                                                    <IconButton aria-label="FileDownloadIcon" color="primary" onClick={() => { navigate(`/relatorios/${execution?.id}`)}}>
                                                         <FileDownloadIcon />
                                                     </IconButton>
                                                 </Tooltip>
