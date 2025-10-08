@@ -37,7 +37,7 @@ function ListExecutionScreen() {
             try {
                 await ExecutionService.deleteExecution(id);
                 alert("Execução deletado com sucesso");
-                setExecutions(executions.filter((execution : any) => execution.execution_id !== id));
+                setExecutions(executions.filter((execution : any) => execution?.id !== id));
                 navigate("/execucoes");
                 //setShouldRefresh(true)
             } catch (error) {
