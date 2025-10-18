@@ -39,36 +39,35 @@ const RunExecutionScreen = () => {
     };
     
     useEffect(() => {
-            ExecutionService.getExecutionById(Number(id)).then((res1) => {
-                BuildService.getBuildById(Number(res1.build_id)).then((res2) => {
-                    TestPlanService.getTestPlanByIdEager(Number(res1.test_plan_id)).then((res3) => {
-                        TestScenarioService.getTestScenariosEagerLoadingByTestPlans(selectedProject, res3.test_cases_ids).then((testscenariosData) => {
-                            const allScenarioIds = testscenariosData.map(scenario => scenario.id);
-                            setExpandedScenarios(allScenarioIds);
-                            res1.build = res2;
-                            res1.test_plans = res3;
-                            for(let i = 0; i < testscenariosData.length; i++) // foreach scenario
-                            {   
-                                for(let j = 0; j < testscenariosData[i].testCases.length; j++) // foreach testcase in scenario
-                                {
-                                    let found = res1.testCases?.find((tc) => tc.id === testscenariosData[i].testCases[j].id)
-                                    if(found)
-                                    {
-                                        testscenariosData[i].testCases[j].test_execution_test_case_id = found.test_execution_test_case_id
-                                        testscenariosData[i].testCases[j].status = found.status
-                                        testscenariosData[i].testCases[j].comment = found.comment
-                                    }
-                                }
-                            }
-                            console.log(testscenariosData)
-                            setExecution(res1);
-                            setDescription(res1.comments === null ? "" : res1.comments)
-                            setTestScenarios(testscenariosData);
-                            setShouldUpdateScreen(false)
-                    });
-                });
-            });
-        });
+        async function queryData() {
+            const executionData = await ExecutionService.getExecutionById(Number(id))
+            const buildData = await BuildService.getBuildById(Number(executionData.build_id))
+            const testPlanData = await  TestPlanService.getTestPlanByIdEager(Number(executionData.test_plan_id))
+            const testscenariosData = await TestScenarioService.getTestScenariosEagerLoadingByTestPlans(selectedProject, testPlanData.test_cases_ids)
+            const allScenarioIds = testscenariosData.map(scenario => scenario.id);
+            setExpandedScenarios(allScenarioIds);
+            executionData.build = buildData;
+            executionData.test_plans = testPlanData;
+            for(let i = 0; i < testscenariosData.length; i++) // foreach scenario
+            {   
+                for(let j = 0; j < testscenariosData[i].testCases.length; j++) // foreach testcase in scenario
+                {
+                    let found = executionData.testCases?.find((tc) => tc.id === testscenariosData[i].testCases[j].id)
+                    if(found)
+                    {
+                        testscenariosData[i].testCases[j].test_execution_test_case_id = found.test_execution_test_case_id
+                        testscenariosData[i].testCases[j].status = found.status
+                        testscenariosData[i].testCases[j].comment = found.comment
+                    }
+                }
+            }
+            console.log(testscenariosData)
+            setExecution(executionData);
+            setDescription(executionData.comments === null ? "" : executionData.comments)
+            setTestScenarios(testscenariosData);
+            setShouldUpdateScreen(false)
+        }
+        queryData()
     }, [selectedProject, shouldUpdateScreen]);
 
     const toggleScenario = (scenarioId: number) => {

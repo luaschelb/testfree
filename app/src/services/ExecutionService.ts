@@ -32,19 +32,28 @@ class ExecutionService {
         const item = await response.json();
         
         // Criar o objeto Execution e associar os test cases e arquivos
-        let execution = new Execution(item.execution.id, item.execution.start_date, item.execution.end_date, item.execution.test_plan_id, item.execution.build_id, item.execution.status, item.execution.comments);
-        execution.testCases = item.test_cases.map((testCase: any) => {
-            let tc = new TestCase(testCase.id, testCase.name, testCase.description, testCase.steps, testCase.test_scenario_id);
-            if(testCase.passed)
+        let execution = new Execution(
+            item.id, 
+            item.start_date,
+            item.end_date,
+            item.test_plan_id,
+            item.build_id,
+            item.status, 
+            item.comments
+        );
+        execution.testCases = item.test_executions_test_cases.map((test_executions_test_cases: any) => {
+            const testCaseData = test_executions_test_cases.test_cases;
+            let tc = new TestCase(testCaseData.id, testCaseData.name, testCaseData.description, testCaseData.steps, testCaseData.test_scenario_id);
+            if(testCaseData.passed)
                 tc.status = 1
-            else if(testCase.skipped)
+            else if(testCaseData.skipped)
                 tc.status = 2
-            else if(testCase.failed)
+            else if(testCaseData.failed)
                 tc.status = 3
-            tc.comment = testCase.comment
-            tc.files = testCase.files;
-            tc.created_at = testCase.created_at;
-            tc.test_execution_test_case_id = testCase.test_execution_test_case_id;
+            tc.comment = testCaseData.comment
+            tc.files = testCaseData.files;
+            tc.created_at = testCaseData.created_at;
+            tc.test_execution_test_case_id = testCaseData.test_execution_test_case_id;
             console.log(tc)
             return tc;
         });

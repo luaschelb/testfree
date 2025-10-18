@@ -52,6 +52,7 @@ router.get('/:id', async (req, res) => {
             }
         }
     })
+    res.json(result)
 });
 
 // Create a new execution
