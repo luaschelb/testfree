@@ -4,7 +4,7 @@ export class TestPlan {
     description: string;
     active: boolean;
     project_id: number;
-    testCases: number[] = [];
+    test_cases: number[] = [];
 
     constructor(id: number, name: string, description: string, active: boolean, project_id: number) {
         this.id = id;

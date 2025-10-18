@@ -31,7 +31,7 @@ const EditTestPlanScreen = () => {
         });
         TestPlanService.getTestPlanByIdEager(Number(id)).then((res) => {
             setTestPlan(res);
-            setSelectedTestCases(res.testCases)
+            setSelectedTestCases(res.test_cases)
             setName(res.name)
             setDescription(res.description)
         });
