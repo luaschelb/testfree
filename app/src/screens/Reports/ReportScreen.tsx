@@ -73,7 +73,7 @@ const ReportScreen = () => {
         ExecutionService.getExecutionById(Number(id)).then((res1) => {
             BuildService.getBuildById(Number(res1.build_id)).then((res2) => {
                 TestPlanService.getTestPlanByIdEager(Number(res1.test_plan_id)).then((res3) => {
-                    TestScenarioService.getTestScenariosEagerLoadingByTestPlans(selectedProject, res3.test_cases).then((testscenariosData) => {
+                    TestScenarioService.getTestScenariosEagerLoadingByTestPlans(selectedProject, res3.test_cases_ids).then((testscenariosData) => {
                         const allScenarioIds = testscenariosData.map(scenario => scenario.id);
                         const initialExpandedTestCases: { [key: number]: number[] } = {};
     

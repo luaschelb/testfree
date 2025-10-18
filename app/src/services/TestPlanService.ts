@@ -21,7 +21,7 @@ class TestPlanService {
         const body = await response.json();
         const testplans = body.map((item: any) => {
             let testplan = new TestPlan(item.id, item.name, item.description, item.active, item.project_id);
-            testplan.test_cases = item.test_cases
+            testplan.test_cases_ids = item.test_cases
             return testplan
         });
         return testplans;
@@ -35,7 +35,6 @@ class TestPlanService {
         }
         const item = await response.json();
         let testplan = new TestPlan(item.id, item.name, item.description, item.active, item.project_id);
-        testplan.test_cases = item.test_cases;
         return testplan;
     }
 
