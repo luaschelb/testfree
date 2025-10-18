@@ -35,6 +35,10 @@ class TestPlanService {
         }
         const item = await response.json();
         let testplan = new TestPlan(item.id, item.name, item.description, item.active, item.project_id);
+        if(item.testplans_testcases?.length > 0)
+        {
+            testplan.test_cases_ids = item.testplans_testcases.map((x : any) => (x.test_case_id))
+        }
         return testplan;
     }
 
