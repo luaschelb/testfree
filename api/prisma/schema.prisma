@@ -15,7 +15,7 @@ model builds {
   description     String?
   active          Boolean?
   project_id      Int?
-  projects        projects?         @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  project         projects?         @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   test_executions test_executions[]
 }
 
@@ -50,7 +50,7 @@ model test_cases {
   enabled                    Boolean?
   can_edit                   Boolean?
   test_scenario_id           Int?
-  test_scenarios             test_scenarios?              @relation(fields: [test_scenario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_scenario              test_scenarios?              @relation(fields: [test_scenario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   test_executions_test_cases test_executions_test_cases[]
   test_steps                 test_steps[]
   testplans_testcases        testplans_testcases[]
@@ -64,8 +64,8 @@ model test_executions {
   build_id                   Int?
   status                     Int?                         @default(1)
   comments                   String?
-  builds                     builds?                      @relation(fields: [build_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  test_plans                 test_plans?                  @relation(fields: [test_plan_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  build                      builds?                      @relation(fields: [build_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_plan                  test_plans?                  @relation(fields: [test_plan_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   test_executions_test_cases test_executions_test_cases[]
 }
 
@@ -79,8 +79,8 @@ model test_executions_test_cases {
   test_execution_id Int?
   test_case_id      Int?
   files             files[]
-  test_cases        test_cases?      @relation(fields: [test_case_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  test_executions   test_executions? @relation(fields: [test_execution_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_case         test_cases?      @relation(fields: [test_case_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_execution    test_executions? @relation(fields: [test_execution_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model test_plans {
@@ -90,7 +90,7 @@ model test_plans {
   active              Boolean?
   project_id          Int?
   test_executions     test_executions[]
-  projects            projects?             @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  project             projects?             @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   testplans_testcases testplans_testcases[]
 }
 
@@ -102,7 +102,7 @@ model test_scenarios {
   order           Int?
   test_project_id Int?
   test_cases      test_cases[]
-  projects        projects?    @relation(fields: [test_project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  project         projects?    @relation(fields: [test_project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model test_steps {
@@ -111,15 +111,15 @@ model test_steps {
   action          String?
   expected_result String?
   test_case_id    Int?
-  test_cases      test_cases? @relation(fields: [test_case_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_case       test_cases? @relation(fields: [test_case_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model testplans_testcases {
   id           Int         @id @default(autoincrement())
   test_plan_id Int?
   test_case_id Int?
-  test_cases   test_cases? @relation(fields: [test_case_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  test_plans   test_plans? @relation(fields: [test_plan_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_case    test_cases? @relation(fields: [test_case_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  test_plan    test_plans? @relation(fields: [test_plan_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model users {

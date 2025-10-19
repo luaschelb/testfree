@@ -12,8 +12,8 @@ router.get('/', async (req, res) => {
 router.get('/list', async (req, res) => {
     const result = await prisma.test_executions.findMany({
         include: {
-            test_plans : true,
-            builds: true
+            test_plan : true,
+            build: true
         }
     })
 
@@ -26,13 +26,13 @@ router.get('/project/:project_id', async (req, res) => {
     const { project_id } = req.params;
     const result = await prisma.test_executions.findMany({
         where: {
-            test_plans: {
+            test_plan: {
                 project_id: Number(project_id)
             }
         },
         include: {
-            test_plans: true,
-            builds: true
+            test_plan: true,
+            build: true
         }
     })
     res.status(200).json(result);
@@ -46,16 +46,16 @@ router.get('/:id', async (req, res) => {
         include: {
             test_executions_test_cases: {
                 include: {
-                    test_cases: true,
+                    test_case: true,
                     files: true
                 }
             },
-            builds: {
+            build: {
                 include: {
-                    projects: true
+                    project: true
                 }
             },
-            test_plans: true
+            test_plan: true
         }
     })
     res.json(result)
