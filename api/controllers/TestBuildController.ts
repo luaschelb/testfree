@@ -14,7 +14,6 @@ router.get('/project/:project_id', async (req : any, res : any) => {
 });
 
 router.get('/', async (req : any, res : any) => {
-    const { id } = req.params;
     const build = await prisma.builds.findMany()
     res.json(build)
 });
