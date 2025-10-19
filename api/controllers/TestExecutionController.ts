@@ -49,7 +49,13 @@ router.get('/:id', async (req, res) => {
                     test_cases: true,
                     files: true
                 }
-            }
+            },
+            builds: {
+                include: {
+                    projects: true
+                }
+            },
+            test_plans: true
         }
     })
     res.json(result)
