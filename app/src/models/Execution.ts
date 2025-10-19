@@ -11,8 +11,8 @@ class Execution {
     end_date: string;
     test_plan_id: number;
     build_id: number;
-    testCases?: TestCase[];
-    test_plans?: TestPlan;
+    test_case?: TestCase[];
+    test_plan?: TestPlan;
     build?: Build;
 
     constructor(id: number, start_date: string, end_date: string, test_plan_id: number, build_id: number, status: number, comments: string) {

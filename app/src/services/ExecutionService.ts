@@ -46,6 +46,8 @@ class ExecutionService {
             tc.test_execution_test_case_id = testCaseData.test_execution_test_case_id;
             return tc;
         });
+        execution.test_plan = item.test_plan;
+        execution.build = item.build;
         return execution;
     }
 

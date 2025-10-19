@@ -41,6 +41,7 @@ const RunExecutionScreen = () => {
     useEffect(() => {
         async function queryData() {
             const executionData = await ExecutionService.getExecutionById(Number(id))
+            setExecution(executionData)
         }
         queryData()
     }, [selectedProject, shouldUpdateScreen]);
