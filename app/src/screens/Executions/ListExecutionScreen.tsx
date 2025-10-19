@@ -74,8 +74,8 @@ function ListExecutionScreen() {
                                 executions.map((execution: any) => (
                                     <tr key={execution?.id}>
                                         <td>{execution?.id}</td>
-                                        <td>{execution?.test_plans?.name}</td>
-                                        <td>{execution?.builds?.title}</td>
+                                        <td>{execution?.test_plan?.name}</td>
+                                        <td>{execution?.build?.title}</td>
                                         <td>{TestExecutionStatusEnum[execution?.status]}</td>
                                         <td>
                                             <div style={{flex: 1, alignContent: "center"}}>

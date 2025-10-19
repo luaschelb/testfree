@@ -119,7 +119,7 @@ const RunExecutionScreen = () => {
             <div style = {{ flexDirection: 'column', columnGap: "16px" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px"}}>
                     <div style={{display: "flex", gap: "16px"}}>
-                        <label><b>Plano de Teste:</b> {execution?.test_plans?.name}</label>
+                        <label><b>Plano de Teste:</b> {execution?.test_plan?.name}</label>
                         <label><b>Build:</b> {execution?.build?.title}</label>
                         <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
                         {execution?.status === TestExecutionStatusEnum.Finalizada ? 

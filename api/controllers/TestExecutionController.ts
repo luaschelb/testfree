@@ -55,7 +55,15 @@ router.get('/:id', async (req, res) => {
                     project: true
                 }
             },
-            test_plan: true
+            test_plan: {
+                include: {
+                    testplans_testcases: {
+                        include: {
+                            test_case: true
+                        }
+                    }
+                }
+            }
         }
     })
     res.json(result)
