@@ -3,16 +3,6 @@ import TestCase from "../models/TestCase"; // Assuma que você tem esse modelo p
 import { apiRequest } from "./ApiService";
 
 class ExecutionService {
-    // Buscar todas as execuções
-    static async getAllExecutions(): Promise<Execution[]> {
-        const response = await apiRequest('/executions/list');
-        if (!response.ok) {
-            throw new Error('Erro ao buscar execuções.');
-        }
-        const body = await response.json();
-        return body.map((item: any) => new Execution(item.id, item.start_date, item.end_date, item.test_plan_id, item.build_id, item.status, item.comments));
-    }
-
     // Buscar todas as execuções por project
     static async getAllExecutionsByProject(project_id : number): Promise<any> {
         const response = await apiRequest(`/executions/project/${project_id}`);
@@ -41,8 +31,8 @@ class ExecutionService {
             item.status, 
             item.comments
         );
-        execution.testCases = item.test_executions_test_cases.map((test_executions_test_cases: any) => {
-            const testCaseData = test_executions_test_cases.test_cases;
+        execution.test_case = item.test_executions_test_cases.map((test_executions_test_cases: any) => {
+            const testCaseData = test_executions_test_cases.test_case;
             let tc = new TestCase(testCaseData.id, testCaseData.name, testCaseData.description, testCaseData.steps, testCaseData.test_scenario_id);
             if(testCaseData.passed)
                 tc.status = 1
@@ -54,7 +44,6 @@ class ExecutionService {
             tc.files = testCaseData.files;
             tc.created_at = testCaseData.created_at;
             tc.test_execution_test_case_id = testCaseData.test_execution_test_case_id;
-            console.log(tc)
             return tc;
         });
         return execution;
