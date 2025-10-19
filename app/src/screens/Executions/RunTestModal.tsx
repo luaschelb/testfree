@@ -52,34 +52,21 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
     let execution_2 = execution as Execution
     let testCase_2 = testCase as TestCase
     const data = new Date();
-    const created_at = data.toLocaleString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false // Use false para formato 24 horas
-    }).replace(',', ''); // Remove a vírgula
-    let passed = 1
-    let skipped = 1
-    let failed = 1
-    if(status === 1 || status === 0)
+    const created_at = data.toISOString().slice(0, 19);
+    let passed = false
+    let skipped = false
+    let failed = false
+    if(status === 0 || status === 1)
     {
-      passed = 1
-      skipped = 0
-      failed = 0
+      passed = true
     }
     if(status === 2)
     {
-      passed = 0
-      skipped = 1
-      failed = 0
+      skipped = true
     }
     if(status === 3)
     {
-      passed = 0
-      skipped = 0
-      failed = 1
+      failed = true
     }
     try {
         if(testCase_2.test_execution_test_case_id === undefined)

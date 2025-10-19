@@ -2,18 +2,18 @@ export default class TestExecutionTestCase {
     id ?: number
     created_at: string
     comment: string
-    passed: number
-    skipped: number
-    failed: number
+    passed: boolean
+    skipped: boolean
+    failed: boolean
     test_execution_id: number
     test_case_id: number
 
     constructor(
         created_at: string,
         comment: string,
-        passed: number,
-        skipped: number,
-        failed: number,
+        passed: boolean,
+        skipped: boolean,
+        failed: boolean,
         test_execution_id: number,
         test_case_id: number
     ) {
