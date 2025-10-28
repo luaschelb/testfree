@@ -1,6 +1,7 @@
 import TestExecutionStatusEnum from "../enums/TestExecutionStatusEnum";
 import Build from "./Build";
 import TestCase from "./TestCase";
+import TestExecutionTestCase from "./TestExecutionTestCase";
 import { TestPlan } from "./TestPlan";
 
 class Execution {
@@ -11,7 +12,7 @@ class Execution {
     end_date: string;
     test_plan_id: number;
     build_id: number;
-    test_case?: TestCase[];
+    test_executions_test_cases?: TestExecutionTestCase[];
     test_plan?: TestPlan;
     build?: Build;
 

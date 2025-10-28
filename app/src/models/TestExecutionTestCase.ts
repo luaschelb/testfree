@@ -1,3 +1,5 @@
+import TestCase from "./TestCase"
+
 export default class TestExecutionTestCase {
     id ?: number
     created_at: string
@@ -7,6 +9,7 @@ export default class TestExecutionTestCase {
     failed: boolean
     test_execution_id: number
     test_case_id: number
+    test_case?: TestCase
 
     constructor(
         created_at: string,
