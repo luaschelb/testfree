@@ -3,20 +3,36 @@ import Build from "./Build";
 import TestCase from "./TestCase";
 import TestExecutionTestCase from "./TestExecutionTestCase";
 import { TestPlan } from "./TestPlan";
+import TestScenario from "./TestScenario";
 
 class Execution {
     id: number;
     start_date: string;
+    end_date: string | null;
     status: number;
     comments: string;
-    end_date: string;
     test_plan_id: number;
     build_id: number;
-    test_executions_test_cases?: TestExecutionTestCase[];
-    test_plan?: TestPlan;
-    build?: Build;
 
-    constructor(id: number, start_date: string, end_date: string, test_plan_id: number, build_id: number, status: number, comments: string) {
+    // Relacionamentos
+    build?: Build;
+    test_plan?: TestPlan;
+    scenarios: TestScenario[] = [];
+    test_executions_test_cases?: TestExecutionTestCase[];
+
+    constructor(
+        id: number,
+        start_date: string,
+        end_date: string | null,
+        test_plan_id: number,
+        build_id: number,
+        status: number,
+        comments: string,
+        build?: Build,
+        test_plan?: TestPlan,
+        scenarios: TestScenario[] = [],
+        test_executions_test_cases?: TestExecutionTestCase[]
+    ) {
         this.id = id;
         this.start_date = start_date;
         this.end_date = end_date;
@@ -24,11 +40,15 @@ class Execution {
         this.build_id = build_id;
         this.status = status;
         this.comments = comments;
+        this.build = build;
+        this.test_plan = test_plan;
+        this.scenarios = scenarios;
+        this.test_executions_test_cases = test_executions_test_cases;
     }
-    
-    mapStatusToString = () => {
-        return TestExecutionStatusEnum[this.status]
-    }
+
+    mapStatusToString = (): string => {
+        return TestExecutionStatusEnum[this.status];
+    };
 }
 
 export default Execution;

@@ -48,68 +48,113 @@ router.get('/project/:project_id', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await prisma.$queryRawUnsafe<any[]>(`
+
+        const execution = await prisma.test_executions.findUnique({
+            where: { id: Number(id) },
+            include: {
+                build: true,
+                test_plan: true
+            }
+        });
+
+        if (!execution) {
+            return res.status(404).json({ error: "Execução não encontrada." });
+        }
+
+        type RawRow = {
+            scenario_id: number;
+            scenario_name: string | null;
+            scenario_description: string | null;
+            test_case_id: number;
+            test_case_name: string | null;
+            test_case_description: string | null;
+            tectc_id: number | null;
+            passed: boolean | null;
+            failed: boolean | null;
+            skipped: boolean | null;
+            comment: string | null;
+            created_at: string | null;
+        };
+
+        const result = await prisma.$queryRawUnsafe<RawRow[]>(`
             SELECT 
-            ts.id              AS scenario_id,
-            ts.name            AS scenario_name,
-            ts.description     AS scenario_description,
-            tc.id              AS test_case_id,
-            tc.name            AS test_case_name,
-            tc.description     AS test_case_description,
-            tectc.passed,
-            tectc.failed,
-            tectc.skipped,
-            tectc.comment,
-            tectc.created_at
+                ts.id              AS scenario_id,
+                ts.name            AS scenario_name,
+                ts.description     AS scenario_description,
+                tc.id              AS test_case_id,
+                tc.name            AS test_case_name,
+                tc.description     AS test_case_description,
+                tectc.id           AS tectc_id,
+                tectc.passed,
+                tectc.failed,
+                tectc.skipped,
+                tectc.comment,
+                tectc.created_at
             FROM test_executions te
             JOIN test_plans tp ON tp.id = te.test_plan_id
             JOIN testplans_testcases tt ON tt.test_plan_id = tp.id
             JOIN test_cases tc ON tt.test_case_id = tc.id
             JOIN test_scenarios ts ON ts.id = tc.test_scenario_id
             LEFT JOIN test_executions_test_cases tectc 
-            ON tectc.id = (
-                SELECT id FROM test_executions_test_cases
-                WHERE test_case_id = tc.id AND test_execution_id = te.id
-                ORDER BY created_at DESC
-                LIMIT 1
-            )
+                ON tectc.id = (
+                    SELECT id FROM test_executions_test_cases
+                    WHERE test_case_id = tc.id AND test_execution_id = te.id
+                    ORDER BY created_at DESC
+                    LIMIT 1
+                )
             WHERE te.id = ?
             ORDER BY ts.id, tc.id;
-        `, id);
+        `, id) as RawRow[]; 
 
-        const grouped: any[] = [];
+        const groupedScenarios: any[] = [];
+        const testExecutionsTestCases: any[] = [];
 
         for (const row of result) {
-            let scenario = grouped.find(s => s.id === row.scenario_id);
-
+            let scenario = groupedScenarios.find(s => s.id === row.scenario_id);
             if (!scenario) {
-            scenario = {
-                id: row.scenario_id,
-                name: row.scenario_name,
-                description: row.scenario_description,
-                testCases: []
-            };
-            grouped.push(scenario);
+                scenario = {
+                    id: row.scenario_id,
+                    name: row.scenario_name,
+                    description: row.scenario_description,
+                    testCases: []
+                };
+                groupedScenarios.push(scenario);
             }
 
-            scenario.testCases.push({
-            id: row.test_case_id,
-            name: row.test_case_name,
-            description: row.test_case_description,
-            passed: row.passed,
-            failed: row.failed,
-            skipped: row.skipped,
-            comment: row.comment,
-            created_at: row.created_at
-            });
+            const testCase = {
+                id: row.test_case_id,
+                name: row.test_case_name,
+                description: row.test_case_description,
+                test_scenario_id: row.scenario_id
+            };
+
+            if (row.tectc_id) {
+                testExecutionsTestCases.push({
+                    id: row.tectc_id,
+                    created_at: row.created_at,
+                    comment: row.comment,
+                    passed: row.passed,
+                    failed: row.failed,
+                    skipped: row.skipped,
+                    test_execution_id: Number(id),
+                    test_case_id: row.test_case_id,
+                    test_case: testCase
+                });
+            }
+
+            scenario.testCases.push(testCase);
         }
 
-        res.json(grouped)
-    }
-    catch (err) 
-    {
+        const response = {
+            ...execution,
+            scenarios: groupedScenarios,
+            test_executions_test_cases: testExecutionsTestCases
+        };
+
+        res.json(response);
+    } catch (err) {
         console.error(err);
-        res.status(500).json({ error: "Erro ao buscar execução" });
+        res.status(500).json({ error: "Erro ao buscar execução." });
     }
 });
 

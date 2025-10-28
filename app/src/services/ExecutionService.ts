@@ -1,5 +1,7 @@
 import Execution from "../models/Execution"; // Assuma que você tem esse modelo
 import TestCase from "../models/TestCase"; // Assuma que você tem esse modelo para test cases
+import TestExecutionTestCase from "../models/TestExecutionTestCase";
+import TestScenario from "../models/TestScenario";
 import { apiRequest } from "./ApiService";
 
 class ExecutionService {
@@ -13,43 +15,92 @@ class ExecutionService {
         return body
     }
 
-    // Buscar execução por ID (incluindo casos de teste e arquivos)
-    static async getExecutionById(id: number): Promise<Execution> {
-        const response = await apiRequest(`/executions/${id}`);
-        if (!response.ok) {
-            throw new Error('Erro ao buscar a execução.');
-        }
-        const item = await response.json();
-        
-        // Criar o objeto Execution e associar os test cases e arquivos
-        let execution = new Execution(
-            item.id, 
-            item.start_date,
-            item.end_date,
-            item.test_plan_id,
-            item.build_id,
-            item.status, 
-            item.comments
-        );
-        execution.test_case = item.test_executions_test_cases.map((test_executions_test_cases: any) => {
-            const testCaseData = test_executions_test_cases.test_case;
-            let tc = new TestCase(testCaseData.id, testCaseData.name, testCaseData.description, testCaseData.steps, testCaseData.test_scenario_id);
-            if(testCaseData.passed)
-                tc.status = 1
-            else if(testCaseData.skipped)
-                tc.status = 2
-            else if(testCaseData.failed)
-                tc.status = 3
-            tc.comment = testCaseData.comment
-            tc.files = testCaseData.files;
-            tc.created_at = testCaseData.created_at;
-            tc.test_execution_test_case_id = testCaseData.test_execution_test_case_id;
-            return tc;
-        });
-        execution.test_plan = item.test_plan;
-        execution.build = item.build;
-        return execution;
+static async getExecutionById(id: number): Promise<Execution> {
+    const response = await apiRequest(`/executions/${id}`);
+    if (!response.ok) {
+        throw new Error('Erro ao buscar a execução.');
     }
+
+    const item = await response.json();
+
+    // Criar objeto Execution
+    const execution = new Execution(
+        item.id,
+        item.start_date,
+        item.end_date,
+        item.test_plan_id,
+        item.build_id,
+        item.status,
+        item.comments
+    );
+
+    // Associar build e test_plan
+    execution.build = item.build;
+    execution.test_plan = item.test_plan;
+
+    // Mapear test_executions_test_cases
+    execution.test_executions_test_cases = item.test_executions_test_cases?.map((tetc: any) => {
+        const testCaseData = tetc.test_case;
+
+        const tc = new TestCase(
+            testCaseData.id,
+            testCaseData.name,
+            testCaseData.description,
+            testCaseData.steps || "",
+            testCaseData.test_scenario_id.toString()
+        );
+
+        const testExecTC = new TestExecutionTestCase(
+            tetc.created_at,
+            tetc.comment,
+            tetc.passed ?? false,
+            tetc.skipped ?? false,
+            tetc.failed ?? false,
+            tetc.test_execution_id,
+            tetc.test_case_id
+        );
+
+        testExecTC.id = tetc.id;
+        testExecTC.test_case = tc;
+        tc.test_execution_test_case_id = tetc.id;
+
+        return testExecTC;
+    }) || [];
+
+    // Mapear cenários e test cases
+    execution.scenarios = item.scenarios?.map((scenario: any) => {
+        const ts = new TestScenario(
+            scenario.id,
+            scenario.id.toString(),
+            scenario.name,
+            scenario.description,
+            item.test_plan_id
+        );
+
+        ts.testCases = scenario.testCases?.map((tcData: any) => {
+            const tc = new TestCase(
+                tcData.id,
+                tcData.name,
+                tcData.description,
+                tcData.steps || "",
+                tcData.test_scenario_id.toString()
+            );
+
+            // Vincular se existir TestExecutionTestCase correspondente
+            const tetc = execution.test_executions_test_cases?.find(t => t.test_case_id === tc.id);
+            if (tetc) {
+                tc.test_execution_test_case_id = tetc.id;
+                tc.testscenario = ts;
+            }
+
+            return tc;
+        }) || [];
+
+        return ts;
+    }) || [];
+
+    return execution;
+}
 
     // Criar uma nova execução
     static async createExecution(data: { start_date: string, end_date: string, test_plan_id: number, build_id: number, status?: number, comments?: string }): Promise<Response> {
