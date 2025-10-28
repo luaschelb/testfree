@@ -38,35 +38,79 @@ router.get('/project/:project_id', async (req, res) => {
     res.status(200).json(result);
 });
 
-// Get execution by ID with related test cases and files
+/**
+ * Rota para alimentar a tela de TestExecutionScreen
+ * 
+ * Rota que retorna a execução de teste com todos os casos de teste agrupados por cenário com os dados de sua última execução
+ * Ela acaba sendo complexa porém retorna os dados perfeitamente exibidos para o front, diminuindo a complexidade no react.
+ * Dividi o trabalho de ordenação entre o SQL e o servidor.
+ */
 router.get('/:id', async (req, res) => {
-    const { id } = req.params;
-    const result = await prisma.test_executions.findFirst({
-        where: {id : Number(id)},
-        include: {
-            test_executions_test_cases: {
-                include: {
-                    test_case: true,
-                    files: true
-                }
-            },
-            build: {
-                include: {
-                    project: true
-                }
-            },
-            test_plan: {
-                include: {
-                    testplans_testcases: {
-                        include: {
-                            test_case: true
-                        }
-                    }
-                }
+    try {
+        const { id } = req.params;
+        const result = await prisma.$queryRawUnsafe<any[]>(`
+            SELECT 
+            ts.id              AS scenario_id,
+            ts.name            AS scenario_name,
+            ts.description     AS scenario_description,
+            tc.id              AS test_case_id,
+            tc.name            AS test_case_name,
+            tc.description     AS test_case_description,
+            tectc.passed,
+            tectc.failed,
+            tectc.skipped,
+            tectc.comment,
+            tectc.created_at
+            FROM test_executions te
+            JOIN test_plans tp ON tp.id = te.test_plan_id
+            JOIN testplans_testcases tt ON tt.test_plan_id = tp.id
+            JOIN test_cases tc ON tt.test_case_id = tc.id
+            JOIN test_scenarios ts ON ts.id = tc.test_scenario_id
+            LEFT JOIN test_executions_test_cases tectc 
+            ON tectc.id = (
+                SELECT id FROM test_executions_test_cases
+                WHERE test_case_id = tc.id AND test_execution_id = te.id
+                ORDER BY created_at DESC
+                LIMIT 1
+            )
+            WHERE te.id = ?
+            ORDER BY ts.id, tc.id;
+        `, id);
+
+        const grouped: any[] = [];
+
+        for (const row of result) {
+            let scenario = grouped.find(s => s.id === row.scenario_id);
+
+            if (!scenario) {
+            scenario = {
+                id: row.scenario_id,
+                name: row.scenario_name,
+                description: row.scenario_description,
+                testCases: []
+            };
+            grouped.push(scenario);
             }
+
+            scenario.testCases.push({
+            id: row.test_case_id,
+            name: row.test_case_name,
+            description: row.test_case_description,
+            passed: row.passed,
+            failed: row.failed,
+            skipped: row.skipped,
+            comment: row.comment,
+            created_at: row.created_at
+            });
         }
-    })
-    res.json(result)
+
+        res.json(grouped)
+    }
+    catch (err) 
+    {
+        console.error(err);
+        res.status(500).json({ error: "Erro ao buscar execução" });
+    }
 });
 
 // Create a new execution
