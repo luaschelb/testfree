@@ -6,7 +6,7 @@ import http from "http";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const apiDir = path.resolve(__dirname, "api");
+const apiDir = path.resolve(__dirname, "");
 const appDir = path.resolve(__dirname, "app");
 const TEST_DB_URL = "file:../dev.test.db";
 
@@ -70,17 +70,15 @@ async function main() {
   // Wait until API is healthy
   await waitForHealth("http://localhost:8080/health-check");
 
-  console.log("🧪 Running Playwright tests...");
-  try {
-    await run("npx playwright test", appDir);
-    console.log("✅ Tests completed successfully.");
+  // Keep the process alive
+  process.stdin.resume();
+
+  // Gracefully handle Ctrl+C
+  process.on("SIGINT", () => {
+    console.log("\n🛑 Shutting down...");
     apiProcess.kill("SIGINT");
     process.exit(0);
-  } catch (err) {
-    console.error("❌ Tests failed.");
-    apiProcess.kill("SIGINT");
-    process.exit(1);
-  }
+  });
 }
 
 main().catch((err) => {

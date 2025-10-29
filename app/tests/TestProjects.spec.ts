@@ -16,9 +16,9 @@ test('Adicionar projeto', async ({ page }) => {
   const responseJson = await response?.json()
   await page.waitForURL('**/projetos')
   const cellWithNewEntry = await page.locator("tbody > tr:last-child > td")
-  expect(cellWithNewEntry.nth(0)).toHaveText(`${responseJson.id}`)
-  expect(cellWithNewEntry.nth(1)).toHaveText(`${responseJson.name}`)
-  expect(cellWithNewEntry.nth(2)).toHaveText(`${responseJson.description}`)
+  await expect(cellWithNewEntry.nth(0)).toHaveText(`${responseJson.id}`)
+  await expect(cellWithNewEntry.nth(1)).toHaveText(`${responseJson.name}`)
+  await expect(cellWithNewEntry.nth(2)).toHaveText(`${responseJson.description}`)
 })
 
 test.skip("Editar projeto", async ({page}) => {

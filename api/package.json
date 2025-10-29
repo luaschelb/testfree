@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev index.ts",
-    "start-test": "dotenv -e .env.test ts-node-dev index.ts",
+    "start-test": "node ./migrate_run_e2e_server.js",
     "reset-db": "npx prisma migrate reset --force --skip-generate --schema=./prisma/schema.prisma",
     "reset-db-test": "dotenv -e .env.test  npx prisma migrate reset --force --skip-generate --schema=./prisma/schema.prisma",
     "seed": "ts-node-dev ./prisma/seed.ts",

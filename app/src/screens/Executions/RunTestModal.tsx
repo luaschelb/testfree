@@ -29,15 +29,17 @@ interface RunTestModalProps {
   open: boolean;
   handleClose: () => void;
   testCase?: TestCase;
-  execution?: Execution;
+  execution: Execution;
   setShouldUpdateScreen: (arg: boolean) => void;
+  originalStatus: number;
+  originalComment: string;
 }
 
 
-const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase, execution, setShouldUpdateScreen}) => {
+const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase, execution, setShouldUpdateScreen, originalStatus, originalComment}) => {
 
-  const [ comments, setComments ] = useState<string | undefined>(testCase?.comment);
-  const [ status, setStatus ] = useState<number | undefined>(testCase?.status ? testCase.status : 1);
+  const [ comments, setComments ] = useState<string | undefined>(testCase?.id ? originalComment : '');
+  const [ status, setStatus ] = useState<number | undefined>(testCase?.id ? Number(originalStatus) : 1);
 
   const [openModal, setOpenModal] = useState<{
       open: boolean,
@@ -88,8 +90,9 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
   }
 
   React.useEffect(() => {
-    setComments(testCase?.comment)
-    setStatus(testCase?.status)
+    setComments(comments)
+    setStatus(status)
+    console.log([comments,status])
   }, [testCase])
 
   return (
@@ -152,10 +155,10 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
                     }) 
                 }}
                   style={{width: "fit-content" }}
-                  disabled={testCase?.status === TestCaseStatusEnum['Não executado'] }
+                  disabled={status === TestCaseStatusEnum['Não executado'] }
                 >Gerenciar Anexos</Button>
                 {
-                  testCase?.status === TestCaseStatusEnum['Não executado'] ? (
+                  status === TestCaseStatusEnum['Não executado'] ? (
                     <span style={{fontSize: "12px", color: "red"}}>Salve a execução para gerenciar anexos</span>
                   ) : null
                 }
@@ -163,7 +166,7 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
               <div style={{marginTop: "16px"}}>
                 <Button variant="contained" size="small" color="success" onClick={submit}>
                   {
-                    testCase?.status === TestCaseStatusEnum['Não executado'] ? "Salvar" : "Atualizar"
+                    status === TestCaseStatusEnum['Não executado'] ? "Salvar" : "Atualizar"
                   }
                 </Button>
               </div>
