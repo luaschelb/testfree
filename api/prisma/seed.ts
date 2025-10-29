@@ -21,12 +21,20 @@ async function main() {
     },
   });
 
-  const project = await prisma.projects.create({
-    data: {
+  const projects = await prisma.projects.createMany({
+    data: [{
       name: 'E-commerce Platform',
       description: 'Main project for testing checkout and user flows',
       active: true,
-    },
+    },{
+      name: 'Projeto para edição teste automatizado',
+      description: 'Projeto para edição teste automatizado',
+      active: true,
+    },{
+      name: 'Projeto para deleção teste automatizado',
+      description: 'Projeto para deleção teste automatizado',
+      active: true,
+    },]
   });
 
   const build = await prisma.builds.create({
@@ -35,7 +43,7 @@ async function main() {
       version: '1.0.0-rc',
       description: 'Release candidate build',
       active: true,
-      project_id: project.id,
+      project_id: 1,
     },
   });
 
@@ -44,7 +52,7 @@ async function main() {
       name: 'Smoke Test Plan',
       description: 'Covers critical smoke tests for release',
       active: true,
-      project_id: project.id,
+      project_id: 1,
     },
   });
 
@@ -53,7 +61,7 @@ async function main() {
       name: 'Checkout Flow',
       description: 'Covers login, cart, payment, and confirmation',
       order: 1,
-      test_project_id: project.id,
+      test_project_id: 1,
     },
   });
 
