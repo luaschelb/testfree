@@ -25,7 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "npx playwright test",
+    "test": "npx playwright test --ui",
     "test-report": "npx playwright show-report",
     "eject": "react-scripts eject"
   },

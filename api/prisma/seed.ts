@@ -37,15 +37,28 @@ async function main() {
     },]
   });
 
-  const build = await prisma.builds.create({
-    data: {
-      title: 'Release Candidate',
-      version: '1.0.0-rc',
-      description: 'Release candidate build',
-      active: true,
-      project_id: 1,
-    },
-  });
+  const builds = await prisma.builds.createMany({
+    data: [{
+        title: 'Release Candidate',
+        version: '1.0.0-rc',
+        description: 'Release candidate build',
+        active: true,
+        project_id: 1,
+      },{
+        title: 'Release Next',
+        version: '2.0.0-rc',
+        description: 'Release Next build',
+        active: true,
+        project_id: 1,
+      },{
+        title: 'Release Delete',
+        version: '2.0.0-rc',
+        description: 'Release Delete build',
+        active: true,
+        project_id: 1,
+      },
+    ]}
+  );
 
   const plan = await prisma.test_plans.create({
     data: {
@@ -125,7 +138,7 @@ async function main() {
       status: 1,
       comments: 'Initial smoke test run',
       test_plan_id: plan.id,
-      build_id: build.id,
+      build_id: 1,
     },
   });
 

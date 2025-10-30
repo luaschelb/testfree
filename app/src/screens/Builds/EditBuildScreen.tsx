@@ -68,16 +68,6 @@ function EditBuildScreen() {
             return;
         }
 
-        if (
-            title === initialTitle &&
-            version === initialVersion &&
-            description === initialDescription &&
-            active === initialActive
-        ) {
-            alert("Nenhuma alteração foi feita.");
-            return;
-        }
-
         try {
             await BuildService.updateBuild({
                 id: Number(id),

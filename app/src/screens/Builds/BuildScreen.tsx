@@ -72,7 +72,7 @@ function BuildScreen() {
                                             </IconButton>
                                         </Tooltip>
                                         <Tooltip title="Deletar">
-                                            <IconButton aria-label="Delete" onClick={() => handleDelete(build.id)}>
+                                            <IconButton aria-label="Deletar" onClick={() => handleDelete(build.id)}>
                                                 <Delete />
                                             </IconButton>
                                         </Tooltip>
