@@ -43,8 +43,8 @@ function CreateExecutionScreen() {
 
         try {
             await ExecutionService.createExecution({
-                start_date: "2024-09-28",
-                end_date: "2024-09-28",
+                start_date: new Date(),
+                end_date: null,
                 test_plan_id: testPlanId,
                 build_id: buildId,
             })

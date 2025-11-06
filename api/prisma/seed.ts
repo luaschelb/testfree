@@ -135,6 +135,7 @@ async function main() {
   const execution = await prisma.test_executions.create({
     data: {
       start_date: new Date(),
+      title: "Exploratory testing",
       status: 1,
       comments: 'Initial smoke test run',
       test_plan_id: plan.id,

@@ -62,6 +62,7 @@ function ListExecutionScreen() {
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Título</th>
                             <th>Plano de Teste</th>
                             <th>Build</th>
                             <th>Status</th>
@@ -74,6 +75,7 @@ function ListExecutionScreen() {
                                 executions.map((execution: any) => (
                                     <tr key={execution?.id}>
                                         <td>{execution?.id}</td>
+                                        <td>{execution?.title}</td>
                                         <td>{execution?.test_plan?.name}</td>
                                         <td>{execution?.build?.title}</td>
                                         <td>{TestExecutionStatusEnum[execution?.status]}</td>

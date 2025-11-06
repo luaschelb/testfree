@@ -160,11 +160,11 @@ router.get('/:id', async (req, res) => {
 
 // Create a new execution
 router.post('/', async (req, res) => {
-    const { start_date, end_date, test_plan_id, build_id, status, comments } = req.body;
+    const { title, start_date, end_date, test_plan_id, build_id, status, comments } = req.body;
 
     const result = await prisma.test_executions.create({
         data: {
-            start_date, end_date, test_plan_id, build_id, status: status ?? 1, comments: comments ?? null
+            title, start_date, end_date, test_plan_id, build_id, status: status ?? 1, comments: comments ?? null
         }
     })
 
@@ -174,12 +174,12 @@ router.post('/', async (req, res) => {
 // Update an execution by ID
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const { start_date, end_date, test_plan_id, build_id, status, comments } = req.body;
+    const { title, start_date, end_date, test_plan_id, build_id, status, comments } = req.body;
 
     try {
         const result = await prisma.test_executions.update({
         where: { id: Number(id) },
-        data: { start_date, end_date, test_plan_id, build_id, status: status ?? 1, comments: comments ?? null }
+        data: { title, start_date, end_date, test_plan_id, build_id, status: status ?? 1, comments: comments ?? null }
         })
         res.json(result)
     } catch (error) {

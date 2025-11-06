@@ -58,6 +58,7 @@ model test_cases {
 
 model test_executions {
   id                         Int                          @id @default(autoincrement())
+  title                      String
   start_date                 DateTime?
   end_date                   DateTime?
   test_plan_id               Int?

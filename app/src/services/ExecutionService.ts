@@ -103,7 +103,7 @@ static async getExecutionById(id: number): Promise<Execution> {
 }
 
     // Criar uma nova execução
-    static async createExecution(data: { start_date: string, end_date: string, test_plan_id: number, build_id: number, status?: number, comments?: string }): Promise<Response> {
+    static async createExecution(data: { start_date: Date, end_date: Date | null, test_plan_id: number, build_id: number, status?: number, comments?: string }): Promise<Response> {
         const response = await apiRequest('/executions', {
             method: 'POST',
             headers: {

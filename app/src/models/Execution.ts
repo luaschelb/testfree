@@ -7,6 +7,7 @@ import TestScenario from "./TestScenario";
 
 class Execution {
     id: number;
+    title: string;
     start_date: string;
     end_date: string | null;
     status: number;
@@ -22,6 +23,7 @@ class Execution {
 
     constructor(
         id: number,
+        title: string,
         start_date: string,
         end_date: string | null,
         test_plan_id: number,
@@ -34,6 +36,7 @@ class Execution {
         test_executions_test_cases?: TestExecutionTestCase[]
     ) {
         this.id = id;
+        this.title = title;
         this.start_date = start_date;
         this.end_date = end_date;
         this.test_plan_id = test_plan_id;
