@@ -118,7 +118,7 @@ const RunExecutionScreen = () => {
   // Função auxiliar para obter comentário do testCase
   const getTestCaseComment = (testCaseId: number) : string  => {
     const exec = execution.test_executions_test_cases?.find(e => e.test_case_id === testCaseId);
-    return exec?.comment || "-";
+    return exec?.comment || "";
   };
 
   return (
@@ -127,16 +127,16 @@ const RunExecutionScreen = () => {
         <Link to="/execucoes">&lt; Voltar</Link>
         <h2 style={{ margin: "-33px 0 0 0", textAlign: "center" }}>Execução de Teste</h2>
       </div>
-
-      <RunTestModal
-        open={openModal.open}
-        handleClose={handleCloseModal}
-        testCase={openModal.testCase}
-        execution={execution}
-        setShouldUpdateScreen={setShouldUpdateScreen}
-        originalStatus={openModal.testCase ? Number(getTestCaseStatus(openModal.testCase.id)) : 1}
-        originalComment={openModal.testCase ? getTestCaseComment(openModal.testCase.id) : ''}
-      />
+      {openModal.open && (
+        <RunTestModal
+          open={openModal.open}
+          handleClose={handleCloseModal}
+          testCase={openModal.testCase}
+          execution={execution}
+          setShouldUpdateScreen={setShouldUpdateScreen}
+          originalStatus={openModal.testCase ? Number(getTestCaseStatus(openModal.testCase.id)) : 1}
+          originalComment={openModal.testCase ? getTestCaseComment(openModal.testCase.id) : ''}
+      />)}
 
       <div style={{ flexDirection: 'column', columnGap: "16px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>

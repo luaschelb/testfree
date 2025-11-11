@@ -69,13 +69,19 @@ async function main() {
     },
   });
 
-  const scenario = await prisma.test_scenarios.create({
-    data: {
+  const scenario = await prisma.test_scenarios.createMany({
+    data: [{
       name: 'Checkout Flow',
       description: 'Covers login, cart, payment, and confirmation',
       order: 1,
       test_project_id: 1,
     },
+    {
+      name: 'Cenario 2',
+      description: 'Cenario 2',
+      order: 1,
+      test_project_id: 1,
+    }],
   });
 
   const loginCase = await prisma.test_cases.create({
@@ -86,7 +92,19 @@ async function main() {
       enabled: true,
       can_edit: true,
       order: 1,
-      test_scenario_id: scenario.id,
+      test_scenario_id: 1,
+    },
+  });
+
+  const scenario2Case = await prisma.test_cases.create({
+    data: {
+      name: 'Cenario 2 testcase 1',
+      description: 'Cenario 2 testcase 1',
+      steps: 'Cenario 2 testcase 1',
+      enabled: true,
+      can_edit: true,
+      order: 1,
+      test_scenario_id: 2,
     },
   });
 
@@ -98,7 +116,7 @@ async function main() {
       enabled: true,
       can_edit: true,
       order: 2,
-      test_scenario_id: scenario.id,
+      test_scenario_id: 1,
     },
   });
 
