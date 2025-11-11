@@ -38,6 +38,7 @@ const RunExecutionScreen = () => {
         setExecution(executionData);
         console.log(execution)
         setDescription(executionData.comments || "");
+        setShouldUpdateScreen(false)
       } catch (err) {
         console.error(err);
         alert("Erro ao buscar execução.");
