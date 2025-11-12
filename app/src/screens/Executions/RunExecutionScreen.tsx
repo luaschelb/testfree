@@ -37,7 +37,6 @@ const RunExecutionScreen = () => {
       try {
         const executionData = await ExecutionService.getExecutionById(Number(id));
         setExecution(executionData);
-        console.log(execution)
         setDescription(executionData.comments || "");
         setShouldUpdateScreen(false)
       } catch (err) {

@@ -77,7 +77,6 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
   React.useEffect(() => {
     setComments(comments)
     setStatus(status)
-    console.log([comments,status])
   }, [testCase])
 
   return (
