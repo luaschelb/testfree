@@ -84,14 +84,6 @@ static async getExecutionById(id: number): Promise<Execution> {
                 tcData.steps || "",
                 tcData.test_scenario_id.toString()
             );
-
-            // Vincular se existir TestExecutionTestCase correspondente
-            const tetc = execution.test_executions_test_cases?.find(t => t.test_case_id === tc.id);
-            if (tetc) {
-                tc.test_execution_test_case_id = tetc.id;
-                tc.testscenario = ts;
-            }
-
             return tc;
         }) || [];
 

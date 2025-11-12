@@ -46,6 +46,7 @@ router.put('/:id', async (req, res) => {
     }
     catch (error)
     {
+        console.error(error)
         return res.status(404).json({ error: 'Projeto de teste não encontrado' });
     }
 });
@@ -59,6 +60,7 @@ router.delete('/:id',  async (req, res) => {
     }
     catch (error)
     {
+        console.error(error)
         return res.status(404).json({ error: 'Projeto de teste não encontrado' });
     }
 });

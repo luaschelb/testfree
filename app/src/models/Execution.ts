@@ -8,8 +8,8 @@ import TestScenario from "./TestScenario";
 class Execution {
     id: number;
     title: string;
-    start_date: string;
-    end_date: string | null;
+    start_date: Date;
+    end_date: Date | null;
     status: number;
     comments: string;
     test_plan_id: number;
@@ -24,8 +24,8 @@ class Execution {
     constructor(
         id: number,
         title: string,
-        start_date: string,
-        end_date: string | null,
+        start_date: Date,
+        end_date: Date | null,
         test_plan_id: number,
         build_id: number,
         status: number,

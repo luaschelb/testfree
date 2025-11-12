@@ -49,6 +49,7 @@ router.put('/:id', async (req : any, res : any) => {
     }
     catch (error)
     {
+        console.error(error)
         return res.status(404).json({ error: 'Build não encontrada' });
     }
 });
@@ -62,6 +63,7 @@ router.delete('/:id', async (req : any, res : any) => {
     }
     catch (error)
     {
+        console.error(error)
         return res.status(404).json({ error: 'Build não encontrada' });
     }
 });

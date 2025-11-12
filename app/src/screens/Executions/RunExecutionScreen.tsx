@@ -60,16 +60,11 @@ const RunExecutionScreen = () => {
     if (!execution) return;
 
     try {
-      const dataHoraFormatada = new Date().toLocaleString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-      }).replace(',', '');
-
-      await ExecutionService.updateExecution({ ...execution, status: 2, end_date: dataHoraFormatada });
+      const end_date = new Date()
+      let exec = execution;
+      exec.status = 2;
+      exec.end_date = end_date;
+      await ExecutionService.updateExecution(exec);
       alert("Execução de teste finalizada com sucesso!");
       setShouldUpdateScreen(true);
     } catch (error) {
@@ -83,7 +78,9 @@ const RunExecutionScreen = () => {
     if (!execution) return;
 
     try {
-      await ExecutionService.updateExecution({ ...execution, status: 1 });
+      let exec = execution;
+      exec.status = 1;
+      await ExecutionService.updateExecution(exec);
       alert("Execução de teste reativada com sucesso!");
       setShouldUpdateScreen(true);
     } catch (error) {
@@ -101,6 +98,7 @@ const RunExecutionScreen = () => {
       alert("Comentários atualizados com sucesso!");
       setShouldUpdateScreen(true);
     } catch (error) {
+      console.error(error);
       alert(`Erro: ${(error as Error).message}`);
     }
   };
@@ -143,7 +141,7 @@ const RunExecutionScreen = () => {
             <label><b>Plano de Teste:</b> {execution.test_plan?.name}</label>
             <label><b>Build:</b> {execution.build?.title}</label>
             <label><b>Status:</b> {TestExecutionStatusEnum[execution.status]}</label>
-            {execution.status === 2 && <span style={{ marginRight: "12px" }}>Finalizada em: {execution.end_date}</span>}
+            {execution.status === 2 && <span style={{ marginRight: "12px" }}>Finalizada em: {execution.end_date ? execution.end_date.toLocaleString() : ""}</span>}
           </div>
           <div>
             <Button variant="contained" color="primary" style={{ fontSize: "12px", marginRight: "8px" }} onClick={() => navigate(`/relatorios/${execution.id}`)}>

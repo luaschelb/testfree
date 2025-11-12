@@ -9,8 +9,6 @@ class TestCase {
     steps: string
     test_scenario_id: string
     test_execution_test_case_id?: number
-    testscenario ?: TestScenario
-    testExecutionTestCase?: TestExecutionTestCase;
     
     constructor(id: number, name: string, description: string, steps: string, test_scenario_id: string) {
         this.id = id

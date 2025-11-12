@@ -49,6 +49,7 @@ router.put('/:id', async (req, res) => {
     })
     res.json(result)
   } catch (error) {
+    console.error(error)
     return res.status(404).json({ error: 'Cenário de teste não encontrado' })
   }
 })
@@ -61,6 +62,7 @@ router.delete('/:id', async (req, res) => {
     })
     res.json(result)
   } catch (error) {
+    console.error(error)
     return res.status(404).json({ error: 'Cenário de teste não encontrado' })
   }
 })
