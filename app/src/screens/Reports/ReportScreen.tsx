@@ -50,25 +50,48 @@ const ReportScreen = () => {
         }));
     };
 
-    function handlePDFGeneration() {
+function handlePDFGeneration() {
+    // Salva o estado atual de expansão
+    const prevExpandedScenarios = [...expandedScenarios];
+    const prevExpandedTestCases = JSON.parse(JSON.stringify(expandedTestCases));
+
+    // Expande todos os cenários e casos de teste
+    const allScenarioIds = testScenarios.map(s => s.id);
+    const allExpandedTestCases: { [key: number]: number[] } = {};
+    testScenarios.forEach(s => {
+        allExpandedTestCases[s.id] = s.testCases.map((tc: any) => tc.id);
+    });
+
+    setExpandedScenarios(allScenarioIds);
+    setExpandedTestCases(allExpandedTestCases);
+
+    // Dá um pequeno delay para garantir re-render antes de gerar o PDF
+    setTimeout(() => {
         const getTargetElement = () => {
-            let content = document.getElementById('content-id') as HTMLElement
-            let expandIcons = content.getElementsByClassName('expandIcon')
-            for(let i = 0; i < expandIcons.length; i++)
-            {
-                expandIcons[i].setAttribute('hidden', 'true')
+            let content = document.getElementById('content-id') as HTMLElement;
+            let expandIcons = content.getElementsByClassName('expandIcon');
+            for (let i = 0; i < expandIcons.length; i++) {
+                expandIcons[i].setAttribute('hidden', 'true');
             }
-            return content
-         };
-         generatePDF(getTargetElement, options)
-         let content = document.getElementById('content-id') as HTMLElement
-         let expandIcons = content.getElementsByClassName('expandIcon')
-         for(let i = 0; i < expandIcons.length; i++)
-         {
-             expandIcons[i].removeAttribute('hidden')
-         }
-         return content
-    }
+            return content;
+        };
+
+        generatePDF(getTargetElement, options)
+            .then(() => {
+                // Restaura os ícones
+                let content = document.getElementById('content-id') as HTMLElement;
+                let expandIcons = content.getElementsByClassName('expandIcon');
+                for (let i = 0; i < expandIcons.length; i++) {
+                    expandIcons[i].removeAttribute('hidden');
+                }
+
+                // Restaura o estado anterior
+                setExpandedScenarios(prevExpandedScenarios);
+                setExpandedTestCases(prevExpandedTestCases);
+            });
+    }, 300); // tempo suficiente para o re-render antes da captura
+}
+
 
     useEffect(() => {
         ExecutionService.getExecutionById(Number(id)).then((res1) => {
