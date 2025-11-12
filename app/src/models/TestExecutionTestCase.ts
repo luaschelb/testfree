@@ -4,9 +4,7 @@ export default class TestExecutionTestCase {
     id ?: number
     created_at: string
     comment: string
-    passed: boolean
-    skipped: boolean
-    failed: boolean
+    status: number
     test_execution_id: number
     test_case_id: number
     test_case?: TestCase
@@ -14,17 +12,13 @@ export default class TestExecutionTestCase {
     constructor(
         created_at: string,
         comment: string,
-        passed: boolean,
-        skipped: boolean,
-        failed: boolean,
+        status: number,
         test_execution_id: number,
         test_case_id: number
     ) {
         this.created_at = created_at
         this.comment = comment
-        this.passed = passed
-        this.skipped = skipped
-        this.failed = failed
+        this.status = status
         this.test_execution_id = test_execution_id
         this.test_case_id = test_case_id
     }

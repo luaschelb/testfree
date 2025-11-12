@@ -11,7 +11,7 @@ import AttachmentsModal from './AttachmentsModal';
 import TestExecutionTestCase from '../../models/TestExecutionTestCase';
 import Execution from '../../models/Execution';
 import TestExecutionTestCaseService from '../../services/TestExecutionTestCaseService';
-import TestCaseStatusEnum from '../../enums/TestCaseStatusEnum';
+import TestExecutionTestCaseStatusEnum from '../../enums/TestExecutionTestCaseStatusEnum';
 
 const style = {
   position: 'absolute',
@@ -39,7 +39,7 @@ interface RunTestModalProps {
 const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase, execution, setShouldUpdateScreen, originalStatus, originalComment}) => {
 
   const [ comments, setComments ] = useState<string | undefined>(testCase?.id ? originalComment : '');
-  const [ status, setStatus ] = useState<number | undefined>(testCase?.id ? Number(originalStatus) : 1);
+  const [ status, setStatus ] = useState<number | undefined>(testCase?.id ? Number(originalStatus) : 0);
 
   const [openModal, setOpenModal] = useState<{
       open: boolean,
@@ -55,29 +55,14 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
     let testCase_2 = testCase as TestCase
     const data = new Date();
     const created_at = data.toISOString().slice(0, 19);
-    let passed = false
-    let skipped = false
-    let failed = false
-    if(status === 0 || status === 1)
-    {
-      passed = true
-    }
-    if(status === 2)
-    {
-      skipped = true
-    }
-    if(status === 3)
-    {
-      failed = true
-    }
     try {
         if(testCase_2.test_execution_test_case_id === undefined)
         {
-          await TestExecutionTestCaseService.createTestExecutionTestCase(new TestExecutionTestCase(created_at, comments ? comments : "", passed, skipped, failed, execution_2.id, testCase_2.id))
+          await TestExecutionTestCaseService.createTestExecutionTestCase(new TestExecutionTestCase(created_at, comments ? comments : "", status!, execution_2.id, testCase_2.id))
         }
         else
         {
-          let aux = new TestExecutionTestCase(created_at, comments ? comments : "", passed, skipped, failed, execution_2.id, testCase_2.id);
+          let aux = new TestExecutionTestCase(created_at, comments ? comments : "", status!, execution_2.id, testCase_2.id);
           aux.id = testCase_2.test_execution_test_case_id
           await TestExecutionTestCaseService.updateTestExecutionTestCase(aux)
         }
@@ -129,11 +114,11 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
               <b>Estado:</b> 
               <select 
                 style={{height: "1.8rem"}}
-                value={status ? status : 1}
+                value={status ? status : 0}
                 onChange={(event) => {
                     setStatus(parseInt(event.target.value))
                 }}>
-                {/* <option key={0} value={0}>Não executado</option> */}
+                <option key={0} value={0}>Não executado</option>
                 <option key={1} value={1}>Sucesso</option>
                 <option key={2} value={2}>Pulado</option>
                 <option key={3} value={3}>Com erros</option>
@@ -155,10 +140,10 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
                     }) 
                 }}
                   style={{width: "fit-content" }}
-                  disabled={status === TestCaseStatusEnum['Não executado'] }
+                  disabled={status === TestExecutionTestCaseStatusEnum['Não executado'] }
                 >Gerenciar Anexos</Button>
                 {
-                  status === TestCaseStatusEnum['Não executado'] ? (
+                  status === TestExecutionTestCaseStatusEnum['Não executado'] ? (
                     <span style={{fontSize: "12px", color: "red"}}>Salve a execução para gerenciar anexos</span>
                   ) : null
                 }
@@ -166,7 +151,7 @@ const RunTestModal: React.FC<RunTestModalProps> = ({ open, handleClose, testCase
               <div style={{marginTop: "16px"}}>
                 <Button variant="contained" size="small" color="success" onClick={submit}>
                   {
-                    status === TestCaseStatusEnum['Não executado'] ? "Salvar" : "Atualizar"
+                    status === TestExecutionTestCaseStatusEnum['Não executado'] ? "Salvar" : "Atualizar"
                   }
                 </Button>
               </div>

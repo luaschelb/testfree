@@ -164,7 +164,7 @@ async function main() {
   const execLoginCase = await prisma.test_executions_test_cases.create({
     data: {
       created_at: new Date(),
-      passed: true,
+      status: 1,
       comment: 'Login worked fine',
       test_execution_id: execution.id,
       test_case_id: loginCase.id,
@@ -174,7 +174,7 @@ async function main() {
   const execCheckoutCase = await prisma.test_executions_test_cases.create({
     data: {
       created_at: new Date(),
-      failed: true,
+      status: 3,
       comment: 'Payment gateway timeout',
       test_execution_id: execution.id,
       test_case_id: checkoutCase.id,

@@ -12,6 +12,7 @@ import Execution from "../../models/Execution";
 import TestCase from "../../models/TestCase";
 import RunTestModal from "./RunTestModal";
 import TestExecutionStatusEnum from "../../enums/TestExecutionStatusEnum";
+import TestExecutionTestCaseStatusEnum from "../../enums/TestExecutionTestCaseStatusEnum";
 
 const RunExecutionScreen = () => {
   const { selectedProject } = useGlobalSelectedProject();
@@ -107,13 +108,10 @@ const RunExecutionScreen = () => {
   if (!execution) return <div>Carregando execução...</div>;
 
   // Função auxiliar para obter status de cada testCase
-  const getTestCaseStatus = (testCaseId: number) : string => {
+  const getTestCaseStatus = (testCaseId: number) : number => {
     const exec = execution.test_executions_test_cases?.find(e => e.test_case_id === testCaseId);
-    if (!exec) return "Não executado";
-    if (exec.passed) return "Sucesso";
-    if (exec.failed) return "Com erros";
-    if (exec.skipped) return "Pulado";
-    return "Não executado";
+    if (!exec) return 0;
+    return exec.status;
   };
 
   // Função auxiliar para obter comentário do testCase
@@ -135,7 +133,7 @@ const RunExecutionScreen = () => {
           testCase={openModal.testCase}
           execution={execution}
           setShouldUpdateScreen={setShouldUpdateScreen}
-          originalStatus={openModal.testCase ? Number(getTestCaseStatus(openModal.testCase.id)) : 1}
+          originalStatus={openModal.testCase ? getTestCaseStatus(openModal.testCase.id) : 0}
           originalComment={openModal.testCase ? getTestCaseComment(openModal.testCase.id) : ''}
       />)}
 
@@ -197,10 +195,10 @@ const RunExecutionScreen = () => {
               <tr>
                 <td>{scenario.id}</td>
                 <td>{scenario.name}</td>
-                <td>{scenario.testCases.filter(tc => getTestCaseStatus(tc.id) === "Não executado").length}</td>
-                <td>{scenario.testCases.filter(tc => getTestCaseStatus(tc.id) === "Sucesso").length}</td>
-                <td>{scenario.testCases.filter(tc => getTestCaseStatus(tc.id) === "Pulado").length}</td>
-                <td>{scenario.testCases.filter(tc => getTestCaseStatus(tc.id) === "Com erros").length}</td>
+                <td>{scenario.testCases.filter(tc => getTestCaseStatus(tc.id) === 0).length}</td>
+                <td>{scenario.testCases.filter(tc => getTestCaseStatus(tc.id) === 1).length}</td>
+                <td>{scenario.testCases.filter(tc => getTestCaseStatus(tc.id) === 2).length}</td>
+                <td>{scenario.testCases.filter(tc => getTestCaseStatus(tc.id) === 3).length}</td>
                 <td>
                   <button type="button" onClick={() => toggleScenario(scenario.id)}>
                     {expandedScenarios.includes(scenario.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -224,7 +222,7 @@ const RunExecutionScreen = () => {
                       <td>{tc.name}</td>
                       <td>{tc.description}</td>
                       <td colSpan={2}>{getTestCaseComment(tc.id)}</td>
-                      <td>{getTestCaseStatus(tc.id)}</td>
+                      <td>{TestExecutionTestCaseStatusEnum[getTestCaseStatus(tc.id)]}</td>
                       <td>
                         <Tooltip title="Executar">
                           <IconButton aria-label="PlayArrow" color="success" onClick={() => setOpenModal({ open: true, testCase: tc })}>

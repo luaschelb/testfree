@@ -26,6 +26,7 @@ static async getExecutionById(id: number): Promise<Execution> {
     // Criar objeto Execution
     const execution = new Execution(
         item.id,
+        item.title,
         item.start_date,
         item.end_date,
         item.test_plan_id,
@@ -53,9 +54,7 @@ static async getExecutionById(id: number): Promise<Execution> {
         const testExecTC = new TestExecutionTestCase(
             tetc.created_at,
             tetc.comment,
-            tetc.passed ?? false,
-            tetc.skipped ?? false,
-            tetc.failed ?? false,
+            tetc.status,
             tetc.test_execution_id,
             tetc.test_case_id
         );

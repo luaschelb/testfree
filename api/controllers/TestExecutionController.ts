@@ -69,9 +69,7 @@ router.get('/:id', async (req, res) => {
             test_case_name: string | null;
             test_case_description: string | null;
             tectc_id: number | null;
-            passed: boolean | null;
-            failed: boolean | null;
-            skipped: boolean | null;
+            status: number | null;
             comment: string | null;
             created_at: string | null;
         };
@@ -85,9 +83,7 @@ router.get('/:id', async (req, res) => {
                 tc.name            AS test_case_name,
                 tc.description     AS test_case_description,
                 tectc.id           AS tectc_id,
-                tectc.passed,
-                tectc.failed,
-                tectc.skipped,
+                tectc.status,
                 tectc.comment,
                 tectc.created_at
             FROM test_executions te
@@ -132,10 +128,8 @@ router.get('/:id', async (req, res) => {
                 testExecutionsTestCases.push({
                     id: row.tectc_id,
                     created_at: row.created_at,
+                    status: row.status,
                     comment: row.comment,
-                    passed: row.passed,
-                    failed: row.failed,
-                    skipped: row.skipped,
                     test_execution_id: Number(id),
                     test_case_id: row.test_case_id,
                     test_case: testCase

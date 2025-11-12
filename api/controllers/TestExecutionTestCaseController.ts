@@ -29,15 +29,13 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    const { created_at, comment, passed, skipped, failed, test_execution_id, test_case_id } = req.body
+    const { created_at, comment, status, test_execution_id, test_case_id } = req.body
     try {
         const result = await prisma.test_executions_test_cases.create({
             data: {
                 created_at: new Date(created_at),
                 comment,
-                passed,
-                skipped,
-                failed,
+                status,
                 test_execution_id,
                 test_case_id
             }
@@ -51,16 +49,14 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     const { id } = req.params
-    const { created_at, comment, passed, skipped, failed, test_execution_id, test_case_id } = req.body
+    const { created_at, comment, status, test_execution_id, test_case_id } = req.body
     try {
         const updated = await prisma.test_executions_test_cases.update({
             where: { id: Number(id) },
             data: {
                 created_at: new Date(created_at),
                 comment,
-                passed,
-                skipped,
-                failed,
+                status,
                 test_execution_id,
                 test_case_id
             }
