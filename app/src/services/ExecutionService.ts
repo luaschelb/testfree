@@ -1,4 +1,5 @@
 import Execution from "../models/Execution"; // Assuma que você tem esse modelo
+import File from "../models/File";
 import TestCase from "../models/TestCase"; // Assuma que você tem esse modelo para test cases
 import TestExecutionTestCase from "../models/TestExecutionTestCase";
 import TestScenario from "../models/TestScenario";
@@ -58,7 +59,12 @@ static async getExecutionById(id: number): Promise<Execution> {
             tetc.test_execution_id,
             tetc.test_case_id
         );
-
+        console.log(tetc.files)
+        let files : File[]= []
+        files = tetc.files.map((f : any) => {
+            return new File(f.id, f.name, f.path, tetc.id)
+        })
+        testExecTC.files = files;
         testExecTC.id = tetc.id;
         testExecTC.test_case = tc;
         tc.test_execution_test_case_id = tetc.id;

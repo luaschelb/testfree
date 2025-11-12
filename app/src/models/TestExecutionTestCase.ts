@@ -1,4 +1,5 @@
 import TestCase from "./TestCase"
+import File from "./File";
 
 export default class TestExecutionTestCase {
     id ?: number
@@ -7,6 +8,7 @@ export default class TestExecutionTestCase {
     status: number
     test_execution_id: number
     test_case_id: number
+    files? : File[]
     test_case?: TestCase
 
     constructor(

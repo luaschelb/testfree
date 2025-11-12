@@ -12,9 +12,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Button, IconButton } from "@mui/material";
 import generatePDF, { Resolution, Margin, Options } from 'react-to-pdf';
-import File from "../../models/File";
 import { Download } from "@mui/icons-material";
 import TestExecutionTestCaseStatusEnum from "../../enums/TestExecutionTestCaseStatusEnum";
+import File from "../../models/File";
 
 const ReportScreen = () => {
     const navigate = useNavigate();
@@ -86,10 +86,11 @@ const ReportScreen = () => {
     };
 
     // Função auxiliar para obter comentário do testCase
-    const getTestCaseComment = (testCaseId: number) : string  => {
+    const getTestCaseFiles = (testCaseId: number) : File[]  => {
         const exec = execution?.test_executions_test_cases?.find(e => e.test_case_id === testCaseId);
-        return exec?.comment || "";
-  };
+        return exec?.files ? exec.files : []
+    };
+
     return (
         <div
         style={{
@@ -174,7 +175,9 @@ const ReportScreen = () => {
                                                     <div><b>Status: </b>{TestExecutionTestCaseStatusEnum[getTestCaseStatus(testCase.id)]}</div>
                                                     <div><b>Comentários da execução: </b>{testCase.comment}</div>
                                                     <b>Evidências:</b>
-                                                    {testCase.files?.map((file: File) => (
+                                                    {getTestCaseFiles(testCase.id)?.map((file: File) => {
+                                                        console.log(`http://localhost:8080/testfiles${file.path}`) 
+                                                        return (
                                                         <div key={file.id}>
                                                             <img 
                                                                 src={`http://localhost:8080/testfiles${file.path}`}
@@ -182,7 +185,7 @@ const ReportScreen = () => {
                                                                 alt={`Evidência do Caso ${testCase.id}`}
                                                             />
                                                         </div>
-                                                    ))}
+                                                    )})}
                                                 </div>
                                             )}
                                         </div>
