@@ -14,6 +14,7 @@ import { Button, IconButton } from "@mui/material";
 import generatePDF, { Resolution, Margin, Options } from 'react-to-pdf';
 import File from "../../models/File";
 import { Download } from "@mui/icons-material";
+import TestExecutionTestCaseStatusEnum from "../../enums/TestExecutionTestCaseStatusEnum";
 
 const ReportScreen = () => {
     const navigate = useNavigate();
@@ -72,9 +73,23 @@ const ReportScreen = () => {
     useEffect(() => {
         ExecutionService.getExecutionById(Number(id)).then((res1) => {
             setExecution(res1);
+            console.log(res1)
+            setTestScenarios(res1.scenarios)
         });
     }, [selectedProject, shouldUpdateScreen]);
 
+    // Função auxiliar para obter status de cada testCase
+    const getTestCaseStatus = (testCaseId: number) : number => {
+        const exec = execution?.test_executions_test_cases?.find(e => e.test_case_id === testCaseId);
+        if (!exec) return 0;
+        return exec.status;
+    };
+
+    // Função auxiliar para obter comentário do testCase
+    const getTestCaseComment = (testCaseId: number) : string  => {
+        const exec = execution?.test_executions_test_cases?.find(e => e.test_case_id === testCaseId);
+        return exec?.comment || "";
+  };
     return (
         <div
         style={{
@@ -127,10 +142,10 @@ const ReportScreen = () => {
                                     <div style={{ fontSize: '20px', fontWeight: "bold"}}>
                                         {tsIndex + 1}. {scenario.name}
                                     </div>            
-                                    <div><b>Sucesso: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 1).length}</span></div>
-                                    <div><b>Pulados: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 2).length}</span></div>
-                                    <div><b>Com erros: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 3).length}</span></div>
-                                    <div><b>Não executados: </b><span>{scenario.testCases.filter((tc : any) => tc.status === 0).length}</span></div>
+                                    <div><b>Não executados: </b><span>{scenario.testCases.filter((tc : any) => getTestCaseStatus(tc.id) === 0).length}</span></div>
+                                    <div><b>Sucesso: </b><span>{scenario.testCases.filter((tc : any) => getTestCaseStatus(tc.id) === 1).length}</span></div>
+                                    <div><b>Pulados: </b><span>{scenario.testCases.filter((tc : any) => getTestCaseStatus(tc.id) === 2).length}</span></div>
+                                    <div><b>Com erros: </b><span>{scenario.testCases.filter((tc : any) => getTestCaseStatus(tc.id) === 3).length}</span></div>
                                 </div>
                             </div>
                             {expandedScenarios.includes(scenario.id) && (
@@ -149,14 +164,14 @@ const ReportScreen = () => {
                                                     {tcIndex + 1}. {testCase.name}
                                                 </div>
                                                 <div style={{marginLeft: "6px"}}>
-                                                - {testCase.mapStatusToString().toLocaleLowerCase()}
+                                                - {TestExecutionTestCaseStatusEnum[getTestCaseStatus(testCase.id)]}
                                                 </div>
                                             </div>
                                             {expandedTestCases[scenario.id]?.includes(testCase.id) && (
                                                 <div style={{ marginLeft: "40px" }}>
                                                     <div><b>Descrição do teste: </b>{testCase.description}</div>
                                                     <div><b>Execução realizada em:</b> {testCase?.created_at}</div>
-                                                    <div><b>Status: </b>{testCase.mapStatusToString()}</div>
+                                                    <div><b>Status: </b>{TestExecutionTestCaseStatusEnum[getTestCaseStatus(testCase.id)]}</div>
                                                     <div><b>Comentários da execução: </b>{testCase.comment}</div>
                                                     <b>Evidências:</b>
                                                     {testCase.files?.map((file: File) => (
