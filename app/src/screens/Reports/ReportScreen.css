@@ -1,0 +1,247 @@
+/* Container principal */
+.report-container {
+    padding: 16px;
+    margin: 16px 10% 0 10%;
+    border-radius: 8px;
+}
+
+.report-actions {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 12px;
+}
+
+/* Documento PDF */
+.report-document {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* TopBar */
+.report-topbar {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.report-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.report-logo {
+    width: 40px;
+    height: 40px;
+    background-color: #495057;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.report-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #212529;
+}
+
+.report-execution-id {
+    font-size: 13px;
+    color: #6c757d;
+}
+
+/* Informações principais */
+.report-info-section {
+    padding: 20px 24px;
+    background-color: #fff;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.report-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    font-size: 13px;
+}
+
+.report-info-item-label {
+    color: #6c757d;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.report-info-item-value {
+    font-weight: 600;
+    color: #212529;
+}
+
+/* Seção de cenários */
+.report-scenarios-section {
+    padding: 20px 24px;
+}
+
+.report-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Cenário */
+.report-scenario {
+    margin-bottom: 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.report-scenario-header {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+.report-scenario-header.expanded {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.report-scenario-content {
+    flex: 1;
+}
+
+.report-scenario-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 6px;
+}
+
+.report-scenario-stats {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 12px;
+}
+
+.report-scenario-body {
+    padding: 12px;
+    background-color: #fff;
+}
+
+/* Test Case */
+.report-testcase {
+    margin-bottom: 10px;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.report-testcase-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    background-color: #fafbfc;
+    cursor: pointer;
+}
+
+.report-testcase-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #212529;
+    flex: 1;
+}
+
+.report-testcase-body {
+    padding: 12px;
+    background-color: #fff;
+    border-top: 1px solid #e9ecef;
+    font-size: 13px;
+}
+
+.report-testcase-field {
+    margin-bottom: 10px;
+}
+
+.report-testcase-field-label {
+    color: #6c757d;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.report-testcase-field-value {
+    color: #495057;
+}
+
+.report-testcase-comment {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border-left: 3px solid #495057;
+}
+
+/* Evidências */
+.report-evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+}
+
+.report-evidence-item {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.report-evidence-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Status Badge */
+.status-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-left: 8px;
+}
+
+/* Footer */
+.report-footer {
+    padding: 12px 24px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    text-align: center;
+    color: #6c757d;
+    font-size: 11px;
+}
+
+/* Icon Button adjustments */
+.expand-icon-btn {
+    padding: 6px;
+    margin-right: 8px;
+}
+
+.expand-icon-btn-small {
+    padding: 4px;
+    margin-right: 8px;
+}

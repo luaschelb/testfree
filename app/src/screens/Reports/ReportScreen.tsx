@@ -3,18 +3,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useGlobalSelectedProject } from "../../context/GlobalSelectedProjectContext";
 import Execution from "../../models/Execution";
 import TestScenario from "../../models/TestScenario";
-import BuildService from "../../services/BuildService";
 import ExecutionService from "../../services/ExecutionService";
-import TestPlanService from "../../services/TestPlanService";
-import TestScenarioService from "../../services/TestScenarioService";
 import TestExecutionStatusEnum from "../../enums/TestExecutionStatusEnum";
+import TestExecutionTestCaseStatusEnum from "../../enums/TestExecutionTestCaseStatusEnum";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Button, IconButton } from "@mui/material";
-import generatePDF, { Resolution, Margin, Options } from 'react-to-pdf';
+import generatePDF, { Margin, Options } from 'react-to-pdf';
 import { Download } from "@mui/icons-material";
-import TestExecutionTestCaseStatusEnum from "../../enums/TestExecutionTestCaseStatusEnum";
 import File from "../../models/File";
+import './ReportScreen.css';
 
 const ReportScreen = () => {
     const navigate = useNavigate();
@@ -24,20 +22,16 @@ const ReportScreen = () => {
     const [execution, setExecution] = useState<Execution>();
     const [expandedScenarios, setExpandedScenarios] = useState<number[]>([]);
     const [expandedTestCases, setExpandedTestCases] = useState<{ [key: number]: number[] }>({});
-    const [shouldUpdateScreen, setShouldUpdateScreen] = useState<boolean>(false);
 
-    let options : Options = {
+    const options: Options = {
         method: "save",
-        filename: `relatorio.pdf`,
+        filename: `relatorio-${execution?.test_plan?.name || 'teste'}.pdf`,
         page: { margin: Margin.MEDIUM },
-     };
-    
+    };
 
     const toggleScenario = (scenarioId: number) => {
         setExpandedScenarios((prev) =>
-            prev.includes(scenarioId)
-                ? prev.filter(id => id !== scenarioId)
-                : [...prev, scenarioId]
+            prev.includes(scenarioId) ? prev.filter(id => id !== scenarioId) : [...prev, scenarioId]
         );
     };
 
@@ -50,177 +44,234 @@ const ReportScreen = () => {
         }));
     };
 
-function handlePDFGeneration() {
-    // Salva o estado atual de expansão
-    const prevExpandedScenarios = [...expandedScenarios];
-    const prevExpandedTestCases = JSON.parse(JSON.stringify(expandedTestCases));
+    const handlePDFGeneration = () => {
+        const prevExpandedScenarios = [...expandedScenarios];
+        const prevExpandedTestCases = JSON.parse(JSON.stringify(expandedTestCases));
 
-    // Expande todos os cenários e casos de teste
-    const allScenarioIds = testScenarios.map(s => s.id);
-    const allExpandedTestCases: { [key: number]: number[] } = {};
-    testScenarios.forEach(s => {
-        allExpandedTestCases[s.id] = s.testCases.map((tc: any) => tc.id);
-    });
+        const allScenarioIds = testScenarios.map(s => s.id);
+        const allExpandedTestCases: { [key: number]: number[] } = {};
+        testScenarios.forEach(s => {
+            allExpandedTestCases[s.id] = s.testCases.map((tc: any) => tc.id);
+        });
 
-    setExpandedScenarios(allScenarioIds);
-    setExpandedTestCases(allExpandedTestCases);
+        setExpandedScenarios(allScenarioIds);
+        setExpandedTestCases(allExpandedTestCases);
 
-    // Dá um pequeno delay para garantir re-render antes de gerar o PDF
-    setTimeout(() => {
-        const getTargetElement = () => {
-            let content = document.getElementById('content-id') as HTMLElement;
-            let expandIcons = content.getElementsByClassName('expandIcon');
-            for (let i = 0; i < expandIcons.length; i++) {
-                expandIcons[i].setAttribute('hidden', 'true');
-            }
-            return content;
-        };
+        setTimeout(() => {
+            const getTargetElement = () => {
+                const content = document.getElementById('content-id') as HTMLElement;
+                const expandIcons = content.getElementsByClassName('expandIcon');
+                for (let i = 0; i < expandIcons.length; i++) {
+                    expandIcons[i].setAttribute('hidden', 'true');
+                }
+                return content;
+            };
 
-        generatePDF(getTargetElement, options)
-            .then(() => {
-                // Restaura os ícones
-                let content = document.getElementById('content-id') as HTMLElement;
-                let expandIcons = content.getElementsByClassName('expandIcon');
+            generatePDF(getTargetElement, options).then(() => {
+                const content = document.getElementById('content-id') as HTMLElement;
+                const expandIcons = content.getElementsByClassName('expandIcon');
                 for (let i = 0; i < expandIcons.length; i++) {
                     expandIcons[i].removeAttribute('hidden');
                 }
-
-                // Restaura o estado anterior
                 setExpandedScenarios(prevExpandedScenarios);
                 setExpandedTestCases(prevExpandedTestCases);
             });
-    }, 300); // tempo suficiente para o re-render antes da captura
-}
-
+        }, 300);
+    };
 
     useEffect(() => {
-        ExecutionService.getExecutionById(Number(id)).then((res1) => {
-            setExecution(res1);
-            console.log(res1)
-            setTestScenarios(res1.scenarios)
+        ExecutionService.getExecutionById(Number(id)).then((res) => {
+            setExecution(res);
+            setTestScenarios(res.scenarios);
         });
-    }, [selectedProject, shouldUpdateScreen]);
+    }, [selectedProject, id]);
 
-    // Função auxiliar para obter status de cada testCase
-    const getTestCaseStatus = (testCaseId: number) : number => {
+    const getTestCaseStatus = (testCaseId: number): number => {
         const exec = execution?.test_executions_test_cases?.find(e => e.test_case_id === testCaseId);
-        if (!exec) return 0;
-        return exec.status;
+        return exec?.status || 0;
     };
 
-    // Função auxiliar para obter comentário do testCase
-    const getTestCaseFiles = (testCaseId: number) : File[]  => {
+    const getTestCaseFiles = (testCaseId: number): File[] => {
         const exec = execution?.test_executions_test_cases?.find(e => e.test_case_id === testCaseId);
-        return exec?.files ? exec.files : []
+        return exec?.files || [];
     };
+
+    const getStatusColor = (status: number) => {
+        const colors = { 0: '#868e96', 1: '#51cf66', 2: '#ffd43b', 3: '#ff6b6b' };
+        return colors[status as keyof typeof colors] || '#868e96';
+    };
+
+    const getStatusBadge = (status: number) => (
+        <span 
+            className="status-badge"
+            style={{
+                backgroundColor: getStatusColor(status) + '20',
+                color: getStatusColor(status),
+                border: `1px solid ${getStatusColor(status)}`
+            }}
+        >
+            {TestExecutionTestCaseStatusEnum[status]}
+        </span>
+    );
+
+    const getScenarioStats = (scenario: any) => ({
+        notExecuted: scenario.testCases.filter((tc: any) => getTestCaseStatus(tc.id) === 0).length,
+        success: scenario.testCases.filter((tc: any) => getTestCaseStatus(tc.id) === 1).length,
+        skipped: scenario.testCases.filter((tc: any) => getTestCaseStatus(tc.id) === 2).length,
+        failed: scenario.testCases.filter((tc: any) => getTestCaseStatus(tc.id) === 3).length,
+    });
 
     return (
-        <div
-        style={{
-            padding: "16px",
-            margin: "16px 22% 0px 22%",
-            borderRadius: "8px",
-            border: "solid 1px #222",
-        }}>
-            <Button variant="contained" color="primary" style={{
-                marginRight: "8px"
-                }}
-                onClick={() => { navigate(`/executar_execucao/${execution?.id}`)}}
-                >Ver Execução
-            </Button>
-            <Button 
-                color="success" 
-                variant="contained" 
-                endIcon={<Download />}
-                onClick={handlePDFGeneration}
-                >Download PDF
-            </Button>
-            <div 
-                style={{
-                    backgroundColor: "#fefefe",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "16px",
-                    marginTop: "16px"
-                }}
-                id="content-id"
-            >
-                <div style={{display: "flex", flexDirection: "column", gap: "16px"}}>
-                    <label><b>Plano de Teste:</b> {execution?.test_plan?.name}</label>
-                    <label><b>Build:</b> {execution?.build?.title}</label>
-                    <label><b>Finalizada em:</b> {execution?.end_date?.toLocaleString()}</label>
-                    <label><b>Status:</b> {execution?.status ? TestExecutionStatusEnum[execution?.status] : ""}</label>
+        <div className="report-container">
+            <div className="report-actions">
+                <Button variant="contained" color="primary" onClick={() => navigate(`/executar_execucao/${execution?.id}`)}>
+                    Ver Execução
+                </Button>
+                <Button color="success" variant="contained" endIcon={<Download />} onClick={handlePDFGeneration}>
+                    Download PDF
+                </Button>
+            </div>
+
+            <div className="report-document" id="content-id">
+                {/* TopBar */}
+                <div className="report-topbar">
+                    <div className="report-topbar-left">
+                        <div className="report-logo">L</div>
+                        <h1 className="report-title">Relatório de Testes</h1>
+                    </div>
+                    <div className="report-execution-id">Execução ID: {execution?.id}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginLeft: "10px" }}>
-                    {testScenarios.map((scenario: any, tsIndex: number) => (
-                        <div key={scenario.id}>
-                            <div style={{ display: "flex", alignItems: "center"}}>
-                                <div style={{minHeight: 40}}>
-                                    <IconButton onClick={() => toggleScenario(scenario.id)}>
+
+                {/* Informações Principais */}
+                <div className="report-info-section">
+                    <div className="report-info-grid">
+                        <div>
+                            <div className="report-info-item-label">Plano de Teste</div>
+                            <div className="report-info-item-value">{execution?.test_plan?.name}</div>
+                        </div>
+                        <div>
+                            <div className="report-info-item-label">Build</div>
+                            <div className="report-info-item-value">{execution?.build?.title}</div>
+                        </div>
+                        <div>
+                            <div className="report-info-item-label">Finalizada em</div>
+                            <div className="report-info-item-value">{execution?.end_date?.toLocaleString()}</div>
+                        </div>
+                        <div>
+                            <div className="report-info-item-label">Status</div>
+                            <div className="report-info-item-value">
+                                {execution?.status ? TestExecutionStatusEnum[execution.status] : ""}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Cenários de Teste */}
+                <div className="report-scenarios-section">
+                    <h2 className="report-section-title">Cenários de Teste</h2>
+
+                    {testScenarios.map((scenario: any, tsIndex: number) => {
+                        const stats = getScenarioStats(scenario);
+                        const isExpanded = expandedScenarios.includes(scenario.id);
+
+                        return (
+                            <div key={scenario.id} className="report-scenario">
+                                <div className={`report-scenario-header ${isExpanded ? 'expanded' : ''}`}>
+                                    <IconButton onClick={() => toggleScenario(scenario.id)} className="expand-icon-btn" size="small">
                                         <div className="expandIcon">
-                                            {expandedScenarios.includes(scenario.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                                            {isExpanded ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
                                         </div>
                                     </IconButton>
-                                </div>                
-                                <div style={{ display: "flex", gap: "16px" ,alignItems: "center"}}>
-                                    <div style={{ fontSize: '20px', fontWeight: "bold"}}>
-                                        {tsIndex + 1}. {scenario.name}
-                                    </div>            
-                                    <div><b>Não executados: </b><span>{scenario.testCases.filter((tc : any) => getTestCaseStatus(tc.id) === 0).length}</span></div>
-                                    <div><b>Sucesso: </b><span>{scenario.testCases.filter((tc : any) => getTestCaseStatus(tc.id) === 1).length}</span></div>
-                                    <div><b>Pulados: </b><span>{scenario.testCases.filter((tc : any) => getTestCaseStatus(tc.id) === 2).length}</span></div>
-                                    <div><b>Com erros: </b><span>{scenario.testCases.filter((tc : any) => getTestCaseStatus(tc.id) === 3).length}</span></div>
-                                </div>
-                            </div>
-                            {expandedScenarios.includes(scenario.id) && (
-                                <div style={{ marginLeft: "30px" }}>
-                                    {scenario.testCases.map((testCase: any, tcIndex: number) => (
-                                        <div key={testCase.id}>
-                                            <div style={{ display: "flex", alignItems: "center" }}>
-                                                <div style={{minHeight: 40}}>
-                                                    <IconButton onClick={() => toggleTestCase(scenario.id, testCase.id)}>
-                                                        <div className="expandIcon">
-                                                            {expandedTestCases[scenario.id]?.includes(testCase.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                                                        </div>
-                                                    </IconButton>
-                                                </div>
-                                                <div style={{ fontSize: '18px', fontWeight: "bold" }}>
-                                                    {tcIndex + 1}. {testCase.name}
-                                                </div>
-                                                <div style={{marginLeft: "6px"}}>
-                                                - {TestExecutionTestCaseStatusEnum[getTestCaseStatus(testCase.id)]}
-                                                </div>
-                                            </div>
-                                            {expandedTestCases[scenario.id]?.includes(testCase.id) && (
-                                                <div style={{ marginLeft: "40px" }}>
-                                                    <div><b>Descrição do teste: </b>{testCase.description}</div>
-                                                    <div><b>Execução realizada em:</b> {testCase?.created_at}</div>
-                                                    <div><b>Status: </b>{TestExecutionTestCaseStatusEnum[getTestCaseStatus(testCase.id)]}</div>
-                                                    <div><b>Comentários da execução: </b>{testCase.comment}</div>
-                                                    <b>Evidências:</b>
-                                                    {getTestCaseFiles(testCase.id)?.map((file: File) => {
-                                                        console.log(`http://localhost:8080/testfiles${file.path}`) 
-                                                        return (
-                                                        <div key={file.id}>
-                                                            <img 
-                                                                src={`http://localhost:8080/testfiles${file.path}`}
-                                                                width={400}
-                                                                alt={`Evidência do Caso ${testCase.id}`}
-                                                            />
-                                                        </div>
-                                                    )})}
-                                                </div>
-                                            )}
+
+                                    <div className="report-scenario-content">
+                                        <div className="report-scenario-name">
+                                            {tsIndex + 1}. {scenario.name}
                                         </div>
-                                    ))}
+                                        <div className="report-scenario-stats">
+                                            <span style={{ color: '#868e96' }}>Não executados: <strong>{stats.notExecuted}</strong></span>
+                                            <span style={{ color: '#51cf66' }}>Sucesso: <strong>{stats.success}</strong></span>
+                                            <span style={{ color: '#ffd43b' }}>Pulados: <strong>{stats.skipped}</strong></span>
+                                            <span style={{ color: '#ff6b6b' }}>Com erros: <strong>{stats.failed}</strong></span>
+                                        </div>
+                                    </div>
                                 </div>
-                            )}
-                        </div>
-                    ))}
+
+                                {isExpanded && (
+                                    <div className="report-scenario-body">
+                                        {scenario.testCases.map((testCase: any, tcIndex: number) => {
+                                            const isTcExpanded = expandedTestCases[scenario.id]?.includes(testCase.id);
+
+                                            return (
+                                                <div key={testCase.id} className="report-testcase">
+                                                    <div className="report-testcase-header">
+                                                        <IconButton 
+                                                            onClick={() => toggleTestCase(scenario.id, testCase.id)}
+                                                            className="expand-icon-btn-small"
+                                                            size="small"
+                                                        >
+                                                            <div className="expandIcon">
+                                                                {isTcExpanded ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
+                                                            </div>
+                                                        </IconButton>
+                                                        <div className="report-testcase-name">
+                                                            {tcIndex + 1}. {testCase.name}
+                                                        </div>
+                                                        {getStatusBadge(getTestCaseStatus(testCase.id))}
+                                                    </div>
+
+                                                    {isTcExpanded && (
+                                                        <div className="report-testcase-body">
+                                                            <div className="report-testcase-field">
+                                                                <div className="report-testcase-field-label">Descrição do teste</div>
+                                                                <div className="report-testcase-field-value">{testCase.description}</div>
+                                                            </div>
+
+                                                            <div className="report-testcase-field">
+                                                                <div className="report-testcase-field-label">Execução realizada em</div>
+                                                                <div className="report-testcase-field-value">{testCase?.created_at}</div>
+                                                            </div>
+
+                                                            {testCase.comment && (
+                                                                <div className="report-testcase-comment">
+                                                                    <div className="report-testcase-field-label">Comentários da execução</div>
+                                                                    <div className="report-testcase-field-value">{testCase.comment}</div>
+                                                                </div>
+                                                            )}
+
+                                                            {getTestCaseFiles(testCase.id).length > 0 && (
+                                                                <div>
+                                                                    <div className="report-testcase-field-label">Evidências</div>
+                                                                    <div className="report-evidence-grid">
+                                                                        {getTestCaseFiles(testCase.id).map((file: File) => (
+                                                                            <div key={file.id} className="report-evidence-item">
+                                                                                <img 
+                                                                                    src={`http://localhost:8080/testfiles${file.path}`}
+                                                                                    alt={`Evidência do Caso ${testCase.id}`}
+                                                                                />
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+
+                {/* Footer */}
+                <div className="report-footer">
+                    Relatório gerado em {new Date().toLocaleString('pt-BR')}
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default ReportScreen;
