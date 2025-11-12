@@ -1,14 +1,15 @@
 /* Container principal */
 .report-container {
     padding: 16px;
-    margin: 16px 10% 0 10%;
-    border-radius: 8px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .report-actions {
     margin-bottom: 20px;
     display: flex;
     gap: 12px;
+    flex-wrap: wrap;
 }
 
 /* Documento PDF */
@@ -16,8 +17,7 @@
     background-color: #ffffff;
     border: 1px solid #dee2e6;
     border-radius: 4px;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%;
 }
 
 /* TopBar */
@@ -25,9 +25,10 @@
     background-color: #f8f9fa;
     border-bottom: 2px solid #dee2e6;
     padding: 16px 24px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
-    justify-content: space-between;
+    gap: 16px;
 }
 
 .report-topbar-left {
@@ -47,6 +48,7 @@
     font-size: 20px;
     font-weight: bold;
     color: #fff;
+    flex-shrink: 0;
 }
 
 .report-title {
@@ -59,6 +61,7 @@
 .report-execution-id {
     font-size: 13px;
     color: #6c757d;
+    white-space: nowrap;
 }
 
 /* Informações principais */
@@ -70,7 +73,7 @@
 
 .report-info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 16px;
     font-size: 13px;
 }
@@ -84,6 +87,7 @@
 .report-info-item-value {
     font-weight: 600;
     color: #212529;
+    word-break: break-word;
 }
 
 /* Seção de cenários */
@@ -109,11 +113,13 @@
 }
 
 .report-scenario-header {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;
     align-items: center;
     padding: 12px;
     background-color: #f8f9fa;
     cursor: pointer;
+    gap: 8px;
 }
 
 .report-scenario-header.expanded {
@@ -121,7 +127,7 @@
 }
 
 .report-scenario-content {
-    flex: 1;
+    min-width: 0;
 }
 
 .report-scenario-name {
@@ -129,6 +135,7 @@
     font-weight: 600;
     color: #212529;
     margin-bottom: 6px;
+    word-break: break-word;
 }
 
 .report-scenario-stats {
@@ -152,18 +159,20 @@
 }
 
 .report-testcase-header {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     padding: 10px 12px;
     background-color: #fafbfc;
     cursor: pointer;
+    gap: 8px;
 }
 
 .report-testcase-name {
     font-size: 14px;
     font-weight: 600;
     color: #212529;
-    flex: 1;
+    word-break: break-word;
 }
 
 .report-testcase-body {
@@ -185,6 +194,7 @@
 
 .report-testcase-field-value {
     color: #495057;
+    word-break: break-word;
 }
 
 .report-testcase-comment {
@@ -198,7 +208,7 @@
 /* Evidências */
 .report-evidence-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 10px;
 }
 
@@ -222,7 +232,7 @@
     border-radius: 3px;
     font-size: 12px;
     font-weight: 500;
-    margin-left: 8px;
+    white-space: nowrap;
 }
 
 /* Footer */
@@ -238,10 +248,198 @@
 /* Icon Button adjustments */
 .expand-icon-btn {
     padding: 6px;
-    margin-right: 8px;
 }
 
 .expand-icon-btn-small {
     padding: 4px;
-    margin-right: 8px;
+}
+
+/* Media Queries para responsividade */
+
+/* Tablets e menores */
+@media (max-width: 1024px) {
+    .report-container {
+        padding: 12px;
+    }
+
+    .report-topbar,
+    .report-info-section,
+    .report-scenarios-section {
+        padding: 16px;
+    }
+
+    .report-info-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+    }
+
+    .report-evidence-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+/* Mobile landscape e tablets pequenos */
+@media (max-width: 768px) {
+    .report-container {
+        padding: 8px;
+        margin: 8px auto;
+    }
+
+    .report-topbar {
+        grid-template-columns: 1fr;
+        padding: 12px 16px;
+        gap: 12px;
+    }
+
+    .report-topbar-left {
+        gap: 12px;
+    }
+
+    .report-logo {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+
+    .report-title {
+        font-size: 16px;
+    }
+
+    .report-execution-id {
+        font-size: 12px;
+        text-align: left;
+    }
+
+    .report-info-section,
+    .report-scenarios-section {
+        padding: 12px 16px;
+    }
+
+    .report-info-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .report-scenario-header,
+    .report-testcase-header {
+        padding: 10px;
+    }
+
+    .report-scenario-name {
+        font-size: 14px;
+    }
+
+    .report-scenario-stats {
+        gap: 8px;
+        font-size: 11px;
+    }
+
+    .report-testcase-name {
+        font-size: 13px;
+    }
+
+    .report-testcase-body {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    .report-evidence-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .status-badge {
+        font-size: 11px;
+        padding: 2px 8px;
+    }
+}
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+    .report-container {
+        padding: 4px;
+        margin: 4px auto;
+    }
+
+    .report-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .report-actions button {
+        width: 100%;
+    }
+
+    .report-topbar {
+        padding: 10px 12px;
+    }
+
+    .report-topbar-left {
+        gap: 10px;
+    }
+
+    .report-logo {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+
+    .report-title {
+        font-size: 14px;
+    }
+
+    .report-execution-id {
+        font-size: 11px;
+    }
+
+    .report-info-section,
+    .report-scenarios-section {
+        padding: 10px 12px;
+    }
+
+    .report-info-grid {
+        gap: 10px;
+        font-size: 12px;
+    }
+
+    .report-scenario-header {
+        grid-template-columns: auto 1fr;
+        gap: 6px;
+    }
+
+    .report-scenario-name {
+        font-size: 13px;
+        margin-bottom: 4px;
+    }
+
+    .report-scenario-stats {
+        flex-direction: column;
+        gap: 4px;
+        font-size: 11px;
+    }
+
+    .report-testcase-header {
+        grid-template-columns: auto 1fr;
+        padding: 8px;
+    }
+
+    .status-badge {
+        margin-left: 0;
+        margin-top: 4px;
+        display: block;
+        width: fit-content;
+    }
+
+    .report-testcase-name {
+        font-size: 12px;
+    }
+
+    .report-testcase-body {
+        padding: 8px;
+        font-size: 11px;
+    }
+
+    .expand-icon-btn,
+    .expand-icon-btn-small {
+        padding: 2px;
+    }
 }
